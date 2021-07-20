@@ -1,5 +1,5 @@
 /* ************************************************************************** */
-/*	      __   __   ______     ______     ______   ______     ______		  */   
+/*	      __   __   ______     ______     ______   ______     ______		  */
 /*	     /\ \ / /  /\  ___\   /\  ___\   /\__  _\ /\  __ \   /\  == \		  */
 /*	     \ \ \'/   \ \  __\   \ \ \____  \/_/\ \/ \ \ \/\ \  \ \  __<		  */
 /*	      \ \__|    \ \_____\  \ \_____\    \ \_\  \ \_____\  \ \_\ \_\ 	  */
@@ -43,10 +43,15 @@ namespace ft {
 		/*
 		** CoPlIeN
 		*/
-			vector(/*constructor stuff */);
+			explicit vector (const allocator_type& alloc = allocator_type());
+			explicit vector (size_type n, const value_type& val = value_type(),
+							const allocator_type& alloc = allocator_type());
+			template <class InputIterator>
+					 vector (InputIterator first, InputIterator last,
+							const allocator_type& alloc = allocator_type());
+			vector (const vector& x);
 			virtual ~vector();
-			vector(const vector &v);
-			Vector &operator = (const vector &v);
+			vector &operator = (const vector &x);
 	
 		/*
 		** ITERATORS
@@ -106,6 +111,13 @@ namespace ft {
 	};
 }
 
+# include "capacity.ipp"
+# include "element_access.ipp"
 # include "iterators.ipp"
+# include "modifiers.ipp"
+# include "support.ipp"
+
+# undef tpl
+# undef vec
 
 #endif
