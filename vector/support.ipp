@@ -10,20 +10,24 @@
 /* ************************************************************************** */
 
 #include "vector.hpp"
+#include <string>
 
 namespace ft {
 
 	tpl
-	vec::vector (const allocator_type& alloc)
-	{
-
-	}
+	vec::vector (const allocator_type& alloc) :
+		_arr(NULL), _length(0), _alloc(alloc)
+	{}
 
 	tpl
 	vec::vector (size_type n, const value_type& val,
-					const allocator_type& alloc)
+					const allocator_type& alloc) :
+		_alloc(alloc)
 	{
-
+		_arr = _alloc.allocate(sizeof(T) * n);
+		if (!_arr)
+			throw vec::conception(ALLOC_FAIL, "allocate", "size " + std::to_string(n));
+		_size = n;
 	}
 
 	tpl
@@ -56,6 +60,20 @@ namespace ft {
 	typ::allocator_type	vec::get_allocator() const
 	{
 
+	}
+
+	tpl
+	vec::conception::conception(std::string msg, std::string type, std::string val)
+	{
+		_msg = std::string("[") + COLOR_GREEN + type + COLOR_RESET + std::string("] ") + 
+			COLOR_RED + std::string("Error: ") + COLOR_RESET + msg + 
+			std::string(" <") + COLOR_YELLOW + val + COLOR_RESET + std::string(">"); 
+	}
+
+	tpl
+	const char* vec::conception::what() const throw()
+	{
+		return _msg.c_str();
 	}
 
 }

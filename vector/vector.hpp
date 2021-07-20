@@ -14,6 +14,8 @@
 
 # pragma once
 # include <memory>
+# include <exception>
+# include <string>
 
 namespace ft {
 
@@ -38,6 +40,10 @@ namespace ft {
 			typedef ReverseRandomAccessIterator<const T*, const T&>	const_reverse_iterator;
 
 		private:
+			value_type*		_arr;
+			size_type		_length;
+			allocator_type&	_alloc;
+
 			vector();
 
 		public:
@@ -109,6 +115,26 @@ namespace ft {
 		** ALLOCATOR
 		*/
 			allocator_type	get_allocator() const;
+
+		/*
+		**	EXCEPTIONS
+		*/
+		# define COLOR_RED		"\033[31m"
+		# define COLOR_GREEN	"\033[32m"
+		# define COLOR_RESET	"\033[0m"
+		# define COLOR_YELLOW	"\033[33m"
+
+		# define SYSCALL_FAIL	"system call failed"
+		# define ALLOC_FAIL		"failed to allocate region"
+		
+		class conception : public std::exception
+		{
+			private:
+				std::string _msg;
+			public:
+				conception(std::string msg, std::string type, std::string val);
+				const char* what() const throw();
+		};
 	};
 }
 
