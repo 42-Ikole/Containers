@@ -14,46 +14,49 @@
 namespace ft {
 
 	tpl
-	vec::vector (const allocator_type& alloc)
+	typ::reference			vec::operator[] (size_type n)
 	{
 
 	}
 
 	tpl
-	vec::vector (size_type n, const value_type& val,
-					const allocator_type& alloc)
+	typ::const_reference	vec::operator[] (size_type n) const
 	{
 
 	}
 
 	tpl
-	template <class InputIterator>
-	vec::vector (InputIterator first, InputIterator last, 
-				const allocator_type& alloc)
-	{
-		
-	}
-
-	tpl
-	vec::vector (const vector& x)
+	typ::reference			vec::at (size_type n)
 	{
 
 	}
 
 	tpl
-	vec::~vector()
+	typ::const_reference	vec::at (size_type n) const
 	{
 
 	}
 
 	tpl
-	vector<T, Alloc>&	vec::operator = (const vector &x)
+	typ::reference			vec::front()
 	{
 
 	}
 
 	tpl
-	typ::allocator_type	vec::get_allocator() const
+	typ::const_reference	vec::front() const
+	{
+
+	}
+
+	tpl
+	typ::reference			vec::back()
+	{
+
+	}
+
+	tpl
+	typ::const_reference	vec::back() const
 	{
 
 	}

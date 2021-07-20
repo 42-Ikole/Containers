@@ -14,46 +14,37 @@
 namespace ft {
 
 	tpl
-	vec::vector (const allocator_type& alloc)
+	typ::size_type	vec::size() const
 	{
 
 	}
 
 	tpl
-	vec::vector (size_type n, const value_type& val,
-					const allocator_type& alloc)
+	typ::size_type	vec::max_size() const
 	{
 
 	}
 
 	tpl
-	template <class InputIterator>
-	vec::vector (InputIterator first, InputIterator last, 
-				const allocator_type& alloc)
-	{
-		
-	}
-
-	tpl
-	vec::vector (const vector& x)
+	void		vec::resize (size_type n, value_type val)
 	{
 
 	}
 
 	tpl
-	vec::~vector()
+	typ::size_type	vec::capacity() const
 	{
 
 	}
 
 	tpl
-	vector<T, Alloc>&	vec::operator = (const vector &x)
+	bool		vec::empty() const
 	{
 
 	}
 
 	tpl
-	typ::allocator_type	vec::get_allocator() const
+	void		vec::reserve (size_type n)
 	{
 
 	}

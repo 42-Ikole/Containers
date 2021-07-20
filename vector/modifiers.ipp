@@ -14,46 +14,69 @@
 namespace ft {
 
 	tpl
-	vec::vector (const allocator_type& alloc)
+	template	<class InputIterator>
+	void		vec::assign (InputIterator first, InputIterator last)
 	{
 
 	}
 
 	tpl
-	vec::vector (size_type n, const value_type& val,
-					const allocator_type& alloc)
+	void		vec::assign (size_type n, const value_type& val)
 	{
 
 	}
 
 	tpl
-	template <class InputIterator>
-	vec::vector (InputIterator first, InputIterator last, 
-				const allocator_type& alloc)
-	{
-		
-	}
-
-	tpl
-	vec::vector (const vector& x)
+	void		vec::push_back (const value_type& val)
 	{
 
 	}
 
 	tpl
-	vec::~vector()
+	void		vec::pop_back()
 	{
 
 	}
 
 	tpl
-	vector<T, Alloc>&	vec::operator = (const vector &x)
+	typ::iterator	vec::insert (iterator position, const value_type& val)
+	{
+
+	}	
+
+	tpl
+	void 		vec::insert (iterator position, size_type n, const value_type& val)
 	{
 
 	}
 
 	tpl
-	typ::allocator_type	vec::get_allocator() const
+	template	<class InputIterator>
+	void 		vec::insert (iterator position, InputIterator first, InputIterator last)
+	{
+
+	}
+
+	tpl
+	typ::iterator	vec::erase (iterator position)
+	{
+
+	}
+
+	tpl
+	typ::iterator	vec::erase (iterator first, iterator last)
+	{
+
+	}
+
+	tpl
+	void		vec::swap (vector& x)
+	{
+
+	}
+
+	tpl
+	void		vec::clear()
 	{
 
 	}

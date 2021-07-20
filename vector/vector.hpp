@@ -18,6 +18,7 @@
 namespace ft {
 
 	# define tpl template < class T, class Alloc >
+	# define typ typename vector< T, Alloc >
 	# define vec vector< T, Alloc >
 
 	template < class T, class Alloc = std::allocator<T> >
@@ -90,7 +91,7 @@ namespace ft {
 		/*
 		** MODIFIERS
 		*/
-			template	<class InputIterator> 	//waarom moet dit?
+			template	<class InputIterator>
 			void		assign (InputIterator first, InputIterator last);
 			void		assign (size_type n, const value_type& val);
 			void		push_back (const value_type& val);
@@ -119,5 +120,6 @@ namespace ft {
 
 # undef tpl
 # undef vec
+# undef typ
 
 #endif
