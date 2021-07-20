@@ -126,7 +126,7 @@ namespace ft {
 
 		# define SYSCALL_FAIL	"system call failed"
 		# define ALLOC_FAIL		"failed to allocate region"
-		
+
 		class conception : public std::exception
 		{
 			private:

@@ -22,38 +22,50 @@ namespace ft {
 	tpl
 	vec::vector (size_type n, const value_type& val,
 					const allocator_type& alloc) :
-		_alloc(alloc)
+		_length(n), _alloc(alloc)
 	{
 		_arr = _alloc.allocate(sizeof(T) * n);
-		if (!_arr)
-			throw vec::conception(ALLOC_FAIL, "allocate", "size " + std::to_string(n));
-		_size = n;
+		for (size_type i = 0; i < n; i++)
+			_arr[i] = val;
 	}
 
 	tpl
 	template <class InputIterator>
 	vec::vector (InputIterator first, InputIterator last, 
-				const allocator_type& alloc)
+				const allocator_type& alloc) :
+		_alloc(alloc)
 	{
-		
+		difference_type length;
+
+		length = last - first;
+		_length = length;
+		_arr = _alloc.allocate(sizeof(T) * _length);
+		for (size_type i = 0; i < _length; i++)
+			_arr[i] = first + i;
 	}
 
 	tpl
-	vec::vector (const vector& x)
+	vec::vector (const vector& x) : _arr(NULL)
 	{
-
+		*this = x;
 	}
 
 	tpl
 	vec::~vector()
 	{
-
+		this->_alloc.deallocate(this->_arr);
 	}
 
 	tpl
 	vector<T, Alloc>&	vec::operator = (const vector &x)
 	{
-
+		if (this->_arr)
+			this->_alloc.deallocate(this->_arr);
+		this->_length = x._length;
+		this->_alloc = x._alloc;
+		this->_arr = this->_alloc.allocate(sizeof(T) * x._length);
+		for (size_type i = 0; i < x._length; i++)
+			_arr[i] = x._arr[i];
 	}
 
 	tpl
