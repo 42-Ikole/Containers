@@ -14,25 +14,25 @@
 namespace ft {
 
 	tpl
-	typ::reference			vec::operator[] (size_type n)
+	typ::reference			vec::operator [](size_type n)
 	{
 
 	}
 
 	tpl
-	typ::const_reference	vec::operator[] (size_type n) const
+	typ::const_reference	vec::operator [](size_type n) const
 	{
 
 	}
 
 	tpl
-	typ::reference			vec::at (size_type n)
+	typ::reference			vec::at(size_type n)
 	{
 
 	}
 
 	tpl
-	typ::const_reference	vec::at (size_type n) const
+	typ::const_reference	vec::at(size_type n) const
 	{
 
 	}

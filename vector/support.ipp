@@ -15,14 +15,14 @@
 namespace ft {
 
 	tpl
-	vec::vector (const allocator_type& alloc) :
-		_arr(NULL), _length(0), _alloc(alloc)
+	vec::vector(const allocator_type& alloc) :
+		_arr(NULL), _size(0), _alloc(alloc), _capacity(0)
 	{}
 
 	tpl
-	vec::vector (size_type n, const value_type& val,
+	vec::vector(size_type n, const value_type& val,
 					const allocator_type& alloc) :
-		_length(n), _alloc(alloc)
+		_size(n), _alloc(alloc), _capacity(n)
 	{
 		_arr = _alloc.allocate(sizeof(T) * n);
 		for (size_type i = 0; i < n; i++)
@@ -31,21 +31,22 @@ namespace ft {
 
 	tpl
 	template <class InputIterator>
-	vec::vector (InputIterator first, InputIterator last, 
+	vec::vector(InputIterator first, InputIterator last, 
 				const allocator_type& alloc) :
 		_alloc(alloc)
 	{
 		difference_type length;
 
 		length = last - first;
-		_length = length;
-		_arr = _alloc.allocate(sizeof(T) * _length);
-		for (size_type i = 0; i < _length; i++)
+		_size = length;
+		_capacity = length;
+		_arr = _alloc.allocate(sizeof(T) * _size);
+		for (size_type i = 0; i < _size; i++)
 			_arr[i] = first + i;
 	}
 
 	tpl
-	vec::vector (const vector& x) : _arr(NULL)
+	vec::vector(const vector& x) : _arr(NULL)
 	{
 		*this = x;
 	}
@@ -61,17 +62,35 @@ namespace ft {
 	{
 		if (this->_arr)
 			this->_alloc.deallocate(this->_arr);
-		this->_length = x._length;
+		this->_size = x._size;
+		this->_capacity = x._capacity;
 		this->_alloc = x._alloc;
-		this->_arr = this->_alloc.allocate(sizeof(T) * x._length);
-		for (size_type i = 0; i < x._length; i++)
+		this->_arr = this->_alloc.allocate(sizeof(T) * x._capacity);
+		for (size_type i = 0; i < x._size; i++)
 			_arr[i] = x._arr[i];
 	}
 
 	tpl
 	typ::allocator_type	vec::get_allocator() const
 	{
+		return _alloc;
+	}
 
+	tpl
+	void				vec::realloc(size_type n)
+	{
+		value_type	tmp;
+
+		if (n > max_size())
+			throw conception(LENGTH_ERROR, "reserve", to_string(n));
+		tmp = _alloc.allocate(sizeof(T) * n);
+		for (size_type i = 0; i < _size && i < n; i++)
+			tmp[i] = _arr[i]; 
+		_alloc.deallocate(_arr);
+		_arr = tmp;
+		if (n < _size)
+			_size = n;
+		_capacity = n;
 	}
 
 	tpl

@@ -41,22 +41,24 @@ namespace ft {
 
 		private:
 			value_type*		_arr;
-			size_type		_length;
+			size_type		_size;
+			size_type		_capacity;
 			allocator_type&	_alloc;
 
-			vector();
+					vector();
+			void	realloc(size_type n);
 
 		public:
 		/*
 		** CoPlIeN
 		*/
-			explicit vector (const allocator_type& alloc = allocator_type());
-			explicit vector (size_type n, const value_type& val = value_type(),
+			explicit vector(const allocator_type& alloc = allocator_type());
+			explicit vector(size_type n, const value_type& val = value_type(),
 							const allocator_type& alloc = allocator_type());
 			template <class InputIterator>
-					 vector (InputIterator first, InputIterator last,
+					 vector(InputIterator first, InputIterator last,
 							const allocator_type& alloc = allocator_type());
-			vector (const vector& x);
+					vector(const vector& x);
 			virtual ~vector();
 			vector &operator = (const vector &x);
 	
@@ -77,18 +79,18 @@ namespace ft {
 		*/
 			size_type	size() const;
 			size_type	max_size() const;
-			void		resize (size_type n, value_type val = value_type());
+			void		resize(size_type n, value_type val = value_type());
 			size_type	capacity() const;
 			bool		empty() const;
-			void		reserve (size_type n);
+			void		reserve(size_type n);
 
 		/*
 		** ELEMENT ACCESS
 		*/
-			reference		operator[] (size_type n);
-			const_reference	operator[] (size_type n) const;
-			reference		at (size_type n);
-			const_reference	at (size_type n) const;
+			reference		operator[](size_type n);
+			const_reference	operator[](size_type n) const;
+			reference		at(size_type n);
+			const_reference	at(size_type n) const;
 			reference		front();
 			const_reference	front() const;
 			reference		back();
@@ -98,17 +100,17 @@ namespace ft {
 		** MODIFIERS
 		*/
 			template	<class InputIterator>
-			void		assign (InputIterator first, InputIterator last);
-			void		assign (size_type n, const value_type& val);
-			void		push_back (const value_type& val);
+			void		assign(InputIterator first, InputIterator last);
+			void		assign(size_type n, const value_type& val);
+			void		push_back(const value_type& val);
 			void		pop_back();
-			iterator	insert (iterator position, const value_type& val);	
-			void 		insert (iterator position, size_type n, const value_type& val);
+			iterator	insert(iterator position, const value_type& val);	
+			void 		insert(iterator position, size_type n, const value_type& val);
 			template	<class InputIterator>
-			void 		insert (iterator position, InputIterator first, InputIterator last);
-			iterator	erase (iterator position);
-			iterator	erase (iterator first, iterator last);
-			void		swap (vector& x);
+			void 		insert(iterator position, InputIterator first, InputIterator last);
+			iterator	erase(iterator position);
+			iterator	erase(iterator first, iterator last);
+			void		swap(vector& x);
 			void		clear();
 
 		/*
@@ -126,6 +128,8 @@ namespace ft {
 
 		# define SYSCALL_FAIL	"system call failed"
 		# define ALLOC_FAIL		"failed to allocate region"
+		# define LENGTH_ERROR	"length error"
+		# define INDEX_ERROR	"invalid index"
 
 		class conception : public std::exception
 		{
