@@ -82,7 +82,7 @@ namespace ft {
 		value_type	tmp;
 
 		if (n > max_size())
-			throw conception(LENGTH_ERROR, "reserve", to_string(n));
+			throw conception(LENGTH_ERROR, "reserve", std::to_string(n));
 		tmp = _alloc.allocate(sizeof(T) * n);
 		for (size_type i = 0; i < _size && i < n; i++)
 			tmp[i] = _arr[i]; 

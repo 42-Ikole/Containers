@@ -16,6 +16,7 @@
 # include <memory>
 # include <exception>
 # include <string>
+# include "../iterator/iterator.hpp"
 
 namespace ft {
 
@@ -56,11 +57,11 @@ namespace ft {
 			explicit vector(size_type n, const value_type& val = value_type(),
 							const allocator_type& alloc = allocator_type());
 			template <class InputIterator>
-					 vector(InputIterator first, InputIterator last,
+					vector(InputIterator first, InputIterator last,
 							const allocator_type& alloc = allocator_type());
 					vector(const vector& x);
 			virtual ~vector();
-			vector &operator = (const vector &x);
+			vector&	operator = (const vector &x);
 	
 		/*
 		** ITERATORS
@@ -129,7 +130,7 @@ namespace ft {
 		# define SYSCALL_FAIL	"system call failed"
 		# define ALLOC_FAIL		"failed to allocate region"
 		# define LENGTH_ERROR	"length error"
-		# define INDEX_ERROR	"invalid index"
+		# define OUT_OF_RANGE	"index is out of range"
 
 		class conception : public std::exception
 		{

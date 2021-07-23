@@ -54,12 +54,9 @@ namespace ft {
 	tpl
 	typ::iterator	vec::insert(iterator position, const value_type& val)
 	{
-		if (_size + 1 > _capacity)
-			realloc(_capacity * 2);
-		_size++;
-		for (iterator i = _end(); i > position; i--)
-			_arr[i] = i - 1;
-		position = val;
+		size_type distance = ft::distance(begin(), position);
+		insert (position, 1, val);
+		return (begin() + distance);
 	}
 
 	tpl
@@ -67,11 +64,11 @@ namespace ft {
 	{
 		if (_size + n > _capacity)
 			realloc(n + _capacity);
-		_size += n;
-		for (iterator i = _end(); i > position + n; i--) // kan niet met end iterator fix dit
-			_arr[i] = i - 1;
+		for (iterator i = end() + n; i > position && i > begin(); i--)
+			_arr[i] = i - n;
 		for (size_type i = 0; i < n; i++)
 			position + i = val;
+		_size += n;	
 	}
 
 	tpl
@@ -82,34 +79,41 @@ namespace ft {
 		
 		if (_size + dist > _capacity)
 			realloc(_capacity + dist);
-		size_type i = ft::distance(begin(), position);
-		for (iterator pos = end(); i < dist; i--)
-
-		
+		for (iterator i = end() + dist; i > position && i > begin(); i--)
+			_arr[i] = i - dist;
+		for (size_type i = 0; i < dist; i++)
+			position + i = first + i;
+		_size += dist;
 	}
 
 	tpl
 	typ::iterator	vec::erase(iterator position)
 	{
-
+		for (; position != end(); position++)
+			position = position + 1;
+		_size--;
+		reuturn (pos);
 	}
 
 	tpl
 	typ::iterator	vec::erase(iterator first, iterator last)
 	{
-
+		while (first != last)
+			first = erase(first);
+		return (first);
 	}
 
 	tpl
 	void		vec::swap(vector& x)
 	{
-
+		_size = 0;
+		this->insert(this->begin(), x.begin(), x.end());
 	}
 
 	tpl
 	void		vec::clear()
 	{
-
+		_size = 0;
 	}
 
 }
