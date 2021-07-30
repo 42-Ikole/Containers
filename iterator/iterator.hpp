@@ -39,6 +39,11 @@ namespace ft {
 	# define tpl	template <class Category, class T, class Distance, class Pointer, class Reference >
 	# define typ	typename iterator< Category, T, Distance, Pointer, Reference >
 	# define itr	iterator< Category, T, Distance, Pointer, Reference >
+	# define iitr	InputIterator< Category, T, Distance, Pointer, Reference >
+	# define oitr	OutputIterator< Category, T, Distance, Pointer, Reference >
+	# define fitr	ForwardIterator< Category, T, Distance, Pointer, Reference >
+	# define bitr	BidiretionalIterator< Category, T, Distance, Pointer, Reference >
+	# define ritr	RandomAccessIterator< Category, T, Distance, Pointer, Reference >
 
 	ctpl
 	struct iterator
@@ -77,7 +82,7 @@ namespace ft {
 ** InputIterator
 */
 	ctpl
-	class InputIterator : virtual public iterator
+	class InputIterator : virtual public itr
 	{
 	/*
 	** Constructor
@@ -103,7 +108,7 @@ namespace ft {
 **	OutputIterator
 */
 	ctpl
-	class OutputIterator : virtual public iterator
+	class OutputIterator : virtual public itr
 	{
 	/*
 	** Constructor
@@ -125,7 +130,7 @@ namespace ft {
 ** Forward iterator
 */
 	ctpl
-	class ForwardIterator : public InputIterator, public OutputIterator
+	class ForwardIterator : public iitr, public oitr
 	{
 	/*
 	** Constructor
@@ -140,7 +145,7 @@ namespace ft {
 ** Bidirectional iterator
 */
 	ctpl
-	class BidirectionalIterator : public ForwardIterator
+	class BidirectionalIterator : public fitr
 	{
 	/*
 	** Constructor
@@ -162,7 +167,7 @@ namespace ft {
 ** Random access iterator
 */
 	ctpl
-	class RandomAccessIterator : public BidirectionalIterator
+	class RandomAccessIterator : public bitr
 	{
 	/*
 	** Constructor
