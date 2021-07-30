@@ -18,6 +18,7 @@
 #ifndef ITERATOR_HPP
 # define ITERATOR_HPP
 
+# pragma once
 # include <cstddef>
 
 namespace ft {
@@ -34,9 +35,12 @@ namespace ft {
 /*
 ** Iterator base class
 */
-	# define tpl template <class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>	
-	
-	tpl
+	# define ctpl	template <class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>	
+	# define tpl	template <class Category, class T, class Distance, class Pointer, class Reference >
+	# define typ	typename iterator< Category, T, Distance, Pointer, Reference >
+	# define itr	iterator< Category, T, Distance, Pointer, Reference >
+
+	ctpl
 	struct iterator
 	{
 	/*
@@ -49,12 +53,18 @@ namespace ft {
 		typedef Category	iterator_category;
 
 	/*
+	** constructor
+	*/
+	iterator();
+	virtual ~iterator();
+
+	/*
 	** Common operators
 	*/
 	protected:
-		reference	operator ++ ();		//prefix
-		value_type	operator ++ (int);	//postfix
-		reference	operator  = (const iterator& x);
+		iterator	operator ++ ();		//prefix
+		iterator	operator ++ (int);	//postfix
+		iterator	operator  = (const iterator& x);
 
 	/*
 	** Member variables
@@ -66,8 +76,8 @@ namespace ft {
 /*
 ** InputIterator
 */
-	tpl
-	class InputIterator : public iterator
+	ctpl
+	class InputIterator : virtual public iterator
 	{
 	/*
 	** Constructor
@@ -85,15 +95,15 @@ namespace ft {
 	protected:
 		bool			operator == (const InputIterator& x);
 		bool			operator != (const InputIterator& x);
-		Pointer			operator -> ();
-		value_type	operator -> ();
+		typ::Pointer	operator * ();
+		typ::value_type	operator -> ();
 	};
 
 /*
 **	OutputIterator
 */
-	tpl
-	class OutputIterator : public iterator
+	ctpl
+	class OutputIterator : virtual public iterator
 	{
 	/*
 	** Constructor
@@ -108,14 +118,14 @@ namespace ft {
 	/*
 	** Operator overload
 	*/
-		reference	operator -> ();
+		typ::reference	operator -> ();
 	};
 
 /*
 ** Forward iterator
 */
-	tpl
-	class ForwardIterator : public virtual InputIterator, public virtual OutputIterator
+	ctpl
+	class ForwardIterator : public InputIterator, public OutputIterator
 	{
 	/*
 	** Constructor
@@ -129,57 +139,66 @@ namespace ft {
 /*
 ** Bidirectional iterator
 */
-	tpl
+	ctpl
 	class BidirectionalIterator : public ForwardIterator
 	{
 	/*
 	** Constructor
 	*/
 	public:
-		ForwardIterator();
-		ForwardIterator(const ForwardIterator& x);
-		virtual ~ForwardIterator();
+		BidirectionalIterator();
+		BidirectionalIterator(const BidirectionalIterator& x);
+		virtual ~BidirectionalIterator();
 	
 	/*
 	** Operator overload
 	*/
 	protected:
-		reference	operator -- ();		//prefix
-		value_type	operator -- (int);	//postfix
+		iterator	operator -- ();		//prefix
+		iterator	operator -- (int);	//postfix
 	};
 
 /*
 ** Random access iterator
 */
-	tpl
+	ctpl
 	class RandomAccessIterator : public BidirectionalIterator
 	{
 	/*
 	** Constructor
 	*/
 	public:
-		ForwardIterator();
-		ForwardIterator(const ForwardIterator& x);
-		virtual ~ForwardIterator();
+		RandomAccessIterator();
+		RandomAccessIterator(const RandomAccessIterator& x);
+		virtual ~RandomAccessIterator();
 	
 	/*
 	** Operator overload
 	*/
 	protected:
-		value_type	operator  + (int);
-		value_type	operator  + (const Iterator& x);
-		value_type	operator  - (int);
-		value_type	operator  - (const Iterator& x);
+		iterator	operator  + (int);
+		iterator	operator  + (const Iterator& x);
+		iterator	operator  - (int);
+		iterator	operator  - (const Iterator& x);
 		bool		operator  < (const Iterator& x);
 		bool		operator  > (const Iterator& x);
 		bool		operator <= (const Iterator& x);
 		bool		operator >= (const Iterator& x);
-		value_type	operator += (int);
-		value_type	operator -= (int);
+		iterator	operator += (int);
+		iterator	operator -= (int);
 		value_type	operator [] (std::size_t n);
 	};
 
-	# undef tpl
 }
+
+# include "iterator.ipp"
+# include "input.ipp"
+# include "output.ipp"
+# include "forward.ipp"
+# include "bidirectional.ipp"
+# include "random_access.ipp"
+
+# undef ctpl
+# undef tpl
 
 #endif
