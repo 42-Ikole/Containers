@@ -42,7 +42,7 @@ namespace ft {
 	# define iitr	InputIterator< Category, T, Distance, Pointer, Reference >
 	# define oitr	OutputIterator< Category, T, Distance, Pointer, Reference >
 	# define fitr	ForwardIterator< Category, T, Distance, Pointer, Reference >
-	# define bitr	BidiretionalIterator< Category, T, Distance, Pointer, Reference >
+	# define bitr	BidirectionalIterator< Category, T, Distance, Pointer, Reference >
 	# define ritr	RandomAccessIterator< Category, T, Distance, Pointer, Reference >
 
 	ctpl
@@ -159,8 +159,8 @@ namespace ft {
 	** Operator overload
 	*/
 	protected:
-		iterator	operator -- ();		//prefix
-		iterator	operator -- (int);	//postfix
+		itr			operator -- ();		//prefix
+		itr			operator -- (int);	//postfix
 	};
 
 /*
@@ -181,16 +181,16 @@ namespace ft {
 	** Operator overload
 	*/
 	protected:
-		iterator	operator  + (int);
-		iterator	operator  + (const Iterator& x);
-		iterator	operator  - (int);
-		iterator	operator  - (const Iterator& x);
-		bool		operator  < (const Iterator& x);
-		bool		operator  > (const Iterator& x);
-		bool		operator <= (const Iterator& x);
-		bool		operator >= (const Iterator& x);
-		iterator	operator += (int);
-		iterator	operator -= (int);
+		itr			operator  + (int);
+		itr			operator  + (const itr& x);
+		itr			operator  - (int);
+		itr			operator  - (const itr& x);
+		bool		operator  < (const itr& x);
+		bool		operator  > (const itr& x);
+		bool		operator <= (const itr& x);
+		bool		operator >= (const itr& x);
+		itr			operator += (int);
+		itr			operator -= (int);
 		value_type	operator [] (std::size_t n);
 	};
 
