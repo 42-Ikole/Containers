@@ -33,7 +33,8 @@
 namespace ft {
 
 	template < class T, class Alloc = std::allocator<T> >
-	class vector {
+		class vector {
+
 		public:
 			typedef T												value_type;
 			typedef Alloc											allocator_type;
@@ -68,7 +69,7 @@ namespace ft {
 				value_type	tmp;
 
 				if (n > max_size())
-					throw conception(LENGTH_ERROR, "reserve", std::to_string(n));
+					throw veception(LENGTH_ERROR, "reserve", std::to_string(n));
 				tmp = _alloc.allocate(sizeof(T) * n);
 				for (size_type i = 0; i < _size && i < n; i++)
 					tmp[i] = _arr[i]; 
@@ -97,9 +98,9 @@ namespace ft {
 			}
 
 			template <class InputIterator>
-			vector(InputIterator first, InputIterator last,
-				const allocator_type& alloc = allocator_type())
-				: _alloc(alloc)
+				vector(InputIterator first, InputIterator last,
+					const allocator_type& alloc = allocator_type())
+					: _alloc(alloc)
 			{
 				assign(first, last);
 			}
@@ -191,14 +192,14 @@ namespace ft {
 			reference		at(size_type n)
 			{
 				if (n < 0 || n > _size)
-					throw conception(OUT_OF_RANGE, "at()", std::to_string(n));
+					throw veception(OUT_OF_RANGE, "at()", std::to_string(n));
 				return (_arr[n]);
 			}
 
 			const_reference	at(size_type n) const
 			{
 				if (n < 0 || n > _size)
-					throw conception(OUT_OF_RANGE, "at() const", std::to_string(n));
+					throw veception(OUT_OF_RANGE, "at() const", std::to_string(n));
 				return (_arr[n]);
 			}
 
@@ -227,15 +228,15 @@ namespace ft {
 		** MODIFIERS
 		*/
 			template	<class InputIterator>
-			void		assign(InputIterator first, InputIterator last)
-			{
-				if (ft::distance(first, last) > _capacity)
-					realloc(ft::distance(first, last) + _capacity);
-				size_type i = 0;
-				for (; first != last && i < _capacity; first++ && i++)
-					_arr[i] = *first;
-				_size = i;
-			}
+				void		assign(InputIterator first, InputIterator last)
+				{
+					if (ft::distance(first, last) > _capacity)
+						realloc(ft::distance(first, last) + _capacity);
+					size_type i = 0;
+					for (; first != last && i < _capacity; first++ && i++)
+						_arr[i] = *first;
+					_size = i;
+				}
 
 			void		assign(size_type n, const value_type& val)
 			{
@@ -279,18 +280,18 @@ namespace ft {
 			}
 
 			template	<class InputIterator>
-			void 		insert(iterator position, InputIterator first, InputIterator last)
-			{
-				size_type	dist = ft::distance(first, last);
-		
-				if (_size + dist > _capacity)
-					realloc(_capacity + dist);
-				for (iterator i = end() + dist; i > position && i > begin(); i--)
-					_arr[i] = i - dist;
-				for (size_type i = 0; i < dist; i++)
-					position + i = first + i;
-				_size += dist;
-			}
+				void 		insert(iterator position, InputIterator first, InputIterator last)
+				{
+					size_type	dist = ft::distance(first, last);
+			
+					if (_size + dist > _capacity)
+						realloc(_capacity + dist);
+					for (iterator i = end() + dist; i > position && i > begin(); i--)
+						_arr[i] = i - dist;
+					for (size_type i = 0; i < dist; i++)
+						position + i = first + i;
+					_size += dist;
+				}
 
 			iterator	erase(iterator position)
 			{
@@ -330,13 +331,13 @@ namespace ft {
 		/*
 		**	EXCEPTIONS
 		*/
-		class conception : public std::exception
+		class veception : public std::exception
 		{
 			private:
 				std::string _msg;
 
 			public:
-				conception(std::string msg, std::string type, std::string val)
+				veception(std::string msg, std::string type, std::string val)
 				{
 					_msg = std::string("[") + COLOR_GREEN + type + COLOR_RESET + std::string("] ") + 
 						COLOR_RED + std::string("Error: ") + COLOR_RESET + msg + 
@@ -348,6 +349,20 @@ namespace ft {
 				}
 		};
 	};
+
+	template <class InputIterator, class Distance>
+		void advance (InputIterator& it, Distance n)
+		{
+			it += n;
+		}
+	
+	template<class InputIterator>
+		typename iterator_traits<InputIterator>::difference_type
+			distance (InputIterator first, InputIterator last)
+			{
+				return (last - first);
+			}
+
 }
 
 #endif
