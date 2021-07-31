@@ -20,7 +20,15 @@
 namespace ft {
 
 	tpl
-	itr::iterator() : _ptr(Pointer), _cat(Category) {}
+	itr::iterator(const iterator& x)
+	{
+		this->_ptr = x._ptr;
+		this->_cat = x._cat;
+	}
+	
+	tpl
+	itr::~iterator()
+	{}
 
 	tpl
 	itr	itr::operator ++ ()
@@ -35,6 +43,13 @@ namespace ft {
 		iterator tmp = *this;
 		++(*this);
 		return tmp;
+	}
+
+	tpl
+	itr	itr::operator  = (const iterator& x)
+	{
+		this->_ptr = x._ptr;
+		this->_cat = x._cat;
 	}
 
 }

@@ -92,7 +92,7 @@ namespace ft {
 		for (; position != end(); position++)
 			position = position + 1;
 		_size--;
-		reuturn (pos);
+		reuturn (position);
 	}
 
 	tpl

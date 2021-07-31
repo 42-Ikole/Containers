@@ -35,17 +35,16 @@ namespace ft {
 /*
 ** Iterator base class
 */
-	# define ctpl	template <class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>	
 	# define tpl	template <class Category, class T, class Distance, class Pointer, class Reference >
-	# define typ	typename iterator< Category, T, Distance, Pointer, Reference >
-	# define itr	iterator< Category, T, Distance, Pointer, Reference >
-	# define iitr	InputIterator< Category, T, Distance, Pointer, Reference >
-	# define oitr	OutputIterator< Category, T, Distance, Pointer, Reference >
-	# define fitr	ForwardIterator< Category, T, Distance, Pointer, Reference >
-	# define bitr	BidirectionalIterator< Category, T, Distance, Pointer, Reference >
-	# define ritr	RandomAccessIterator< Category, T, Distance, Pointer, Reference >
+	# define typ	typename iterator		< Category, T, Distance, Pointer, Reference >
+	# define itr	iterator				< Category, T, Distance, Pointer, Reference >
+	# define iitr	InputIterator			< Category, T, Distance, Pointer, Reference >
+	# define oitr	OutputIterator			< Category, T, Distance, Pointer, Reference >
+	# define fitr	ForwardIterator			< Category, T, Distance, Pointer, Reference >
+	# define bitr	BidirectionalIterator	< Category, T, Distance, Pointer, Reference >
+	# define ritr	RandomAccessIterator	< Category, T, Distance, Pointer, Reference >
 
-	ctpl
+	template <class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 	struct iterator
 	{
 	/*
@@ -60,7 +59,7 @@ namespace ft {
 	/*
 	** constructor
 	*/
-	iterator();
+	iterator(const iterator& x);
 	virtual ~iterator();
 
 	/*
@@ -81,7 +80,7 @@ namespace ft {
 /*
 ** InputIterator
 */
-	ctpl
+	template <class T, class Category = ft::input_iterator_tag, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 	class InputIterator : virtual public itr
 	{
 	/*
@@ -107,7 +106,7 @@ namespace ft {
 /*
 **	OutputIterator
 */
-	ctpl
+	template <class T, class Category = ft::output_iterator_tag, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 	class OutputIterator : virtual public itr
 	{
 	/*
@@ -129,7 +128,7 @@ namespace ft {
 /*
 ** Forward iterator
 */
-	ctpl
+	template <class T, class Category = ft::forward_iterator_tag, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 	class ForwardIterator : public iitr, public oitr
 	{
 	/*
@@ -144,7 +143,7 @@ namespace ft {
 /*
 ** Bidirectional iterator
 */
-	ctpl
+	template <class T, class Category = ft::bidirectional_iterator_tag, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 	class BidirectionalIterator : public fitr
 	{
 	/*
@@ -166,7 +165,7 @@ namespace ft {
 /*
 ** Random access iterator
 */
-	ctpl
+	template <class T, class Category = ft::random_access_iterator_tag, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 	class RandomAccessIterator : public bitr
 	{
 	/*
@@ -191,7 +190,7 @@ namespace ft {
 		bool		operator >= (const itr& x);
 		itr			operator += (int);
 		itr			operator -= (int);
-		value_type	operator [] (std::size_t n);
+		typ::value_type	operator [] (std::size_t n);
 	};
 
 }
@@ -203,7 +202,13 @@ namespace ft {
 # include "bidirectional.ipp"
 # include "random_access.ipp"
 
-# undef ctpl
 # undef tpl
+# undef typ
+# undef itr
+# undef iitr
+# undef oitr
+# undef fitr
+# undef bitr
+# undef ritr
 
 #endif
