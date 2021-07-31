@@ -39,7 +39,6 @@ namespace ft {
 	# define typ	typename iterator		< Category, T, Distance, Pointer, Reference >
 	# define itr	iterator				< Category, T, Distance, Pointer, Reference >
 	# define iitr	InputIterator			< Category, T, Distance, Pointer, Reference >
-	# define oitr	OutputIterator			< Category, T, Distance, Pointer, Reference >
 	# define fitr	ForwardIterator			< Category, T, Distance, Pointer, Reference >
 	# define bitr	BidirectionalIterator	< Category, T, Distance, Pointer, Reference >
 	# define ritr	RandomAccessIterator	< Category, T, Distance, Pointer, Reference >
@@ -81,7 +80,7 @@ namespace ft {
 ** InputIterator
 */
 	template <class T, class Category = ft::input_iterator_tag, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
-	class InputIterator : virtual public itr
+	class InputIterator : public itr
 	{
 	/*
 	** Constructor
@@ -104,32 +103,10 @@ namespace ft {
 	};
 
 /*
-**	OutputIterator
-*/
-	template <class T, class Category = ft::output_iterator_tag, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
-	class OutputIterator : virtual public itr
-	{
-	/*
-	** Constructor
-	*/
-	private:
-		OutputIterator();
-	
-	public:
-		OutputIterator(const OutputIterator& x);
-		virtual	~OutputIterator();
-
-	/*
-	** Operator overload
-	*/
-		typ::reference	operator -> ();
-	};
-
-/*
 ** Forward iterator
 */
 	template <class T, class Category = ft::forward_iterator_tag, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
-	class ForwardIterator : public iitr, public oitr
+	class ForwardIterator : public iitr
 	{
 	/*
 	** Constructor
@@ -206,7 +183,6 @@ namespace ft {
 # undef typ
 # undef itr
 # undef iitr
-# undef oitr
 # undef fitr
 # undef bitr
 # undef ritr
