@@ -18,7 +18,6 @@
 #ifndef ITERATOR_HPP
 # define ITERATOR_HPP
 
-# pragma once
 # include <cstddef>
 
 namespace ft {
