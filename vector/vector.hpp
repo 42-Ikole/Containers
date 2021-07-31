@@ -17,6 +17,19 @@
 # include <string>
 # include <iterator.hpp>
 
+/*
+**	Exception defines
+*/
+# define COLOR_RED		"\033[31m"
+# define COLOR_GREEN	"\033[32m"
+# define COLOR_RESET	"\033[0m"
+# define COLOR_YELLOW	"\033[33m"
+
+# define SYSCALL_FAIL	"system call failed"
+# define ALLOC_FAIL		"failed to allocate region"
+# define LENGTH_ERROR	"length error"
+# define OUT_OF_RANGE	"index is out of range"
+
 namespace ft {
 
 	template < class T, class Alloc = std::allocator<T> >
@@ -54,7 +67,7 @@ namespace ft {
 			{
 				value_type	tmp;
 
-				if (n > ft::max_size())
+				if (n > max_size())
 					throw conception(LENGTH_ERROR, "reserve", std::to_string(n));
 				tmp = _alloc.allocate(sizeof(T) * n);
 				for (size_type i = 0; i < _size && i < n; i++)
@@ -317,16 +330,6 @@ namespace ft {
 		/*
 		**	EXCEPTIONS
 		*/
-		# define COLOR_RED		"\033[31m"
-		# define COLOR_GREEN	"\033[32m"
-		# define COLOR_RESET	"\033[0m"
-		# define COLOR_YELLOW	"\033[33m"
-
-		# define SYSCALL_FAIL	"system call failed"
-		# define ALLOC_FAIL		"failed to allocate region"
-		# define LENGTH_ERROR	"length error"
-		# define OUT_OF_RANGE	"index is out of range"
-
 		class conception : public std::exception
 		{
 			private:
