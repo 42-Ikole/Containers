@@ -35,13 +35,7 @@ namespace ft {
 /*
 ** Iterator base class
 */
-	# define tpl	template <class Category, class T, class Distance, class Pointer, class Reference >
-	# define typ	typename iterator		< Category, T, Distance, Pointer, Reference >
-	# define itr	iterator				< Category, T, Distance, Pointer, Reference >
-	# define iitr	InputIterator			< Category, T, Distance, Pointer, Reference >
-	# define fitr	ForwardIterator			< Category, T, Distance, Pointer, Reference >
-	# define bitr	BidirectionalIterator	< Category, T, Distance, Pointer, Reference >
-	# define ritr	RandomAccessIterator	< Category, T, Distance, Pointer, Reference >
+	# define itr	iterator< Category, T, Distance, Pointer, Reference >
 
 	template <class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 	struct iterator
@@ -58,30 +52,60 @@ namespace ft {
 	/*
 	** constructor
 	*/
-	iterator(const iterator& x);
-	virtual ~iterator();
+	protected:
+
+		iterator(const iterator& x) {
+			*this = x;
+		}
+
+		virtual ~iterator() {}
+	
+	protected:
+		iterator(Pointer ptr = NULL) : _ptr(ptr) {}
 
 	/*
 	** Common operators
 	*/
 	protected:
-		iterator	operator ++ ();		//prefix
-		iterator	operator ++ (int);	//postfix
-		iterator	operator  = (const iterator& x);
+
+		iterator	operator ++ (/* prefix */) {
+			_ptr++;
+			return *this;
+		}
+
+		iterator	operator ++ (int /* postfix */) {
+			iterator tmp = *this;
+			++(*this);
+			return tmp;
+		}
+
+		iterator	operator  = (const iterator& x) {
+			this->_ptr = x._ptr;
+		}
 
 	/*
 	** Member variables
 	*/
-		pointer				_ptr;
-		iterator_category	_cat;
+	protected:
+
+		pointer	_ptr;
 	};
 
 /*
 ** InputIterator
 */
 	template <class T, class Category = ft::input_iterator_tag, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
-	class InputIterator : public itr
+	class InputIterator : public iterator< Category, T, Distance, Pointer, Reference >
 	{
+	/*
+	** Typedefs 
+	*/
+		typedef typename  itr::value_type			value_type;
+		typedef typename  itr::difference_type		difference_type;
+		typedef typename  itr::pointer				pointer;
+		typedef typename  itr::reference			reference;
+		typedef typename  itr::iterator_category	iterator_category;
+
 	/*
 	** Constructor
 	*/
@@ -89,102 +113,204 @@ namespace ft {
 		InputIterator();
 
 	public:
-		InputIterator(const InputIterator& x);
-		virtual	~InputIterator();
+
+		InputIterator(const InputIterator& x) {
+			*this = x;
+		}
+
+		virtual	~InputIterator() {}
+	
+	protected:
+		InputIterator(Pointer ptr = NULL) 
+			: iterator< Category, T, Distance, Pointer, Reference >(ptr) {}
 
 	/*
 	** Operator overload
 	*/
 	protected:
-		bool			operator == (const InputIterator& x);
-		bool			operator != (const InputIterator& x);
-		typ::Pointer	operator * ();
-		typ::value_type	operator -> ();
+
+		bool		operator == (const InputIterator& x) {
+			return (this->_ptr == x._ptr);			
+		}
+
+		bool		operator != (const InputIterator& x) {
+			return (this->_ptr != x._ptr);
+		}
+	
+		reference	operator * () {
+			return *(this->_ptr);
+		}
+
+		pointer		operator -> () {
+			return (this->_ptr);
+		}
+
 	};
 
 /*
 ** Forward iterator
 */
 	template <class T, class Category = ft::forward_iterator_tag, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
-	class ForwardIterator : public iitr
+	class ForwardIterator : public InputIterator< Category, T, Distance, Pointer, Reference >
 	{
+	/*
+	** Typedefs 
+	*/
+		typedef typename  itr::value_type			value_type;
+		typedef typename  itr::difference_type		difference_type;
+		typedef typename  itr::pointer				pointer;
+		typedef typename  itr::reference			reference;
+		typedef typename  itr::iterator_category	iterator_category;
+
 	/*
 	** Constructor
 	*/
 	public:
-		ForwardIterator();
-		ForwardIterator(const ForwardIterator& x);
-		virtual ~ForwardIterator();
+
+		ForwardIterator(Pointer ptr = NULL) 
+			: InputIterator< Category, T, Distance, Pointer, Reference >(ptr) {}
+
+		ForwardIterator(const ForwardIterator& x) {
+			*this = x;
+		}
+	
+		virtual ~ForwardIterator() {}
 	};
 
 /*
 ** Bidirectional iterator
 */
 	template <class T, class Category = ft::bidirectional_iterator_tag, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
-	class BidirectionalIterator : public fitr
+	class BidirectionalIterator : public ForwardIterator< Category, T, Distance, Pointer, Reference >
 	{
+	/*
+	** Typedefs 
+	*/
+		typedef typename  itr::value_type			value_type;
+		typedef typename  itr::difference_type		difference_type;
+		typedef typename  itr::pointer				pointer;
+		typedef typename  itr::reference			reference;
+		typedef typename  itr::iterator_category	iterator_category;
+
 	/*
 	** Constructor
 	*/
 	public:
-		BidirectionalIterator();
-		BidirectionalIterator(const BidirectionalIterator& x);
-		virtual ~BidirectionalIterator();
+
+		BidirectionalIterator(Pointer ptr = NULL) 
+			: ForwardIterator< Category, T, Distance, Pointer, Reference >(ptr) {}
+	
+		BidirectionalIterator(const BidirectionalIterator& x) {
+			*this = x;
+		}
+
+		virtual ~BidirectionalIterator() {}
 	
 	/*
 	** Operator overload
 	*/
 	protected:
-		itr			operator -- ();		//prefix
-		itr			operator -- (int);	//postfix
+		
+		BidirectionalIterator	operator ++ (/* prefix */) {
+			this->_ptr++;
+			return *this;
+		}
+
+		BidirectionalIterator	operator ++ (int /* postfix */) {
+			BidirectionalIterator tmp = *this;
+			++(*this);
+			return tmp;
+		}
 	};
 
 /*
 ** Random access iterator
 */
 	template <class T, class Category = ft::random_access_iterator_tag, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
-	class RandomAccessIterator : public bitr
+	class RandomAccessIterator : public BidirectionalIterator< Category, T, Distance, Pointer, Reference >
 	{
+	/*
+	** Typedefs 
+	*/
+		typedef typename  itr::value_type			value_type;
+		typedef typename  itr::difference_type		difference_type;
+		typedef typename  itr::pointer				pointer;
+		typedef typename  itr::reference			reference;
+		typedef typename  itr::iterator_category	iterator_category;
+
 	/*
 	** Constructor
 	*/
 	public:
-		RandomAccessIterator();
-		RandomAccessIterator(const RandomAccessIterator& x);
-		virtual ~RandomAccessIterator();
+
+		RandomAccessIterator(Pointer ptr = NULL)
+			: BidirectionalIterator< Category, T, Distance, Pointer, Reference >(ptr) {}
+
+		RandomAccessIterator(const RandomAccessIterator& x) {
+			*this = x;
+		}
+
+		virtual ~RandomAccessIterator() {}
 	
 	/*
 	** Operator overload
 	*/
 	protected:
-		itr			operator  + (int);
-		itr			operator  + (const itr& x);
-		itr			operator  - (int);
-		itr			operator  - (const itr& x);
-		bool		operator  < (const itr& x);
-		bool		operator  > (const itr& x);
-		bool		operator <= (const itr& x);
-		bool		operator >= (const itr& x);
-		itr			operator += (int);
-		itr			operator -= (int);
-		typ::value_type	operator [] (std::size_t n);
+
+		RandomAccessIterator	operator  + (int val) {
+			this += val;
+			return (this);
+		}
+
+		RandomAccessIterator	operator  + (const RandomAccessIterator& x) {
+			this += x;
+			return this;
+		}
+
+		RandomAccessIterator	operator  - (int val) {
+			this -= val;
+			return this;
+		}
+
+		RandomAccessIterator	operator  - (const RandomAccessIterator& x) {
+			this -= x;
+			return this;
+		}
+
+		bool					operator  < (const RandomAccessIterator& x) {
+			return (this->_ptr < x._ptr);
+		}
+
+		bool					operator  > (const RandomAccessIterator& x) {
+			return (this->_ptr > x._ptr);
+		}
+
+		bool					operator <= (const RandomAccessIterator& x) {
+			return (this->_ptr <= x._ptr);
+		}
+
+		bool					operator >= (const RandomAccessIterator& x) {
+			return (this->_ptr >= x._ptr);
+		}
+
+		RandomAccessIterator	operator += (int val) {
+			this->_ptr += val;
+			return this;
+		}
+
+		RandomAccessIterator	operator -= (int val) {
+			this->_ptr -= val;
+			return this;
+		}
+
+		value_type				operator [] (std::size_t n) {
+			return (this->_ptr[n]);
+		}
+
 	};
 
 }
 
-# include "iterator.ipp"
-# include "input.ipp"
-# include "output.ipp"
-# include "forward.ipp"
-# include "bidirectional.ipp"
-# include "random_access.ipp"
-
-# undef tpl
-# undef typ
 # undef itr
-# undef iitr
-# undef fitr
-# undef bitr
-# undef ritr
 
 #endif
