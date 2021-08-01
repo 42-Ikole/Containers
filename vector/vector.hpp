@@ -36,18 +36,18 @@ namespace ft {
 		class vector {
 
 		public:
-			typedef T												value_type;
-			typedef Alloc											allocator_type;
-			typedef std::size_t										size_type;
-			typedef std::ptrdiff_t									difference_type;
-			typedef value_type&										reference;
-			typedef const value_type&								const_reference;
-			typedef value_type*										pointer;
-			typedef const value_type*								const_pointer;
-			typedef RandomAccessIterator<T*, T&>					iterator;
-			typedef RandomAccessIterator<const T*, const T&>		const_iterator;
-			typedef ReverseRandomAccessIterator<T*, T&>				reverse_iterator;
-			typedef ReverseRandomAccessIterator<const T*, const T&>	const_reverse_iterator;
+			typedef T											value_type;
+			typedef Alloc										allocator_type;
+			typedef std::size_t									size_type;
+			typedef std::ptrdiff_t								difference_type;
+			typedef value_type&									reference;
+			typedef const value_type&							const_reference;
+			typedef value_type*									pointer;
+			typedef const value_type*							const_pointer;
+			typedef RandomAccessIterator<T*, T&>				iterator;
+			typedef RandomAccessIterator<const T*, const T&>	const_iterator;
+			typedef reverse_iterator< iterator >				reverse_iterator;
+			typedef reverse_iterator< const_iterator >			const_reverse_iterator;
 
 		/*
 		** Member variables
