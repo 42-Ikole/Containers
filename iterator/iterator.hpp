@@ -67,19 +67,20 @@ namespace ft {
 	*/
 	protected:
 
-		iterator	operator ++ (/* prefix */) {
+		iterator&	operator ++ (/* prefix */) {
 			_ptr++;
-			return *this;
+			return (*this);
 		}
 
-		iterator	operator ++ (int /* postfix */) {
+		iterator&	operator ++ (int /* postfix */) {
 			iterator tmp = *this;
 			++(*this);
-			return tmp;
+			return *tmp;
 		}
 
 		iterator	operator  = (const iterator& x) {
 			this->_ptr = x._ptr;
+			return (*this);
 		}
 
 	/*
@@ -210,15 +211,15 @@ namespace ft {
 	*/
 	protected:
 		
-		BidirectionalIterator	operator ++ (/* prefix */) {
-			this->_ptr++;
-			return *this;
+		BidirectionalIterator&	operator -- (/* prefix */) {
+			this->_ptr--;
+			return (*this);
 		}
 
-		BidirectionalIterator	operator ++ (int /* postfix */) {
+		BidirectionalIterator&	operator -- (int /* postfix */) {
 			BidirectionalIterator tmp = *this;
-			++(*this);
-			return tmp;
+			--(*this);
+			return (tmp);
 		}
 	};
 
@@ -256,24 +257,20 @@ namespace ft {
 	*/
 	protected:
 
-		RandomAccessIterator	operator  + (int val) {
-			this += val;
-			return (this);
+		RandomAccessIterator	operator  + (difference_type val) {
+			return (RandomAccessIterator(this->_ptr + val));
 		}
 
 		RandomAccessIterator	operator  + (const RandomAccessIterator& x) {
-			this += x;
-			return this;
+			return (RandomAccessIterator(*this + x));
 		}
 
-		RandomAccessIterator	operator  - (int val) {
-			this -= val;
-			return this;
+		RandomAccessIterator	operator  - (difference_type val) {
+			return (RandomAccessIterator(this->_ptr - val));
 		}
 
-		RandomAccessIterator	operator  - (const RandomAccessIterator& x) {
-			this -= x;
-			return this;
+		difference_type			operator  - (const RandomAccessIterator& x) {
+			return (RandomAccessIterator(this->_ptr - x._ptr));
 		}
 
 		bool					operator  < (const RandomAccessIterator& x) {
@@ -292,18 +289,18 @@ namespace ft {
 			return (this->_ptr >= x._ptr);
 		}
 
-		RandomAccessIterator	operator += (int val) {
+		RandomAccessIterator&	operator += (difference_type val) {
 			this->_ptr += val;
-			return this;
+			return (*this);
 		}
 
-		RandomAccessIterator	operator -= (int val) {
+		RandomAccessIterator&	operator -= (difference_type val) {
 			this->_ptr -= val;
-			return this;
+			return (*this);
 		}
 
-		value_type				operator [] (std::size_t n) {
-			return (this->_ptr[n]);
+		reference				operator [] (std::size_t n) {
+			return (*(this->_ptr + n));
 		}
 
 	};
