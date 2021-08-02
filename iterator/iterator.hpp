@@ -44,13 +44,12 @@ namespace ft {
 	** Member variables
 	*/
 	protected:
-
 		pointer	_ptr;
 
 	/*
 	** constructor
 	*/
-	protected:
+	public:
 		/* ForwardIterator */
 		iterator(Pointer ptr = NULL) : _ptr(ptr) {}
 
@@ -73,7 +72,7 @@ namespace ft {
 		iterator&	operator ++ (int /* postfix */) {
 			iterator tmp = *this;
 			++(*this);
-			return *tmp;
+			return (*tmp);
 		}
 
 		iterator	operator  = (const iterator& x) {
