@@ -36,18 +36,18 @@ namespace ft {
 		class vector {
 
 		public:
-			typedef T											value_type;
-			typedef Alloc										allocator_type;
-			typedef std::size_t									size_type;
-			typedef std::ptrdiff_t								difference_type;
-			typedef value_type&									reference;
-			typedef const value_type&							const_reference;
-			typedef value_type*									pointer;
-			typedef const value_type*							const_pointer;
-			typedef RandomAccessIterator<T*, T&>				iterator;
-			typedef RandomAccessIterator<const T*, const T&>	const_iterator;
-			typedef reverse_iterator< iterator >				reverse_iterator;
-			typedef reverse_iterator< const_iterator >			const_reverse_iterator;
+			typedef T															value_type;
+			typedef Alloc														allocator_type;
+			typedef std::size_t													size_type;
+			typedef std::ptrdiff_t												difference_type;
+			typedef value_type&													reference;
+			typedef const value_type&											const_reference;
+			typedef value_type*													pointer;
+			typedef const value_type*											const_pointer;
+			typedef ft::iterator<T, ft::random_access_iterator_tag>				iterator;
+			typedef ft::iterator<T, ft::random_access_iterator_tag, const T>	const_iterator;
+			typedef ft::reverse_iterator< iterator >							reverse_iterator;
+			typedef ft::reverse_iterator< const_iterator >						const_reverse_iterator;
 
 		/*
 		** Member variables
@@ -298,7 +298,7 @@ namespace ft {
 				for (; position != end(); position++)
 					position = position + 1;
 				_size--;
-				reuturn (position);
+				return (position);
 			}
 
 			iterator	erase(iterator first, iterator last)
