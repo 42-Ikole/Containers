@@ -349,20 +349,6 @@ namespace ft {
 				}
 		};
 	};
-
-	template <class InputIterator, class Distance>
-		void advance (InputIterator& it, Distance n)
-		{
-			it += n;
-		}
-	
-	template<class InputIterator>
-		typename iterator_traits<InputIterator>::difference_type
-			distance (InputIterator first, InputIterator last)
-			{
-				return (last - first);
-			}
-
 }
 
 #endif
