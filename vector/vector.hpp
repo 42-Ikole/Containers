@@ -49,9 +49,9 @@ namespace ft {
 			typedef ft::reverse_iterator< iterator >													reverse_iterator;
 			typedef ft::reverse_iterator< const_iterator >												const_reverse_iterator;
 
-		/*
-		** Member variables
-		*/
+		//////////////////////
+		// Member variables //
+		//////////////////////
 		private:
 
 			value_type*		_arr;
@@ -59,9 +59,9 @@ namespace ft {
 			size_type		_capacity;
 			allocator_type&	_alloc;
 		
-		/*
-		** Private member functions
-		*/
+		//////////////////////////////
+		// Private member functions //
+		//////////////////////////////
 			vector();
 	
 			void	realloc(size_type n)
@@ -80,9 +80,9 @@ namespace ft {
 				_capacity = n;
 			}
 
-		/*
-		** CoPlIeN
-		*/
+		/////////////
+		// CoPlIeN //
+		/////////////
 		public:
 
 			explicit vector(const allocator_type& alloc = allocator_type()) 
@@ -127,9 +127,9 @@ namespace ft {
 					this->_arr[i] = x._arr[i];
 			}
 	
-		/*
-		** ITERATORS
-		*/
+		///////////////
+		// ITERATORS //
+		///////////////
 			iterator				begin();
 			const_iterator			begin() const;
 			iterator				end();
@@ -139,9 +139,9 @@ namespace ft {
 			reverse_iterator		rend();
 			const_reverse_iterator	rend() const;
 
-		/*
-		** CAPACITY
-		*/
+		//////////////
+		// CAPACITY //
+		//////////////
 			size_type	size() const
 			{
 				return (_size);
@@ -176,9 +176,9 @@ namespace ft {
 			}
 
 
-		/*
-		** ELEMENT ACCESS
-		*/
+		////////////////////
+		// ELEMENT ACCESS //
+		////////////////////
 			reference		operator[](size_type n)
 			{
 				return (_arr[n]);
@@ -224,9 +224,9 @@ namespace ft {
 			}
 
 
-		/*
-		** MODIFIERS
-		*/
+		///////////////
+		// MODIFIERS //
+		///////////////
 			template	<class InputIterator>
 				void		assign(InputIterator first, InputIterator last)
 				{
@@ -320,17 +320,17 @@ namespace ft {
 			}
 
 
-		/*
-		** ALLOCATOR
-		*/
+		///////////////
+		// ALLOCATOR //
+		///////////////
 			allocator_type	get_allocator() const
 			{
 				return (_alloc);
 			}
 
-		/*
-		**	EXCEPTIONS
-		*/
+		////////////////
+		// EXCEPTIONS //
+		////////////////
 		class veception : public std::exception
 		{
 			private:

@@ -25,24 +25,24 @@ namespace ft
 	template <class Iter>
 		class reverse_iterator
 	{
-	/*
-	** Reverse Iterator 
-	*/
+	//////////////////////
+	// Reverse Iterator //
+	//////////////////////
 		typedef typename  Iter::value_type			value_type;
 		typedef typename  Iter::difference_type		difference_type;
 		typedef typename  Iter::pointer				pointer;
 		typedef typename  Iter::reference			reference;
 		typedef typename  Iter::iterator_category	iterator_category;
 
-	/*
-	** Member variables
-	*/
+	//////////////////////
+	// Member variables //
+	//////////////////////
 	protected:
 		Iter _base;
 
-	/*
-	** Construction
-	*/
+	//////////////////
+	// Construction //
+	//////////////////
 	public:
 
 		reverse_iterator(Iter base = null) : _base(base) {}
@@ -56,18 +56,18 @@ namespace ft
 			*this = x;
 		}
 	
-	/*
-	** common member functions
-	*/
+	/////////////////////////////
+	// common member functions //
+	/////////////////////////////
 	private:
 
 		iterator_category base() const {
 			return (this->_base);
 		}
 
-	/*
-	** common operator overloads 
-	*/
+	///////////////////////////////
+	// common operator overloads //
+	///////////////////////////////
 		template< class U >
 			reverse_iterator&	operator = ( const reverse_iterator<U>& x ) {
 			this->_base = x._base;

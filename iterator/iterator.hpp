@@ -24,31 +24,31 @@
 
 namespace ft {
 
-/*
-** Iterator base class
-*/
+/////////////////////////
+// Iterator base class //
+/////////////////////////
 
 	template < class T, class Category = random_access_iterator_tag, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 	class iterator
 	{
-	/*
-	** Typedefs 
-	*/
+	//////////////
+	// Typedefs //
+	//////////////
 		typedef T			value_type;
 		typedef Distance	difference_type;
 		typedef Pointer		pointer;
 		typedef Reference	reference;
 		typedef Category	iterator_category;
 	
-	/*
-	** Member variables
-	*/
+	//////////////////////
+	// Member variables //
+	//////////////////////
 	protected:
 		pointer	_ptr;
 
-	/*
-	** constructor
-	*/
+	/////////////////
+	// constructor //
+	/////////////////
 	public:
 		/* ForwardIterator */
 		iterator(Pointer ptr = NULL) : _ptr(ptr) {}
@@ -59,9 +59,9 @@ namespace ft {
 
 		virtual ~iterator() {}
 
-	/*
-	** Common operators
-	*/
+	//////////////////////
+	// Common operators //
+	//////////////////////
 	protected:
 
 		iterator&	operator ++ (/* prefix */) {
@@ -80,9 +80,9 @@ namespace ft {
 			return (*this);
 		}
 
-	/*
-	** Input iterator operators
-	*/
+	//////////////////////////////
+	// Input iterator operators //
+	//////////////////////////////
 	protected:
 
 		bool		operator == (const iterator& x) {
@@ -101,9 +101,9 @@ namespace ft {
 			return (this->_ptr);
 		}
 	
-	/*
-	** Bidirectional iterator operators
-	*/
+	//////////////////////////////////////
+	// Bidirectional iterator operators //
+	//////////////////////////////////////
 	protected:
 		
 		iterator&	operator -- (/* prefix */) {
@@ -117,9 +117,9 @@ namespace ft {
 			return (tmp);
 		}
 
-	/*
-	** Random access iterator operators
-	*/
+	//////////////////////////////////////
+	// Random access iterator operators //
+	//////////////////////////////////////
 	protected:
 
 		iterator	operator  + (difference_type val) {
