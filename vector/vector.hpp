@@ -62,9 +62,9 @@ namespace ft {
 		//////////////////////////////
 		// Private member functions //
 		//////////////////////////////
-			vector();
+		private:
 	
-			void	realloc(size_type n)
+			void	_realloc(size_type n)
 			{
 				value_type	tmp;
 
@@ -154,7 +154,7 @@ namespace ft {
 
 			void		resize(size_type n, value_type val = value_type())
 			{
-				realloc(n);
+				_realloc(n);
 				for (size_type i = _size; i < _capacity; i++)
 					_arr[i] = val;
 			}
@@ -172,7 +172,7 @@ namespace ft {
 			void		reserve(size_type n)
 			{
 				if (_capacity < n)
-					realloc(n);
+					_realloc(n);
 			}
 
 
@@ -231,7 +231,7 @@ namespace ft {
 				void		assign(InputIterator first, InputIterator last)
 				{
 					if (ft::distance(first, last) > _capacity)
-						realloc(ft::distance(first, last) + _capacity);
+						_realloc(ft::distance(first, last) + _capacity);
 					size_type i = 0;
 					for (; first != last && i < _capacity; first++ && i++)
 						_arr[i] = *first;
@@ -241,7 +241,7 @@ namespace ft {
 			void		assign(size_type n, const value_type& val)
 			{
 				if (n > _capacity)
-					realloc(n + _capacity);
+					_realloc(n + _capacity);
 				size_type i = 0;
 				for (; i < _capacity; i++)
 					_arr[i] = val;
@@ -251,7 +251,7 @@ namespace ft {
 			void		push_back(const value_type& val)
 			{
 				if (_size + 1 > _capacity)
-					realloc(_capacity * 2);
+					_realloc(_capacity * 2);
 				_arr[_size] = val;
 				_size++;
 			}
@@ -271,7 +271,7 @@ namespace ft {
 			void 		insert(iterator position, size_type n, const value_type& val)
 			{
 				if (_size + n > _capacity)
-					realloc(n + _capacity);
+					_realloc(n + _capacity);
 				for (iterator i = end() + n; i > position && i > begin(); i--)
 					_arr[i] = i - n;
 				for (size_type i = 0; i < n; i++)
@@ -285,7 +285,7 @@ namespace ft {
 					size_type	dist = ft::distance(first, last);
 			
 					if (_size + dist > _capacity)
-						realloc(_capacity + dist);
+						_realloc(_capacity + dist);
 					for (iterator i = end() + dist; i > position && i > begin(); i--)
 						_arr[i] = i - dist;
 					for (size_type i = 0; i < dist; i++)
