@@ -45,11 +45,7 @@ namespace ft
 	//////////////////
 	public:
 
-		reverse_iterator(Iter base = null) : _base(base) {}
-
-		explicit reverse_iterator( Iter x ) {
-			*this = x;
-		}
+		reverse_iterator(Iter base = NULL) : _base(base) {}
 
 		template< class U >
 			reverse_iterator( const reverse_iterator<U>& x ) {
