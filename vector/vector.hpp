@@ -57,7 +57,7 @@ namespace ft {
 			value_type*		_arr;
 			size_type		_size;
 			size_type		_capacity;
-			allocator_type&	_alloc;
+			allocator_type	_alloc;
 		
 		//////////////////////////////
 		// Private member functions //
@@ -86,11 +86,11 @@ namespace ft {
 		public:
 
 			explicit vector(const allocator_type& alloc = allocator_type()) 
-				: _arr(NULL), _size(0), _alloc(alloc), _capacity(0) {}
+				: _arr(NULL), _size(0), _capacity(0), _alloc(alloc)  {}
 
 			explicit vector(size_type n, const value_type& val = value_type(), 
 				const allocator_type& alloc = allocator_type())
-				: _size(n), _alloc(alloc), _capacity(n) 
+				: _size(n), _capacity(n), _alloc(alloc)  
 			{
 				_arr = _alloc.allocate(sizeof(T) * n * 2);
 				for (size_type i = 0; i < n; i++)
@@ -112,7 +112,7 @@ namespace ft {
 
 			virtual ~vector()
 			{
-				_alloc.deallocate(this->_arr);
+				_alloc.deallocate(this->_arr, this->_capacity);
 			}
 
 			vector&	operator = (const vector &x)
