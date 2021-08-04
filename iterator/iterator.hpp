@@ -50,7 +50,7 @@ namespace ft {
 	// constructor //
 	/////////////////
 	public:
-		/* ForwardIterator */
+
 		iterator(Pointer ptr = NULL) : _ptr(ptr) {}
 
 		iterator(const iterator& x) {

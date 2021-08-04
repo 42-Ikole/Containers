@@ -58,27 +58,6 @@ namespace ft {
 			size_type		_size;
 			size_type		_capacity;
 			allocator_type	_alloc;
-		
-		//////////////////////////////
-		// Private member functions //
-		//////////////////////////////
-		private:
-	
-			void	_realloc(size_type n)
-			{
-				value_type	tmp;
-
-				if (n > max_size())
-					throw veception(LENGTH_ERROR, "reserve", std::to_string(n));
-				tmp = _alloc.allocate(sizeof(T) * n);
-				for (size_type i = 0; i < _size && i < n; i++)
-					tmp[i] = _arr[i]; 
-				_alloc.deallocate(_arr);
-				_arr = tmp;
-				if (n < _size)
-					_size = n;
-				_capacity = n;
-			}
 
 		/////////////
 		// CoPlIeN //
@@ -126,10 +105,33 @@ namespace ft {
 				for (size_type i = 0; i < x._size; i++)
 					this->_arr[i] = x._arr[i];
 			}
+		
+		//////////////////////////////
+		// Private member functions //
+		//////////////////////////////
+		private:
+	
+			void	_realloc(size_type n)
+			{
+				value_type	tmp;
+
+				if (n > max_size())
+					throw veception(LENGTH_ERROR, "reserve", std::to_string(n));
+				tmp = _alloc.allocate(sizeof(T) * n);
+				for (size_type i = 0; i < _size && i < n; i++)
+					tmp[i] = _arr[i]; 
+				_alloc.deallocate(_arr);
+				_arr = tmp;
+				if (n < _size)
+					_size = n;
+				_capacity = n;
+			}
 	
 		///////////////
 		// ITERATORS //
 		///////////////
+		public:
+
 			iterator				begin();
 			const_iterator			begin() const;
 			iterator				end();
@@ -142,6 +144,8 @@ namespace ft {
 		//////////////
 		// CAPACITY //
 		//////////////
+		public:
+
 			size_type	size() const
 			{
 				return (_size);
@@ -179,6 +183,8 @@ namespace ft {
 		////////////////////
 		// ELEMENT ACCESS //
 		////////////////////
+		public:
+
 			reference		operator[](size_type n)
 			{
 				return (_arr[n]);
@@ -227,6 +233,8 @@ namespace ft {
 		///////////////
 		// MODIFIERS //
 		///////////////
+		public:
+
 			template	<class InputIterator>
 				void		assign(InputIterator first, InputIterator last)
 				{
@@ -323,6 +331,8 @@ namespace ft {
 		///////////////
 		// ALLOCATOR //
 		///////////////
+		public:
+
 			allocator_type	get_allocator() const
 			{
 				return (_alloc);
@@ -331,6 +341,8 @@ namespace ft {
 		////////////////
 		// EXCEPTIONS //
 		////////////////
+		public:
+
 		class veception : public std::exception
 		{
 			private:
