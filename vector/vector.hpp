@@ -16,6 +16,7 @@
 # include <exception>
 # include <string>
 # include <iterator.hpp>
+# include <sfinae.hpp>
 
 /*
 **	Exception defines
@@ -97,13 +98,14 @@ namespace ft {
 			vector&	operator = (const vector &x)
 			{
 				if (this->_arr)
-					this->_alloc.deallocate(this->_arr);
+					this->_alloc.deallocate(this->_arr, _capacity);
 				this->_size = x._size;
 				this->_capacity = x._capacity;
 				this->_alloc = x._alloc;
 				this->_arr = this->_alloc.allocate(sizeof(T) * x._capacity);
 				for (size_type i = 0; i < x._size; i++)
 					this->_arr[i] = x._arr[i];
+				return (*this);
 			}
 		
 		//////////////////////////////
@@ -113,14 +115,14 @@ namespace ft {
 	
 			void	_realloc(size_type n)
 			{
-				value_type	tmp;
+				pointer	tmp;
 
 				if (n > max_size())
 					throw veception(LENGTH_ERROR, "reserve", std::to_string(n));
 				tmp = _alloc.allocate(sizeof(T) * n);
 				for (size_type i = 0; i < _size && i < n; i++)
 					tmp[i] = _arr[i]; 
-				_alloc.deallocate(_arr);
+				_alloc.deallocate(_arr, _capacity);
 				_arr = tmp;
 				if (n < _size)
 					_size = n;
@@ -235,7 +237,7 @@ namespace ft {
 		///////////////
 		public:
 
-			template	<class InputIterator>
+			template	<class InputIterator, typename ft::iterator_traits<InputIterator>::iterator_category>
 				void		assign(InputIterator first, InputIterator last)
 				{
 					if (ft::distance(first, last) > _capacity)
@@ -359,6 +361,7 @@ namespace ft {
 				{
 					return (_msg.c_str());
 				}
+				~veception() throw() {};
 		};
 	};
 }

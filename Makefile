@@ -29,6 +29,7 @@ HEADER_LOC	=	-I deque/			\
 				-I priority_queue/	\
 				-I queue/			\
 				-I set/				\
+				-I sfinae/			\
 				-I stack/			\
 				-I unordered_map/	\
 				-I vector/

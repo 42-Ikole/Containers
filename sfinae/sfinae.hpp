@@ -26,7 +26,13 @@ namespace ft {
 	template <class T>
 		struct enable_if<false, T> {};
 
+/* alias declaration is cpp11 ffs */
+/*
 	template <bool B, class T = void>
 		using enable_if_t = typename enable_if<B, T>::type;
 
+	template<bool B>
+		using bool_if_t = std::enable_if_t<B, bool>;
+*/
+	
 }
