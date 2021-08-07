@@ -16,6 +16,7 @@
 # include <exception>
 # include <string>
 # include <iterator.hpp>
+# include <iostream>
 # include <sfinae.hpp>
 
 /*
@@ -121,7 +122,7 @@ namespace ft {
 					throw veception(LENGTH_ERROR, "reserve", std::to_string(n));
 				tmp = _alloc.allocate(sizeof(T) * n);
 				for (size_type i = 0; i < _size && i < n; i++)
-					tmp[i] = _arr[i]; 
+					tmp[i] = _arr[i];
 				_alloc.deallocate(_arr, _capacity);
 				_arr = tmp;
 				if (n < _size)
@@ -260,8 +261,8 @@ namespace ft {
 
 			void		push_back(const value_type& val)
 			{
-				if (_size + 1 > _capacity)
-					_realloc(_capacity * 2);
+				if (_size + 1 >= _capacity)
+					_realloc(_capacity * 2 + 1);
 				_arr[_size] = val;
 				_size++;
 			}
@@ -338,6 +339,17 @@ namespace ft {
 			allocator_type	get_allocator() const
 			{
 				return (_alloc);
+			}
+		
+		////////////
+		// CUSTOM //
+		////////////
+		public:
+
+			void print_vector(void)
+			{
+				for (size_type i = 0; i < _size; i++)
+					std::cout << _arr[i] << std::endl;
 			}
 
 		////////////////

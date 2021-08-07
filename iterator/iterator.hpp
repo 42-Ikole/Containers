@@ -12,7 +12,7 @@
 /*  :       :     : :: ::    :   : :   :   : :     :      : :  :    :   : :   */
 /*																			  */
 /*                   Kingmar  |  https://github.com/K1ngmar                   */
-/*																			  */
+/*                        i hate stl more than myself                         */
 /* ************************************************************************** */
 
 #ifndef ITERATOR_HPP
@@ -21,6 +21,7 @@
 # include <cstddef>
 # include <traits.hpp>
 # include <rotareti.hpp>
+# include <sfinae.hpp>
 
 namespace ft {
 
@@ -28,7 +29,8 @@ namespace ft {
 // Iterator base class //
 /////////////////////////
 
-	template < class T, class Category = random_access_iterator_tag, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
+	template < class T, class Category = random_access_iterator_tag,
+		class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 	class iterator
 	{
 	//////////////
@@ -62,17 +64,17 @@ namespace ft {
 	//////////////////////
 	// Common operators //
 	//////////////////////
-	protected:
+	public:
 
 		iterator&	operator ++ (/* prefix */) {
 			_ptr++;
 			return (*this);
 		}
 
-		iterator&	operator ++ (int /* postfix */) {
+		iterator	operator ++ (int /* postfix */) {
 			iterator tmp = *this;
 			++(*this);
-			return (*tmp);
+			return (tmp);
 		}
 
 		iterator	operator  = (const iterator& x) {
@@ -83,7 +85,7 @@ namespace ft {
 	//////////////////////////////
 	// Input iterator operators //
 	//////////////////////////////
-	protected:
+	public:
 
 		bool		operator == (const iterator& x) {
 			return (this->_ptr == x._ptr);			
@@ -104,14 +106,15 @@ namespace ft {
 	//////////////////////////////////////
 	// Bidirectional iterator operators //
 	//////////////////////////////////////
-	protected:
-		
+	public:
+	
+		// template <typename ft::enable_if<is_bidirectional_iterator<iterator_category>::value>::type>
 		iterator&	operator -- (/* prefix */) {
 			this->_ptr--;
 			return (*this);
 		}
 
-		iterator&	operator -- (int /* postfix */) {
+		iterator	operator -- (int /* postfix */) {
 			iterator tmp = *this;
 			--(*this);
 			return (tmp);
@@ -120,7 +123,7 @@ namespace ft {
 	//////////////////////////////////////
 	// Random access iterator operators //
 	//////////////////////////////////////
-	protected:
+	public:
 
 		iterator	operator  + (difference_type val) {
 			return (iterator(this->_ptr + val));
@@ -168,11 +171,11 @@ namespace ft {
 			return (*(this->_ptr + n));
 		}
 
-	};
+	}; /* end of iterator class */
 
-	///////////////////////////////////
-	// Non member iterator functions //
-	///////////////////////////////////
+///////////////////////////////////
+// Non member iterator functions //
+///////////////////////////////////
 
 	template<class Iter>
 		typename iterator_traits<Iter>::difference_type

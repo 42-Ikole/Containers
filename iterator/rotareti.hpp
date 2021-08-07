@@ -15,8 +15,8 @@
 /*																			  */
 /* ************************************************************************** */
 
-#ifndef REVERSE_HPP
-# define REVERSE_HPP
+#ifndef ROTARETI_HPP
+# define ROTARETI_HPP
 
 # include <traits.hpp>
 
