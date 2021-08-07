@@ -10,9 +10,11 @@
 /*																			  */
 /* ************************************************************************** */
 
-#include <type_traits>
+#ifndef SFINAE_HPP
+# define SFINAE_HPP
 
-namespace ft {
+namespace ft
+{
 
 ///////////////
 // Enable if //
@@ -36,3 +38,5 @@ namespace ft {
 */
 	
 }
+
+#endif
