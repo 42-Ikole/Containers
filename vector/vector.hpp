@@ -152,6 +152,18 @@ namespace ft {
 				_size = i;
 				_capacity = n;
 			}
+
+			void	_erase_elem(size_type idx)
+			{
+				this->_alloc.destroy(&this->_arr[idx]);
+				_size--;
+			}
+
+			void	_move_elem_back(iterator pos)
+			{
+				for (; pos != end(); pos++)
+					*pos = *(pos + 1);
+			}
 	
 		///////////////
 		// ITERATORS //
@@ -354,16 +366,23 @@ namespace ft {
 
 			iterator	erase(iterator position)
 			{
-				for (; position != end(); position++)
-					position = position + 1;
-				_size--;
+				difference_type	idx = ft::distance(this->begin(), position);
+
+				this->_erase_elem(idx);
+				this->_move_elem_back(position);
 				return (position);
 			}
 
 			iterator	erase(iterator first, iterator last)
 			{
-				while (first != last)
-					first = erase(first);
+				difference_type	idx		= ft::distance(this->begin(), first);
+				difference_type	lidx	= ft::distance(this->begin, last);
+
+				while (idx != lidx) {
+					this->_erase_elem(idx);
+					idx++;
+					_size--;
+				}
 				return (first);
 			}
 
