@@ -22,6 +22,7 @@
 # include <traits.hpp>
 # include <rotareti.hpp>
 # include <sfinae.hpp>
+# include <iostream>
 
 namespace ft {
 
@@ -29,8 +30,8 @@ namespace ft {
 // Iterator base class //
 /////////////////////////
 
-	template < class T, class Category = random_access_iterator_tag,
-		class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
+	template < class Category, class T, class Distance = std::ptrdiff_t,
+		class Pointer = T*, class Reference = T&>
 	class iterator
 	{
 	//////////////
@@ -77,7 +78,7 @@ namespace ft {
 			return (tmp);
 		}
 
-		iterator	operator  = (const iterator& x) {
+		iterator&	operator  = (const iterator& x) {
 			this->_ptr = x._ptr;
 			return (*this);
 		}
@@ -108,7 +109,6 @@ namespace ft {
 	//////////////////////////////////////
 	public:
 	
-		// template <typename ft::enable_if<is_bidirectional_iterator<iterator_category>::value>::type>
 		iterator&	operator -- (/* prefix */) {
 			this->_ptr--;
 			return (*this);
