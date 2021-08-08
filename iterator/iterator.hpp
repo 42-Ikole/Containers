@@ -125,49 +125,49 @@ namespace ft {
 	//////////////////////////////////////
 	public:
 
-		iterator	operator  + (difference_type val) {
+		iterator		operator  + (difference_type val) {
 			return (iterator(this->_ptr + val));
 		}
 
-		iterator	operator  + (const iterator& x) {
+		iterator		operator  + (const iterator& x) {
 			return (iterator(*this + x));
 		}
 
-		iterator	operator  - (difference_type val) {
+		iterator		operator  - (difference_type val) {
 			return (iterator(this->_ptr - val));
 		}
 
-		difference_type			operator  - (const iterator& x) {
+		difference_type	operator  - (const iterator& x) {
 			return (iterator(this->_ptr - x._ptr));
 		}
 
-		bool					operator  < (const iterator& x) {
+		bool			operator  < (const iterator& x) {
 			return (this->_ptr < x._ptr);
 		}
 
-		bool					operator  > (const iterator& x) {
+		bool			operator  > (const iterator& x) {
 			return (this->_ptr > x._ptr);
 		}
 
-		bool					operator <= (const iterator& x) {
+		bool			operator <= (const iterator& x) {
 			return (this->_ptr <= x._ptr);
 		}
 
-		bool					operator >= (const iterator& x) {
+		bool			operator >= (const iterator& x) {
 			return (this->_ptr >= x._ptr);
 		}
 
-		iterator&	operator += (difference_type val) {
+		iterator&		operator += (difference_type val) {
 			this->_ptr += val;
 			return (*this);
 		}
 
-		iterator&	operator -= (difference_type val) {
+		iterator&		operator -= (difference_type val) {
 			this->_ptr -= val;
 			return (*this);
 		}
 
-		reference				operator [] (std::size_t n) {
+		reference		operator [] (std::size_t n) {
 			return (*(this->_ptr + n));
 		}
 
