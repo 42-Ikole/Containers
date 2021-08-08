@@ -18,12 +18,29 @@
 #ifndef TRAITS_HPP
 # define TRAITS_HPP
 
+# include <sfinae.hpp>
+
 namespace ft
 {
+////////////////////////////
+// true type / false type //
+////////////////////////////
+
+	template <class T, T v>
+		struct integral_constant {
+			static const T value = v;
+		};
+
+	template <bool B>
+		struct bool_constant : integral_constant<bool, B>{};
+
+		struct true_type : bool_constant<true>{};
+		struct false_type : bool_constant<false>{};
 
 //////////
 // Tags //
 //////////
+
 	struct input_iterator_tag										{};
 	struct forward_iterator_tag : input_iterator_tag				{};
 	struct bidirectional_iterator_tag : forward_iterator_tag		{};
@@ -32,7 +49,10 @@ namespace ft
 /////////////////////
 // Iterator traits //
 /////////////////////
-	template< class Iter >
+	template <class T>
+		struct is_input_iterator;
+
+	template< class Iter, typename = typename ft::enable_if<ft::is_input_iterator<Iter>::value>::type >
 		struct iterator_traits
 	{
 		typedef typename  Iter::value_type			value_type;
@@ -63,6 +83,49 @@ namespace ft
 		typedef const T&					reference;
 		typedef random_access_iterator_tag	iterator_category;
 	};
+
+///////////////////////////
+// has iterator category //
+///////////////////////////
+
+	/* what the actual fuck is this magic spell?!?! */
+	template <class T>
+		struct has_iterator_category
+	{
+	private:
+		template <class U> static int test(...);
+
+		template <class U> static char test(typename U::iterator_category* = 0);
+
+	public:
+
+		static const bool value = sizeof(test<T>(0)) == 1;
+	};
+
+	template <class T, class U, bool = has_iterator_category<iterator_traits<T> >::value>
+		struct has_iterator_category_convertible_to
+			: public integral_constant<bool, std::is_convertible<
+				typename iterator_traits<T>::iterator_category, U>::value>
+	{};
+
+	template <class T, class U>
+		struct has_iterator_category_convertible_to<T, U, false> : public ft::false_type {};
+
+/////////////////
+// is iterator //
+/////////////////
+
+	template <class T>
+		struct is_input_iterator : public has_iterator_category_convertible_to<T, input_iterator_tag> {};
+
+	template <class T>
+		struct is_forward_iterator : public has_iterator_category_convertible_to<T, forward_iterator_tag> {};
+
+	template <class T>
+		struct is_bidirectional_iterator : public has_iterator_category_convertible_to<T, bidirectional_iterator_tag> {};
+
+	template <class T>
+		struct is_random_access_iterator : public has_iterator_category_convertible_to<T, random_access_iterator_tag> {};
 
 }
 
