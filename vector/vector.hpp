@@ -34,10 +34,18 @@
 
 namespace ft {
 
+//////////////////
+// vector class //
+//////////////////
+
 	template < class T, class Alloc = std::allocator<T> >
 		class vector {
-
+		
+		///////////////
+		// type defs //
+		///////////////
 		public:
+
 			typedef T																					value_type;
 			typedef Alloc																				allocator_type;
 			typedef std::size_t																			size_type;
@@ -46,8 +54,8 @@ namespace ft {
 			typedef const value_type&																	const_reference;
 			typedef value_type*																			pointer;
 			typedef const value_type*																	const_pointer;
-			typedef ft::iterator<T, ft::random_access_iterator_tag>										iterator;
-			typedef ft::iterator<T, ft::random_access_iterator_tag, std::ptrdiff_t, const T*, const T&>	const_iterator;
+			typedef ft::iterator<ft::random_access_iterator_tag, T>										iterator;
+			typedef ft::iterator<ft::random_access_iterator_tag, T, std::ptrdiff_t, const T*, const T&>	const_iterator;
 			typedef ft::reverse_iterator< iterator >													reverse_iterator;
 			typedef ft::reverse_iterator< const_iterator >												const_reverse_iterator;
 
@@ -71,22 +79,20 @@ namespace ft {
 
 			explicit vector(size_type n, const value_type& val = value_type(), 
 				const allocator_type& alloc = allocator_type())
-				: _size(n), _capacity(n), _alloc(alloc)  
+				: _arr(NULL), _size(0), _capacity(0), _alloc(alloc)  
 			{
-				_arr = _alloc.allocate(sizeof(T) * n * 2);
-				for (size_type i = 0; i < n; i++)
-					_arr[i] = val;
+				assign(n, val);
 			}
 
 			template <class InputIterator>
 				vector(InputIterator first, InputIterator last,
 					const allocator_type& alloc = allocator_type())
-					: _alloc(alloc)
+					: _arr(NULL), _size(0), _capacity(0), _alloc(alloc)
 			{
 				assign(first, last);
 			}
 
-			vector(const vector& x)
+			vector(const vector& x) : _arr(NULL)
 			{
 				*this = x;
 			}
@@ -99,13 +105,13 @@ namespace ft {
 			vector&	operator = (const vector &x)
 			{
 				if (this->_arr)
-					this->_alloc.deallocate(this->_arr, _capacity);
+					this->clear();
 				this->_size = x._size;
 				this->_capacity = x._capacity;
 				this->_alloc = x._alloc;
 				this->_arr = this->_alloc.allocate(sizeof(T) * x._capacity);
 				for (size_type i = 0; i < x._size; i++)
-					this->_arr[i] = x._arr[i];
+					this->_alloc.construct(&this->_arr[i], x._arr[i]);
 				return (*this);
 			}
 		
@@ -114,6 +120,22 @@ namespace ft {
 		//////////////////////////////
 		private:
 	
+			void	_destruction(void)
+			{
+				for (int i = this->_size; i > 0; i--)
+					this->pop_back();
+				this->_alloc.deallocate(this->_arr, this->_capacity);
+			}
+
+			void	_resize(size_type n)
+			{
+				if (n <= 0)
+					n = 1;
+				else if (n < (_capacity + (_capacity >> 1)))
+					n = (_capacity + (_capacity >> 1));
+				_realloc(n);
+			}
+
 			void	_realloc(size_type n)
 			{
 				pointer	tmp;
@@ -121,12 +143,13 @@ namespace ft {
 				if (n > max_size())
 					throw veception(LENGTH_ERROR, "reserve", std::to_string(n));
 				tmp = _alloc.allocate(sizeof(T) * n);
-				for (size_type i = 0; i < _size && i < n; i++)
-					tmp[i] = _arr[i];
-				_alloc.deallocate(_arr, _capacity);
+				size_type i = 0;
+				for (; i < _size && i < n; i++)
+					this->_alloc.construct(&tmp[i], _arr[i]);
+				if (this->_arr)
+					this->_destruction();
 				_arr = tmp;
-				if (n < _size)
-					_size = n;
+				_size = i;
 				_capacity = n;
 			}
 	
@@ -135,14 +158,37 @@ namespace ft {
 		///////////////
 		public:
 
-			iterator				begin();
-			const_iterator			begin() const;
-			iterator				end();
-			const_iterator			end() const;
-			reverse_iterator		rbegin();
-			const_reverse_iterator	rbegin() const;
-			reverse_iterator		rend();
-			const_reverse_iterator	rend() const;
+			iterator				begin() {
+				return (iterator(this->_arr));
+			}
+
+			const_iterator			begin() const {
+				return (const_iterator(this->_arr));
+			}
+	
+			iterator				end() {
+				return (iterator(&this->_arr[this->_size]));
+			}
+
+			const_iterator			end() const {
+				return (const_iterator(&this->_arr[this->_size]));
+			}
+
+			reverse_iterator		rbegin() {
+				return (reverse_iterator(&this->_arr[this->_size]));
+			}
+
+			const_reverse_iterator	rbegin() const {
+				return (const_reverse_iterator(&this->_arr[this->_size]));
+			}
+
+			reverse_iterator		rend() {
+				return (reverse_iterator(this->_arr));
+			}
+
+			const_reverse_iterator	rend() const {
+				return (const_reverse_iterator(this->_arr));
+			}
 
 		//////////////
 		// CAPACITY //
@@ -181,7 +227,6 @@ namespace ft {
 				if (_capacity < n)
 					_realloc(n);
 			}
-
 
 		////////////////////
 		// ELEMENT ACCESS //
@@ -254,22 +299,25 @@ namespace ft {
 				if (n > _capacity)
 					_realloc(n + _capacity);
 				size_type i = 0;
-				for (; i < _capacity; i++)
-					_arr[i] = val;
+				for (; i < n; i++)
+					this->_alloc.construct(&_arr[i], val);
 				_size = i;
 			}
 
 			void		push_back(const value_type& val)
 			{
 				if (_size + 1 >= _capacity)
-					_realloc(_capacity * 2 + 1);
-				_arr[_size] = val;
+					_resize(_size + 1);
+				this->_alloc.construct(&_arr[_size], val);
 				_size++;
 			}
 
 			void		pop_back()
 			{
+				if (this->_size <= 0)
+					return ;
 				_size--;
+				this->_alloc.destroy(&this->_arr[_size]);
 			}
 
 			iterator	insert(iterator position, const value_type& val)
@@ -281,8 +329,8 @@ namespace ft {
 
 			void 		insert(iterator position, size_type n, const value_type& val)
 			{
-				if (_size + n > _capacity)
-					_realloc(n + _capacity);
+				if (_size + n >= _capacity)
+					_realloc(n + _size);
 				for (iterator i = end() + n; i > position && i > begin(); i--)
 					_arr[i] = i - n;
 				for (size_type i = 0; i < n; i++)
@@ -296,7 +344,7 @@ namespace ft {
 					size_type	dist = ft::distance(first, last);
 			
 					if (_size + dist > _capacity)
-						_realloc(_capacity + dist);
+						_realloc(_size + dist);
 					for (iterator i = end() + dist; i > position && i > begin(); i--)
 						_arr[i] = i - dist;
 					for (size_type i = 0; i < dist; i++)
@@ -327,9 +375,11 @@ namespace ft {
 
 			void		clear()
 			{
+				_destruction();
+				_arr = NULL;
 				_size = 0;
+				_capacity = 0;
 			}
-
 
 		///////////////
 		// ALLOCATOR //
@@ -339,17 +389,6 @@ namespace ft {
 			allocator_type	get_allocator() const
 			{
 				return (_alloc);
-			}
-		
-		////////////
-		// CUSTOM //
-		////////////
-		public:
-
-			void print_vector(void)
-			{
-				for (size_type i = 0; i < _size; i++)
-					std::cout << _arr[i] << std::endl;
 			}
 
 		////////////////
