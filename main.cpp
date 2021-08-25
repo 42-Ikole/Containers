@@ -47,6 +47,12 @@ static void	extremely_cool_vector_tests()
 	vecstr.size();
 	if (vecstr[21] == yup[21] && vecstr.size() == yup.size())
 		std::cout << vecstr[21] << std::endl;
+
+/* range constructor test */
+	ft::vector<std::string>::iterator itr_1 = vecstr.begin();
+	ft::vector<std::string>::iterator itr_2 = itr_1 + 12;
+
+	ft::vector<std::string> vec(itr_1, itr_2);
 }
 
 static void	extremely_cool_vector_iterator_tests()

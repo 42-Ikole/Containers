@@ -52,11 +52,11 @@ namespace ft
 	template <class T>
 		struct is_input_iterator;
 	
-	// template <class T>
-	// 	struct iterator_traits {};
+	template <class Iter, bool>
+		struct iterator_traits_impl {};
 
 	template < class Iter >
-		struct iterator_traits
+		struct iterator_traits_impl < Iter, true >
 	{
 		typedef typename  Iter::value_type			value_type;
 		typedef typename  Iter::difference_type		difference_type;
@@ -64,8 +64,16 @@ namespace ft
 		typedef typename  Iter::reference			reference;
 		typedef typename  Iter::iterator_category	iterator_category;
 
-		iterator_traits(typename ft::enable_if< ft::is_input_iterator<Iter>::value, Iter >::type = 0){}
+		// iterator_traits(typename ft::enable_if< ft::is_input_iterator<Iter>::value, Iter >::type = 0){}
 	};
+
+	template <class Iter, bool>
+		struct iterator_traits {};
+
+	template < class Iter >
+		struct ft::iterator_traits< Iter, true > : iterator_traits_impl
+			< Iter, std::is_convertible < typename Iter::iterator_category, input_iterator_tag>::value >
+		{};
 
 	/* pointer specialisation */
 	template < class T>
@@ -79,7 +87,7 @@ namespace ft
 	};
 
 	/* const pointer specialisation */
-	template < class T >
+	template < class T>
 		struct iterator_traits<const T*>
 	{
 		typedef T							value_type;
@@ -88,6 +96,8 @@ namespace ft
 		typedef const T&					reference;
 		typedef random_access_iterator_tag	iterator_category;
 	};
+
+	template < class Itr>
 
 ///////////////////////////
 // has iterator category //
@@ -104,7 +114,6 @@ namespace ft
 			static char test(typename U::iterator_category* = 0);
 
 	public:
-
 		static const bool value = sizeof(test<T>(0)) == 1;
 	};
 

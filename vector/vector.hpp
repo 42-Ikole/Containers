@@ -41,9 +41,9 @@ namespace ft {
 	template < class T, class Alloc = std::allocator<T> >
 		class vector {
 		
-		///////////////
-		// type defs //
-		///////////////
+	///////////////
+	// type defs //
+	///////////////
 		public:
 
 			typedef T																							value_type;
@@ -59,9 +59,9 @@ namespace ft {
 			typedef ft::reverse_iterator< iterator >															reverse_iterator;
 			typedef ft::reverse_iterator< const_iterator >														const_reverse_iterator;
 
-		//////////////////////
-		// Member variables //
-		//////////////////////
+	//////////////////////
+	// Member variables //
+	//////////////////////
 		private:
 
 			value_type*		_arr;
@@ -69,13 +69,14 @@ namespace ft {
 			size_type		_capacity;
 			allocator_type	_alloc;
 
-		/////////////
-		// CoPlIeN //
-		/////////////
+	/////////////
+	// CoPlIeN //
+	/////////////
 		public:
 
 			explicit vector(const allocator_type& alloc = allocator_type()) 
 				: _arr(NULL), _size(0), _capacity(0), _alloc(alloc)  {}
+
 
 			explicit vector(size_type n, const value_type& val = value_type(), 
 				const allocator_type& alloc = allocator_type())
@@ -84,6 +85,7 @@ namespace ft {
 				assign(n, val);
 			}
 
+			/* range constructor */
 			template <class InputIterator>
 				vector(InputIterator first, InputIterator last,
 					const allocator_type& alloc = allocator_type())
@@ -115,9 +117,9 @@ namespace ft {
 				return (*this);
 			}
 		
-		//////////////////////////////
-		// Private member functions //
-		//////////////////////////////
+	//////////////////////////////
+	// Private member functions //
+	//////////////////////////////
 		private:
 	
 			void	_destruction(void)
@@ -165,9 +167,9 @@ namespace ft {
 					*pos = *(pos + 1);
 			}
 	
-		///////////////
-		// ITERATORS //
-		///////////////
+	///////////////
+	// ITERATORS //
+	///////////////
 		public:
 
 			iterator				begin() {
@@ -202,9 +204,9 @@ namespace ft {
 				return (const_reverse_iterator(this->_arr));
 			}
 
-		//////////////
-		// CAPACITY //
-		//////////////
+	//////////////
+	// CAPACITY //
+	//////////////
 		public:
 
 			size_type	size() const
@@ -240,9 +242,9 @@ namespace ft {
 					_realloc(n);
 			}
 
-		////////////////////
-		// ELEMENT ACCESS //
-		////////////////////
+	////////////////////
+	// ELEMENT ACCESS //
+	////////////////////
 		public:
 
 			reference		operator[](size_type n)
@@ -290,21 +292,21 @@ namespace ft {
 			}
 
 
-		///////////////
-		// MODIFIERS //
-		///////////////
+	///////////////
+	// MODIFIERS //
+	///////////////
 		public:
 
-			template	<class InputIterator, typename ft::iterator_traits<InputIterator>::iterator_category>
-				void		assign(InputIterator first, InputIterator last)
-				{
-					if (ft::distance(first, last) > _capacity)
-						_realloc(ft::distance(first, last) + _capacity);
-					size_type i = 0;
-					for (; first != last && i < _capacity; first++ && i++)
-						_arr[i] = *first;
-					_size = i;
-				}
+		template	<class InputIterator>
+			void		assign(InputIterator first, InputIterator last, typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
+			{
+				if (ft::distance(first, last) > _capacity)
+					_realloc(ft::distance(first, last) + _capacity);
+				size_type i = 0;
+				for (; first != last && i < _capacity; first++ && i++)
+					_arr[i] = *first;
+				_size = i;
+			}
 
 			void		assign(size_type n, const value_type& val)
 			{
@@ -401,9 +403,9 @@ namespace ft {
 				_capacity = 0;
 			}
 
-		///////////////
-		// ALLOCATOR //
-		///////////////
+	///////////////
+	// ALLOCATOR //
+	///////////////
 		public:
 
 			allocator_type	get_allocator() const
@@ -411,9 +413,9 @@ namespace ft {
 				return (_alloc);
 			}
 
-		////////////////
-		// EXCEPTIONS //
-		////////////////
+	////////////////
+	// EXCEPTIONS //
+	////////////////
 		public:
 
 		class veception : public std::exception
