@@ -37,6 +37,8 @@ namespace ft {
 	//////////////
 	// Typedefs //
 	//////////////
+	public:
+
 		typedef T			value_type;
 		typedef Distance	difference_type;
 		typedef Pointer		pointer;

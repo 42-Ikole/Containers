@@ -383,6 +383,7 @@ namespace ft {
 					idx++;
 					_size--;
 				}
+				// shits broken af! gotta push remainder back yo
 				return (first);
 			}
 

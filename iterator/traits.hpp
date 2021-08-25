@@ -51,8 +51,11 @@ namespace ft
 /////////////////////
 	template <class T>
 		struct is_input_iterator;
+	
+	template <class T>
+		struct iterator_traits {};
 
-	template< class Iter, typename = typename ft::enable_if<ft::is_input_iterator<Iter>::value>::type >
+	template< class Iter, typename ft::enable_if<ft::is_input_iterator<Iter>::value, Iter>::type >
 		struct iterator_traits
 	{
 		typedef typename  Iter::value_type			value_type;
@@ -88,24 +91,25 @@ namespace ft
 // has iterator category //
 ///////////////////////////
 
-	/* what the actual fuck is this magic spell?!?! */
 	template <class T>
 		struct has_iterator_category
 	{
 	private:
-		template <class U> static int test(...);
+		template < class U >
+			static int test(...);
 
-		template <class U> static char test(typename U::iterator_category* = 0);
+		template < class U >
+			static char test(typename U::iterator_category* = 0);
 
 	public:
 
 		static const bool value = sizeof(test<T>(0)) == 1;
 	};
 
-	template <class T, class U, bool = has_iterator_category<iterator_traits<T> >::value>
+	template < class T, class U, bool = ft::has_iterator_category< ft::iterator_traits<T> >::value>
 		struct has_iterator_category_convertible_to
-			: public integral_constant<bool, std::is_convertible<
-				typename iterator_traits<T>::iterator_category, U>::value>
+			: public ft::integral_constant< bool, std::is_convertible<
+				typename ft::iterator_traits<T>::iterator_category, U>::value>
 	{};
 
 	template <class T, class U>
