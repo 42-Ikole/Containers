@@ -96,7 +96,7 @@ namespace ft
 			return (this->_ptr);
 		}
 	
-	};
-}
+	}; /* end of reverse iterator */
+} /* end of namespace */
 
 #endif

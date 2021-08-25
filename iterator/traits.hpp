@@ -64,7 +64,7 @@ namespace ft
 		typedef typename  Iter::reference			reference;
 		typedef typename  Iter::iterator_category	iterator_category;
 
-		iterator_traits(typename ft::enable_if< ft::is_input_iterator<Iter>::value, Iter >::type = 0) {}
+		iterator_traits(typename ft::enable_if< ft::is_input_iterator<Iter>::value, Iter >::type = 0){}
 	};
 
 	/* pointer specialisation */

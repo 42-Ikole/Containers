@@ -2,14 +2,14 @@
 #include <vector.hpp>
 #include <iostream>
 #include <string>
-#include <iterator.hpp>
+#include <pointer_iterator.hpp>
 #include <iterator>
 #include <vector>
 #include <map>
 
 static void	extremely_cool_vector_tests()
 {
-	std::cout << "______Extremely_COOL_Vector_tests______" << std::endl;
+	std::cout << "______Extremely_COOL_Vector_tests______\n" << std::endl;
 
 /* constructor test */
 	ft::vector<int> vecint(10, 42);
@@ -51,7 +51,7 @@ static void	extremely_cool_vector_tests()
 
 static void	extremely_cool_vector_iterator_tests()
 {
-std::cout << "______Extremely_COOL_Vector_iterator_tests______" << std::endl;
+std::cout << "\n______Extremely_COOL_Vector_iterator_tests______\n" << std::endl;
 
 ft::vector<int> vint(420, 69);
 
@@ -93,6 +93,7 @@ ft::vector<int> vint(420, 69);
 		if (*itr != 69)
 			std::cout << *itr << std::endl;
 	}
+	std::cout << vint.size() << std::endl;
 }
 
 int main(void)
