@@ -52,10 +52,10 @@ namespace ft
 	template <class T>
 		struct is_input_iterator;
 	
-	template <class T>
-		struct iterator_traits {};
+	// template <class T>
+	// 	struct iterator_traits {};
 
-	template< class Iter, typename ft::enable_if<ft::is_input_iterator<Iter>::value, Iter>::type >
+	template < class Iter >
 		struct iterator_traits
 	{
 		typedef typename  Iter::value_type			value_type;
@@ -63,10 +63,12 @@ namespace ft
 		typedef typename  Iter::pointer				pointer;
 		typedef typename  Iter::reference			reference;
 		typedef typename  Iter::iterator_category	iterator_category;
+
+		iterator_traits(typename ft::enable_if< ft::is_input_iterator<Iter>::value, Iter >::type = 0) {}
 	};
 
 	/* pointer specialisation */
-	template< class T >
+	template < class T>
 		struct iterator_traits<T*>
 	{
 		typedef T							value_type;
@@ -77,7 +79,7 @@ namespace ft
 	};
 
 	/* const pointer specialisation */
-	template< class T >
+	template < class T >
 		struct iterator_traits<const T*>
 	{
 		typedef T							value_type;
