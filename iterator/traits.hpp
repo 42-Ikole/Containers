@@ -34,23 +34,46 @@ namespace ft
 	template <bool B>
 		struct bool_constant : integral_constant<bool, B>{};
 
-		struct true_type : bool_constant<true>{};
-		struct false_type : bool_constant<false>{};
+		struct true_type	: bool_constant<true>{};
+		struct false_type	: bool_constant<false>{};
+
+///////////////////////////
+// Has iterator typedefs //
+///////////////////////////
+
+	template < class T>
+		struct has_iterator_typedefs
+	{
+		private:
+	
+			template < class U >
+				static int test(...);
+
+			template < class U >
+				static char test(
+					typename U::value_type,
+					typename U::difference_type,
+					typename U::pointer,
+					typename U::reference,
+					typename U::iterator_category
+				);
+
+		public:
+			static const bool value = sizeof(test<T>(0,0,0,0,0)) == true;
+	};
 
 //////////
 // Tags //
 //////////
 
-	struct input_iterator_tag										{};
-	struct forward_iterator_tag : input_iterator_tag				{};
-	struct bidirectional_iterator_tag : forward_iterator_tag		{};
-	struct random_access_iterator_tag : bidirectional_iterator_tag	{};
+	struct input_iterator_tag												{};
+	struct forward_iterator_tag 		: ft::input_iterator_tag			{};
+	struct bidirectional_iterator_tag	: ft::forward_iterator_tag			{};
+	struct random_access_iterator_tag	: ft::bidirectional_iterator_tag	{};
 
 /////////////////////
 // Iterator traits //
 /////////////////////
-	template <class T>
-		struct is_input_iterator;
 	
 	template <class Iter, bool>
 		struct iterator_traits_impl {};
@@ -63,17 +86,29 @@ namespace ft
 		typedef typename  Iter::pointer				pointer;
 		typedef typename  Iter::reference			reference;
 		typedef typename  Iter::iterator_category	iterator_category;
-
-		// iterator_traits(typename ft::enable_if< ft::is_input_iterator<Iter>::value, Iter >::type = 0){}
 	};
 
-	template <class Iter, bool>
-		struct iterator_traits {};
-
+	template < class Iter, bool >
+		struct _iterator_traits {};
+	
 	template < class Iter >
-		struct ft::iterator_traits< Iter, true > : iterator_traits_impl
-			< Iter, std::is_convertible < typename Iter::iterator_category, input_iterator_tag>::value >
+		struct	_iterator_traits < Iter, true >
+			:	ft::iterator_traits_impl
+				< 
+					Iter,
+					std::is_convertible< typename Iter::Iterator_category, ft::input_iterator_tag>::value 
+				>
 		{};
+
+	template <class Iter>
+		struct iterator_traits
+			: ft::_iterator_traits < Iter, ft::has_iterator_typedefs<Iter>::value >
+		{};
+
+	// template < class Iter >
+	// 	struct iterator_traits< Iter, true > : ft::iterator_traits_impl
+	// 		< Iter, std::is_convertible < typename Iter::iterator_category, ft::input_iterator_tag>::value >
+	// 	{};
 
 	/* pointer specialisation */
 	template < class T>
@@ -97,8 +132,6 @@ namespace ft
 		typedef random_access_iterator_tag	iterator_category;
 	};
 
-	template < class Itr>
-
 ///////////////////////////
 // has iterator category //
 ///////////////////////////
@@ -114,34 +147,46 @@ namespace ft
 			static char test(typename U::iterator_category* = 0);
 
 	public:
-		static const bool value = sizeof(test<T>(0)) == 1;
+		static const bool value = sizeof(test<T>(0)) == true;
 	};
 
 	template < class T, class U, bool = ft::has_iterator_category< ft::iterator_traits<T> >::value>
 		struct has_iterator_category_convertible_to
-			: public ft::integral_constant< bool, std::is_convertible<
-				typename ft::iterator_traits<T>::iterator_category, U>::value>
-	{};
+			: public ft::integral_constant
+				< 
+					bool, 
+					std::is_convertible<typename ft::iterator_traits<T>::iterator_category, U>::value
+				>
+		{};
 
 	template <class T, class U>
-		struct has_iterator_category_convertible_to<T, U, false> : public ft::false_type {};
+		struct has_iterator_category_convertible_to<T, U, false> 
+			: public ft::false_type
+		{};
 
 /////////////////
 // is iterator //
 /////////////////
 
 	template <class T>
-		struct is_input_iterator : public has_iterator_category_convertible_to<T, input_iterator_tag> {};
+		struct is_input_iterator
+			: public ft::has_iterator_category_convertible_to<T, ft::input_iterator_tag>
+		{};
 
 	template <class T>
-		struct is_forward_iterator : public has_iterator_category_convertible_to<T, forward_iterator_tag> {};
+		struct is_forward_iterator
+			: public ft::has_iterator_category_convertible_to<T, ft::forward_iterator_tag>
+		{};
 
 	template <class T>
-		struct is_bidirectional_iterator : public has_iterator_category_convertible_to<T, bidirectional_iterator_tag> {};
+		struct is_bidirectional_iterator
+			: public ft::has_iterator_category_convertible_to<T, ft::bidirectional_iterator_tag>
+		{};
 
 	template <class T>
-		struct is_random_access_iterator : public has_iterator_category_convertible_to<T, random_access_iterator_tag> {};
-
+		struct is_random_access_iterator
+			: public ft::has_iterator_category_convertible_to<T, ft::random_access_iterator_tag>
+		{};
 }
 
 #endif
