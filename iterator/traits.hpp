@@ -51,15 +51,15 @@ namespace ft
 
 			template < class U >
 				static char test(
-					typename U::value_type,
-					typename U::difference_type,
-					typename U::pointer,
-					typename U::reference,
-					typename U::iterator_category
+					typename U::value_type*,
+					typename U::difference_type*,
+					typename U::pointer*,
+					typename U::reference*,
+					typename U::iterator_category*
 				);
 
 		public:
-			static const bool value = sizeof(test<T>(0,0,0,0,0)) == true;
+			static const bool value = sizeof(test<T>(0,0,0,0,0)) == 1;
 	};
 
 //////////
@@ -76,7 +76,9 @@ namespace ft
 /////////////////////
 	
 	template <class Iter, bool>
-		struct iterator_traits_impl {};
+		struct iterator_traits_impl {
+			typedef long	difference_type;
+		};
 
 	template < class Iter >
 		struct iterator_traits_impl < Iter, true >
@@ -89,20 +91,22 @@ namespace ft
 	};
 
 	template < class Iter, bool >
-		struct _iterator_traits {};
+		struct _iterator_traits {
+			// typedef long difference_type;
+		};
 	
 	template < class Iter >
 		struct	_iterator_traits < Iter, true >
 			:	ft::iterator_traits_impl
 				< 
 					Iter,
-					std::is_convertible< typename Iter::Iterator_category, ft::input_iterator_tag>::value 
+					std::is_convertible< typename Iter::iterator_category, ft::input_iterator_tag>::value 
 				>
 		{};
 
 	template <class Iter>
 		struct iterator_traits
-			: ft::_iterator_traits < Iter, ft::has_iterator_typedefs<Iter>::value >
+			: ft::_iterator_traits < Iter, ft::has_iterator_typedefs<Iter>::value > // waarom faalt has_iterator_typedefs?
 		{};
 
 	// template < class Iter >
@@ -144,10 +148,10 @@ namespace ft
 			static int test(...);
 
 		template < class U >
-			static char test(typename U::iterator_category* = 0);
+			static char test(typename U::iterator_category*);
 
 	public:
-		static const bool value = sizeof(test<T>(0)) == true;
+		static const bool value = sizeof(test<T>(0)) == 1;
 	};
 
 	template < class T, class U, bool = ft::has_iterator_category< ft::iterator_traits<T> >::value>
