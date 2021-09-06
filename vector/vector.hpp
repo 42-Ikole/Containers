@@ -161,13 +161,13 @@ namespace ft {
 				_size--;
 			}
 
-			void		_move_elem_back(iterator pos)
+			void		_move_back_elem(iterator pos)
 			{
 				for (; pos != end(); pos++)
 					*pos = *(pos + 1);
 			}
 
-			iterator	_move_range(iterator pos, size_type range)
+			iterator	_move_range(iterator pos, size_type &range)
 			{
 				if (_size + range > _capacity)
 				{
@@ -185,6 +185,21 @@ namespace ft {
 					tmp--;
 				}
 				return (pos);
+			}
+
+			void		_move_back_range(iterator pos, size_type &range)
+			{
+				size_type i = 0;
+				while (i < range)
+				{
+					*pos = *(pos + range);
+					i++;
+					pos++;
+				}
+				for (size_type i = 0; i < range; i++) {
+					*pos = *(pos + range);
+					pos++;
+				}
 			}
 	
 	///////////////
@@ -374,7 +389,8 @@ namespace ft {
 			}
 
 			template	<class InputIterator>
-				void 		insert(iterator position, InputIterator first, InputIterator last)
+				void 		insert(iterator position, InputIterator first, InputIterator last, 
+					typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
 			{
 				size_type	dist = ft::distance(first, last);
 		
@@ -388,21 +404,21 @@ namespace ft {
 				difference_type	idx = ft::distance(this->begin(), position);
 
 				this->_erase_elem(idx);
-				this->_move_elem_back(position);
+				this->_move_back_elem(position);
 				return (position);
 			}
 
 			iterator	erase(iterator first, iterator last)
 			{
 				difference_type	idx		= ft::distance(this->begin(), first);
-				difference_type	lidx	= ft::distance(this->begin, last);
+				difference_type	lidx	= ft::distance(this->begin(), last);
+				size_type dist			= lidx - idx;
 
 				while (idx != lidx) {
 					this->_erase_elem(idx);
 					idx++;
-					_size--;
 				}
-				// shits broken af! gotta push remainder back yo
+				_move_back_range(first, dist);
 				return (first);
 			}
 
