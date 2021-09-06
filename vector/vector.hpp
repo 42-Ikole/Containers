@@ -300,11 +300,15 @@ namespace ft {
 		template	<class InputIterator>
 			void		assign(InputIterator first, InputIterator last, typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
 			{
-				if (ft::distance(first, last) > _capacity)
+				if (static_cast<size_type>(ft::distance(first, last)) > _capacity)
 					_realloc(ft::distance(first, last) + _capacity);
 				size_type i = 0;
-				for (; first != last && i < _capacity; first++ && i++)
+				while (first != last && i < _capacity)
+				{
 					_arr[i] = *first;
+					first++;
+					i++;
+				}
 				_size = i;
 			}
 
@@ -354,17 +358,17 @@ namespace ft {
 
 			template	<class InputIterator>
 				void 		insert(iterator position, InputIterator first, InputIterator last)
-				{
-					size_type	dist = ft::distance(first, last);
-			
-					if (_size + dist > _capacity)
-						_realloc(_size + dist);
-					for (iterator i = end() + dist; i > position && i > begin(); i--)
-						_arr[i] = i - dist;
-					for (size_type i = 0; i < dist; i++)
-						position + i = first + i;
-					_size += dist;
-				}
+			{
+				size_type	dist = ft::distance(first, last);
+		
+				if (_size + dist > _capacity)
+					_realloc(_size + dist);
+				for (iterator i = end() + dist; i > position && i > begin(); i--)
+					_arr[i] = i - dist;
+				for (size_type i = 0; i < dist; i++)
+					position + i = first + i;
+				_size += dist;
+			}
 
 			iterator	erase(iterator position)
 			{
