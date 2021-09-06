@@ -64,7 +64,7 @@ namespace ft {
 	//////////////////////
 		private:
 
-			value_type*		_arr;
+			pointer			_arr;
 			size_type		_size;
 			size_type		_capacity;
 			allocator_type	_alloc;
@@ -122,14 +122,14 @@ namespace ft {
 	//////////////////////////////
 		private:
 	
-			void	_destruction(void)
+			void		_destruction(void)
 			{
 				for (int i = this->_size; i > 0; i--)
 					this->pop_back();
 				this->_alloc.deallocate(this->_arr, this->_capacity);
 			}
 
-			void	_resize(size_type n)
+			void		_resize(size_type n)
 			{
 				if (n <= 0)
 					n = 1;
@@ -138,7 +138,7 @@ namespace ft {
 				_realloc(n);
 			}
 
-			void	_realloc(size_type n)
+			void		_realloc(size_type n)
 			{
 				pointer	tmp;
 
@@ -155,16 +155,36 @@ namespace ft {
 				_capacity = n;
 			}
 
-			void	_erase_elem(size_type idx)
+			void		_erase_elem(size_type idx)
 			{
 				this->_alloc.destroy(&this->_arr[idx]);
 				_size--;
 			}
 
-			void	_move_elem_back(iterator pos)
+			void		_move_elem_back(iterator pos)
 			{
 				for (; pos != end(); pos++)
 					*pos = *(pos + 1);
+			}
+
+			iterator	_move_range(iterator pos, size_type range)
+			{
+				if (_size + range > _capacity)
+				{
+					size_type pos_idx = ft::distance(begin(), pos);
+					_resize(_size + range);
+					pos = this->begin() + pos_idx;
+				}
+				iterator tmp = this->end();
+				_size += range;
+				iterator itr = this->end();
+				while (tmp != pos)
+				{
+					*itr = *tmp;
+					itr--;
+					tmp--;
+				}
+				return (pos);
 			}
 	
 	///////////////
@@ -298,10 +318,11 @@ namespace ft {
 		public:
 
 		template	<class InputIterator>
-			void		assign(InputIterator first, InputIterator last, typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
+			void		assign(InputIterator first, InputIterator last,
+				typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
 			{
 				if (static_cast<size_type>(ft::distance(first, last)) > _capacity)
-					_realloc(ft::distance(first, last) + _capacity);
+					_resize(ft::distance(first, last) + _capacity);
 				size_type i = 0;
 				while (first != last && i < _capacity)
 				{
@@ -315,7 +336,7 @@ namespace ft {
 			void		assign(size_type n, const value_type& val)
 			{
 				if (n > _capacity)
-					_realloc(n + _capacity);
+					_resize(n + _capacity);
 				size_type i = 0;
 				for (; i < n; i++)
 					this->_alloc.construct(&_arr[i], val);
@@ -347,13 +368,9 @@ namespace ft {
 
 			void 		insert(iterator position, size_type n, const value_type& val)
 			{
-				if (_size + n >= _capacity)
-					_realloc(n + _size);
-				for (iterator i = end() + n; i > position && i > begin(); i--)
-					_arr[i] = i - n;
+				position = _move_range(position, n);
 				for (size_type i = 0; i < n; i++)
-					position + i = val;
-				_size += n;
+					*(position + i) = val;
 			}
 
 			template	<class InputIterator>
@@ -361,13 +378,9 @@ namespace ft {
 			{
 				size_type	dist = ft::distance(first, last);
 		
-				if (_size + dist > _capacity)
-					_realloc(_size + dist);
-				for (iterator i = end() + dist; i > position && i > begin(); i--)
-					_arr[i] = i - dist;
+				position = _move_range(position, dist);
 				for (size_type i = 0; i < dist; i++)
-					position + i = first + i;
-				_size += dist;
+					*(position + i) = *(first + i);
 			}
 
 			iterator	erase(iterator position)
