@@ -54,12 +54,12 @@ namespace ft
 					typename U::value_type*,
 					typename U::difference_type*,
 					typename U::pointer*,
-					typename U::reference*,
+					// typename U::reference*,
 					typename U::iterator_category*
 				);
 
 		public:
-			static const bool value = sizeof(test<T>(0,0,0,0,0)) == 1;
+			static const bool value = (sizeof(test<T>(0,0,0,0)) == sizeof(char));
 	};
 
 //////////
@@ -76,9 +76,7 @@ namespace ft
 /////////////////////
 	
 	template <class Iter, bool>
-		struct iterator_traits_impl {
-			typedef long	difference_type;
-		};
+		struct iterator_traits_impl {};
 
 	template < class Iter >
 		struct iterator_traits_impl < Iter, true >
@@ -90,50 +88,31 @@ namespace ft
 		typedef typename  Iter::iterator_category	iterator_category;
 	};
 
-	template < class Iter, bool >
-		struct _iterator_traits {
-			// typedef long difference_type;
-		};
-	
-	template < class Iter >
-		struct	_iterator_traits < Iter, true >
-			:	ft::iterator_traits_impl
-				< 
-					Iter,
-					std::is_convertible< typename Iter::iterator_category, ft::input_iterator_tag>::value 
-				>
-		{};
-
 	template <class Iter>
 		struct iterator_traits
-			: ft::_iterator_traits < Iter, ft::has_iterator_typedefs<Iter>::value > // waarom faalt has_iterator_typedefs?
+			: ft::iterator_traits_impl < Iter, ft::has_iterator_typedefs<Iter>::value > // waarom faalt has_iterator_typedefs?
 		{};
-
-	// template < class Iter >
-	// 	struct iterator_traits< Iter, true > : ft::iterator_traits_impl
-	// 		< Iter, std::is_convertible < typename Iter::iterator_category, ft::input_iterator_tag>::value >
-	// 	{};
 
 	/* pointer specialisation */
 	template < class T>
 		struct iterator_traits<T*>
 	{
-		typedef T							value_type;
-		typedef std::ptrdiff_t				difference_type;
-		typedef T*							pointer;
-		typedef T&							reference;
-		typedef random_access_iterator_tag	iterator_category;
+		typedef T								value_type;
+		typedef std::ptrdiff_t					difference_type;
+		typedef T*								pointer;
+		typedef T&								reference;
+		typedef ft::random_access_iterator_tag	iterator_category;
 	};
 
 	/* const pointer specialisation */
 	template < class T>
 		struct iterator_traits<const T*>
 	{
-		typedef T							value_type;
-		typedef std::ptrdiff_t				difference_type;
-		typedef const T*					pointer;
-		typedef const T&					reference;
-		typedef random_access_iterator_tag	iterator_category;
+		typedef T								value_type;
+		typedef std::ptrdiff_t					difference_type;
+		typedef const T*						pointer;
+		typedef const T&						reference;
+		typedef ft::random_access_iterator_tag	iterator_category;
 	};
 
 ///////////////////////////
