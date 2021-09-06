@@ -44,22 +44,38 @@ static void	extremely_cool_vector_tests()
 		vecstr.clear();
 	ft::vector<std::string> yup(42, "NoRmiNeTtE");
 	vecstr = yup;
-	vecstr.size();
-	if (vecstr[21] == yup[21] && vecstr.size() == yup.size())
-		std::cout << vecstr[21] << std::endl;
+	std::cout << vecstr.size() << std::endl;
 
 /* range constructor test */
 	ft::vector<std::string>::iterator itr_1 = vecstr.begin();
 	ft::vector<std::string>::iterator itr_2 = itr_1 + 12;
 
 	ft::vector<std::string> vec(itr_1, itr_2);
+	
+	for (ft::vector<std::string>::iterator itr = vec.begin(); itr != vec.end(); itr++)
+		std::cout << *itr << std::endl;
+	std::cout << "vec size = " << vec.size() << std::endl;
+
+/* insert test */
+	vecstr.insert(vecstr.begin(), std::string("NUMERO UNO BABYYY!!"));
+	vecstr.insert(vecstr.begin() + 1, std::string("NUMBA ZWEI"));
+	std::cout << *(vecstr.begin()) << std::endl << *(vecstr.begin() + 1) << std::endl;
+
+/* erase test */
+	ft::vector<std::string>::iterator erase_first = vecstr.begin() + 2;
+	ft::vector<std::string>::iterator erase_last = vecstr.end() - 1;
+	vecstr.erase(erase_first, erase_last);
+	// std::cout << vecstr.size() << std::endl;
+	
+	for(std::size_t i = 0; i < vecstr.size(); i++)
+		std::cout << vecstr[i] << std::endl;
 }
 
 static void	extremely_cool_vector_iterator_tests()
 {
-std::cout << "\n______Extremely_COOL_Vector_iterator_tests______\n" << std::endl;
+	std::cout << "\n______Extremely_COOL_Vector_iterator_tests______\n" << std::endl;
 
-ft::vector<int> vint(420, 69);
+	ft::vector<int> vint(420, 69);
 
 /* iterator ++ test */
 	for (ft::vector<int>::iterator itr = vint.begin(); itr != vint.end(); itr++) {
@@ -119,5 +135,5 @@ int main(void)
 	// // itr = brr.begin();
 	// itr++;
 	// itr--;
-	system("leaks containers | grep 'total leaked'");
+	// system("leaks containers | grep 'total leaked'");
 }
