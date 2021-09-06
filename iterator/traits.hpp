@@ -90,7 +90,7 @@ namespace ft
 
 	template <class Iter>
 		struct iterator_traits
-			: ft::iterator_traits_impl < Iter, ft::has_iterator_typedefs<Iter>::value > // waarom faalt has_iterator_typedefs?
+			: ft::iterator_traits_impl < Iter, ft::has_iterator_typedefs<Iter>::value >
 		{};
 
 	/* pointer specialisation */
