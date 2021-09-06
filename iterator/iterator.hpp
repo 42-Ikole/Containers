@@ -21,8 +21,6 @@ namespace ft {
 // Iterator base class //
 /////////////////////////
 
-	# define itr	ft::iterator< Category, T, Distance, Pointer, Reference >
-
 	template <class Category, class T, class Distance = std::ptrdiff_t,
           class Pointer = T*, class Reference = T&>
 	struct iterator {
