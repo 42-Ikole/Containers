@@ -13,24 +13,10 @@
 # define VECTOR_HPP
 
 # include <memory>
-# include <exception>
 # include <string>
 # include <pointer_iterator.hpp>
 # include <iostream>
-# include <sfinae.hpp>
-
-/*
-**	Exception defines
-*/
-# define COLOR_RED		"\033[31m"
-# define COLOR_GREEN	"\033[32m"
-# define COLOR_RESET	"\033[0m"
-# define COLOR_YELLOW	"\033[33m"
-
-# define SYSCALL_FAIL	"system call failed"
-# define ALLOC_FAIL		"failed to allocate region"
-# define LENGTH_ERROR	"length error"
-# define OUT_OF_RANGE	"index is out of range"
+# include <stdexcept>
 
 namespace ft {
 
@@ -74,15 +60,16 @@ namespace ft {
 	/////////////
 		public:
 
+			/* default constructor */
 			explicit vector(const allocator_type& alloc = allocator_type()) 
 				: _arr(NULL), _size(0), _capacity(0), _alloc(alloc)  {}
 
-
+			/* fill constructor */
 			explicit vector(size_type n, const value_type& val = value_type(), 
 				const allocator_type& alloc = allocator_type())
 				: _arr(NULL), _size(0), _capacity(0), _alloc(alloc)  
 			{
-				assign(n, val);
+				this->assign(n, val);
 			}
 
 			/* range constructor */
@@ -91,9 +78,10 @@ namespace ft {
 					const allocator_type& alloc = allocator_type())
 					: _arr(NULL), _size(0), _capacity(0), _alloc(alloc)
 			{
-				assign(first, last);
+				this->assign(first, last);
 			}
 
+			/* copy constructor */
 			vector(const vector& x) : _arr(NULL)
 			{
 				*this = x;
@@ -101,7 +89,7 @@ namespace ft {
 
 			virtual ~vector()
 			{
-				_alloc.deallocate(this->_arr, this->_capacity);
+				this->clear();
 			}
 
 			vector&	operator = (const vector &x)
@@ -124,9 +112,9 @@ namespace ft {
 	
 			void		_destruction(void)
 			{
-				for (int i = this->_size; i > 0; i--)
+				for (; _size > 0;)
 					this->pop_back();
-				this->_alloc.deallocate(this->_arr, this->_capacity);
+				_alloc.deallocate(_arr, _capacity);
 			}
 
 			void		_resize(size_type n)
@@ -135,20 +123,20 @@ namespace ft {
 					n = 1;
 				else if (n < (_capacity + (_capacity >> 1)))
 					n = (_capacity + (_capacity >> 1));
-				_realloc(n);
+				this->_realloc(n);
 			}
 
 			void		_realloc(size_type n)
 			{
 				pointer	tmp;
 
-				if (n > max_size())
-					throw veception(LENGTH_ERROR, "reserve", std::to_string(n));
+				if (n > this->max_size())
+					throw std::length_error(std::to_string(n));
 				tmp = _alloc.allocate(sizeof(T) * n);
 				size_type i = 0;
 				for (; i < _size && i < n; i++)
-					this->_alloc.construct(&tmp[i], _arr[i]);
-				if (this->_arr)
+					_alloc.construct(&tmp[i], _arr[i]);
+				if (_arr != NULL)
 					this->_destruction();
 				_arr = tmp;
 				_size = i;
@@ -157,7 +145,8 @@ namespace ft {
 
 			void		_erase_elem(size_type idx)
 			{
-				this->_alloc.destroy(&this->_arr[idx]);
+				_alloc.destroy(&_arr[idx]);
+				_move_back_elem(this->begin() + idx);
 				_size--;
 			}
 
@@ -172,7 +161,7 @@ namespace ft {
 				if (_size + range > _capacity)
 				{
 					size_type pos_idx = ft::distance(begin(), pos);
-					_resize(_size + range);
+					this->_resize(_size + range);
 					pos = this->begin() + pos_idx;
 				}
 				iterator tmp = this->end();
@@ -256,25 +245,25 @@ namespace ft {
 
 			void		resize(size_type n, value_type val = value_type())
 			{
-				_realloc(n);
+				this->_resize(n);
 				for (size_type i = _size; i < _capacity; i++)
 					_arr[i] = val;
 			}
 
 			size_type	capacity() const
 			{
-				return (this->_capacity);
+				return (_capacity);
 			}
 
 			bool		empty() const
 			{
-				return (this->_size == 0);
+				return (_size == 0);
 			}
 
 			void		reserve(size_type n)
 			{
 				if (_capacity < n)
-					_realloc(n);
+					this->_resize(n);
 			}
 
 	////////////////////
@@ -295,14 +284,14 @@ namespace ft {
 			reference		at(size_type n)
 			{
 				if (n < 0 || n > _size)
-					throw veception(OUT_OF_RANGE, "at()", std::to_string(n));
+					throw std::out_of_range(std::to_string(n));
 				return (_arr[n]);
 			}
 
 			const_reference	at(size_type n) const
 			{
 				if (n < 0 || n > _size)
-					throw veception(OUT_OF_RANGE, "at() const", std::to_string(n));
+					throw std::out_of_range(std::to_string(n));
 				return (_arr[n]);
 			}
 
@@ -326,7 +315,6 @@ namespace ft {
 				return (_arr[_size - 1]);
 			}
 
-
 	///////////////
 	// MODIFIERS //
 	///////////////
@@ -337,7 +325,7 @@ namespace ft {
 				typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
 			{
 				if (static_cast<size_type>(ft::distance(first, last)) > _capacity)
-					_resize(ft::distance(first, last) + _capacity);
+					this->_resize(ft::distance(first, last) + _capacity);
 				size_type i = 0;
 				while (first != last && i < _capacity)
 				{
@@ -351,39 +339,39 @@ namespace ft {
 			void		assign(size_type n, const value_type& val)
 			{
 				if (n > _capacity)
-					_resize(n + _capacity);
+					this->_resize(n);
 				size_type i = 0;
 				for (; i < n; i++)
-					this->_alloc.construct(&_arr[i], val);
+					_alloc.construct(&_arr[i], val);
 				_size = i;
 			}
 
 			void		push_back(const value_type& val)
 			{
 				if (_size + 1 >= _capacity)
-					_resize(_size + 1);
-				this->_alloc.construct(&_arr[_size], val);
+					this->_resize(_size + 1);
+				_alloc.construct(&_arr[_size], val);
 				_size++;
 			}
 
 			void		pop_back()
 			{
-				if (this->_size <= 0)
+				if (_size <= 0)
 					return ;
 				_size--;
-				this->_alloc.destroy(&this->_arr[_size]);
+				_alloc.destroy(&_arr[_size]);
 			}
 
 			iterator	insert(iterator position, const value_type& val)
 			{
-				size_type distance = ft::distance(begin(), position);
-				insert (position, 1, val);
-				return (begin() + distance);
+				size_type distance = ft::distance(this->begin(), position);
+				this->insert(position, 1, val);
+				return (this->begin() + distance);
 			}	
 
 			void 		insert(iterator position, size_type n, const value_type& val)
 			{
-				position = _move_range(position, n);
+				position = this->_move_range(position, n);
 				for (size_type i = 0; i < n; i++)
 					*(position + i) = val;
 			}
@@ -394,7 +382,7 @@ namespace ft {
 			{
 				size_type	dist = ft::distance(first, last);
 		
-				position = _move_range(position, dist);
+				position = this->_move_range(position, dist);
 				for (size_type i = 0; i < dist; i++)
 					*(position + i) = *(first + i);
 			}
@@ -418,7 +406,7 @@ namespace ft {
 					this->_erase_elem(idx);
 					idx++;
 				}
-				_move_back_range(first, dist);
+				this->_move_back_range(first, dist);
 				return (first);
 			}
 
@@ -446,29 +434,6 @@ namespace ft {
 				return (_alloc);
 			}
 
-	////////////////
-	// EXCEPTIONS //
-	////////////////
-		public:
-
-		class veception : public std::exception
-		{
-			private:
-				std::string _msg;
-
-			public:
-				veception(std::string msg, std::string type, std::string val)
-				{
-					_msg = std::string("[") + COLOR_GREEN + type + COLOR_RESET + std::string("] ") + 
-						COLOR_RED + std::string("Error: ") + COLOR_RESET + msg + 
-						std::string(" <") + COLOR_YELLOW + val + COLOR_RESET + std::string(">"); 
-				}
-				const char* what() const throw()
-				{
-					return (_msg.c_str());
-				}
-				~veception() throw() {};
-		};
 	};
 }
 
