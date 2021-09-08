@@ -121,6 +121,9 @@ namespace ft {
 			{
 				if (n <= 0)
 					n = 1;
+				else if (n < _capacity)
+					for (size_type i = _capacity; i > n; i--)
+						this->pop_back();
 				else if (n < (_capacity + (_capacity >> 1)))
 					n = (_capacity + (_capacity >> 1));
 				this->_realloc(n);
@@ -247,7 +250,7 @@ namespace ft {
 			{
 				this->_resize(n);
 				for (size_type i = _size; i < _capacity; i++)
-					_arr[i] = val;
+					this->push_back(val);
 			}
 
 			size_type	capacity() const
@@ -263,7 +266,7 @@ namespace ft {
 			void		reserve(size_type n)
 			{
 				if (_capacity < n)
-					this->_resize(n);
+					this->_realloc(n);
 			}
 
 	////////////////////
@@ -283,15 +286,15 @@ namespace ft {
 
 			reference		at(size_type n)
 			{
-				if (n < 0 || n > _size)
-					throw std::out_of_range(std::to_string(n));
+				if (n < 0 || n >= _size)
+					throw std::out_of_range("vector");
 				return (_arr[n]);
 			}
 
 			const_reference	at(size_type n) const
 			{
 				if (n < 0 || n > _size)
-					throw std::out_of_range(std::to_string(n));
+					throw std::out_of_range("vector");
 				return (_arr[n]);
 			}
 
@@ -320,6 +323,7 @@ namespace ft {
 	///////////////
 		public:
 
+		/* iterator range assign */
 		template	<class InputIterator>
 			void		assign(InputIterator first, InputIterator last,
 				typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
@@ -336,6 +340,7 @@ namespace ft {
 				_size = i;
 			}
 
+			/* fill assign */
 			void		assign(size_type n, const value_type& val)
 			{
 				if (n > _capacity)
@@ -348,7 +353,7 @@ namespace ft {
 
 			void		push_back(const value_type& val)
 			{
-				if (_size + 1 >= _capacity)
+				if (_size + 1 > _capacity)
 					this->_resize(_size + 1);
 				_alloc.construct(&_arr[_size], val);
 				_size++;
@@ -362,6 +367,7 @@ namespace ft {
 				_alloc.destroy(&_arr[_size]);
 			}
 
+			/* fill insert */
 			iterator	insert(iterator position, const value_type& val)
 			{
 				size_type distance = ft::distance(this->begin(), position);
@@ -369,6 +375,7 @@ namespace ft {
 				return (this->begin() + distance);
 			}	
 
+			/* fill insert */
 			void 		insert(iterator position, size_type n, const value_type& val)
 			{
 				position = this->_move_range(position, n);
@@ -376,6 +383,7 @@ namespace ft {
 					*(position + i) = val;
 			}
 
+			/* ranged iterator insert */
 			template	<class InputIterator>
 				void 		insert(iterator position, InputIterator first, InputIterator last, 
 					typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
