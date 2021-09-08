@@ -66,10 +66,10 @@ run: re
 	./$(NAME)
 
 test: re
-	$(CC) $(TEST_FLAGS) $(TEST_SRC) -o $(FT)
-	./$(FT) > $(FT).txt
-	$(CC) $(TEST_FLAGS) $(TEST_SRC) -D STD -o $(STD)
-	./$(STD) > $(STD).txt
+	@$(CC) $(TEST_FLAGS) $(TEST_SRC) -o $(FT)
+	@./$(FT) > $(FT).txt
+	@$(CC) $(TEST_FLAGS) $(TEST_SRC) -D STD -o $(STD)
+	@./$(STD) > $(STD).txt
 	diff $(FT).txt $(STD).txt
 
 
