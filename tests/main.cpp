@@ -20,7 +20,7 @@ void	time_function(void(*func)(), std::string container)
 	std::chrono::steady_clock::time_point start = std::chrono::high_resolution_clock::now();
 	func();
 	std::chrono::high_resolution_clock::time_point finish = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(finish - start);
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(finish - start);
 
 	#ifdef STD
 		std::string namespacename = "std::"; 
@@ -28,11 +28,12 @@ void	time_function(void(*func)(), std::string container)
 		std::string namespacename = " ft::";
 	#endif
 
-	std::cerr	<< COLOR_GREEN	<< namespacename \
+	std::cerr	<< "==============================\n" \
+				<< COLOR_GREEN	<< namespacename \
 				<< COLOR_BLUE	<< container \
 				<< COLOR_RESET	<< " took: " \
 				<< COLOR_YELLOW	<< std::setw(10) << duration.count() \
-				<< COLOR_RED	<< "ms" \
+				<< COLOR_RED	<< "µs" \
 				<< COLOR_RESET	<< std::endl;
 }
 
