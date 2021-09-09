@@ -146,20 +146,13 @@ namespace ft {
 				_capacity = n;
 			}
 
-			void		_erase_elem(size_type idx)
-			{
-				_alloc.destroy(&_arr[idx]);
-				_move_back_elem(this->begin() + idx);
-				_size--;
-			}
-
 			void		_move_back_elem(iterator pos)
 			{
-				for (; pos != end(); pos++)
+				for (; pos < this->end(); pos++)
 					*pos = *(pos + 1);
 			}
 
-			iterator	_move_range(iterator pos, size_type &range)
+			void	_move_range(iterator &pos, size_type &range)
 			{
 				if (_size + range > _capacity)
 				{
@@ -176,10 +169,9 @@ namespace ft {
 					tmp--;
 					*itr = *tmp;
 				}
-				return (pos);
 			}
 
-			void		_move_back_range(iterator pos, size_type &range)
+			void		_move_back_range(iterator pos, size_type range)
 			{
 				size_type i = 0;
 				while (i < range)
@@ -378,7 +370,7 @@ namespace ft {
 			/* fill insert */
 			void 		insert(iterator position, size_type n, const value_type& val)
 			{
-				position = this->_move_range(position, n);
+				this->_move_range(position, n);
 				for (size_type i = 0; i < n; i++)
 					*(position + i) = val;
 			}
@@ -390,31 +382,32 @@ namespace ft {
 			{
 				size_type	dist = ft::distance(first, last);
 		
-				position = this->_move_range(position, dist);
+				_move_range(position, dist);
 				for (size_type i = 0; i < dist; i++)
 					*(position + i) = *(first + i);
 			}
 
 			iterator	erase(iterator position)
 			{
-				difference_type	idx = ft::distance(this->begin(), position);
+				// difference_type	idx = ft::distance(this->begin(), position);
 
-				this->_erase_elem(idx);
-				this->_move_back_elem(position);
+				// // this->_erase_elem(idx);
+				this->_alloc.destroy(&(*position));
+				for (; position != this->end(); position++)
+					*position = *(position + 1);
+				_size--;
+				// this->_move_back_elem(position);
+
 				return (position);
 			}
 
 			iterator	erase(iterator first, iterator last)
 			{
-				difference_type	idx		= ft::distance(this->begin(), first);
-				difference_type	lidx	= ft::distance(this->begin(), last);
-				size_type dist			= lidx - idx;
-
-				while (idx != lidx) {
-					this->_erase_elem(idx);
-					idx++;
-				}
-				this->_move_back_range(first, dist);
+				difference_type range  = ft::distance(first, last);
+				// for (iterator i = first; i != last; i++)
+				// 	this->_alloc.destroy(&(*i));
+				this->_move_back_range(first, range);
+				_size -= range;
 				return (first);
 			}
 
