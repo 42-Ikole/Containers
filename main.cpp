@@ -7,6 +7,11 @@
 #include <vector>
 #include <map>
 
+struct test {
+	test() {std::cout << "constructor" << std::endl;}
+	~test() {std::cout << "destructor" << std::endl;}
+};
+
 static void	extremely_cool_vector_tests()
 {
 	std::cout << "______Extremely_COOL_Vector_tests______\n" << std::endl;
@@ -69,6 +74,13 @@ static void	extremely_cool_vector_tests()
 	
 	for(std::size_t i = 0; i < vecstr.size(); i++)
 		std::cout << vecstr[i] << std::endl;
+
+	ft::vector<test> vectest;
+	struct test hoi;
+	vectest.push_back(hoi);
+	vectest.push_back(hoi);
+	vectest.push_back(hoi);
+	vectest.erase(vectest.begin(), vectest.begin() + 1);
 }
 
 static void	extremely_cool_vector_iterator_tests()

@@ -146,18 +146,17 @@ static void modifier_test()
 	ft::vector<std::string>				vec(2000, "MANY STRINGS YO");
 	ft::vector<std::string>				empty;
 
-/* iterator range assign assign */
+/* iterator range assign */
 	ft::vector<std::string>::iterator	first = vec.begin() + 42;
 	ft::vector<std::string>::iterator	last = vec.begin() + 1337;
 	empty.assign(first, last);
-	std::cout << "size = " << empty.size() << std::endl;
+	whats_in_this_vector_yo(empty, "iterator range assign");
 
 /* fill assign */
 	std::string assigned("we just got assigned yo");
 	empty.assign(420, assigned);
 	std::cout << "size = " << empty.size() << std::endl;
 	for (size_t i = 0; i < empty.size(); i++)
-		if (empty[i] == assigned)
 			std::cout << "[" << i << "] " << assigned << std::endl;
 	
 /* push back */
@@ -176,11 +175,11 @@ static void modifier_test()
 	std::cout << empty.size() << std::endl;
 
 /* erase */
-	// empty.erase(empty.begin(), empty.end() - 1);
+	empty.erase(empty.begin(), empty.end() - 1);
 
 /* fill insert */
-	empty.insert(empty.end() - 1, 1337, "living on the edge");
-	whats_in_this_vector_yo(empty, "fill insert");
+	// empty.insert(empty.end() - 1, 1337, "living on the edge");
+	// whats_in_this_vector_yo(empty, "fill insert");
 
 }
 
