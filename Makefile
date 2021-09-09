@@ -67,7 +67,7 @@ run: re
 
 test: re
 	@clear
-	@$(CC) $(TEST_FLAGS) $(DEBUG_FLAGS) $(TEST_SRC) -o $(FT)
+	@$(CC) $(TEST_FLAGS) $(TEST_SRC) -o $(FT)
 	@./$(FT) > $(FT).txt
 	@$(CC) $(TEST_FLAGS) $(TEST_SRC) -D STD -o $(STD)
 	@./$(STD) > $(STD).txt
