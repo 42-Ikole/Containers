@@ -15,6 +15,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef ITERATOR_HPP
+# define ITERATOR_HPP
+
 namespace ft {
 
 /////////////////////////
@@ -39,17 +42,24 @@ namespace ft {
 // Non member iterator functions //
 ///////////////////////////////////
 
+	// template<class Iter>
+	// 	typename iterator_traits<Iter>::difference_type
+	// 		distance (Iter first, Iter last)
+	// {
+	// 	typename iterator_traits<Iter>::difference_type dist = 0;
+
+	// 	while (first != last) {
+	// 		first++;
+	// 		dist++;
+	// 	}
+	// 	return (dist);
+	// }
+
 	template<class Iter>
 		typename iterator_traits<Iter>::difference_type
 			distance (Iter first, Iter last)
 	{
-		typename iterator_traits<Iter>::difference_type dist = 0;
-
-		while (first != last) {
-			first++;
-			dist++;
-		}
-		return (dist);
+		return (last - first);
 	}
 
 	template <class Iter, class Distance>
@@ -59,3 +69,5 @@ namespace ft {
 	}
 
 } /* end of namespace */
+
+#endif

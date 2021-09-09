@@ -15,8 +15,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ITERATOR_HPP
-# define ITERATOR_HPP
+#ifndef POINTER_ITERATOR_HPP
+# define POINTER_ITERATOR_HPP
 
 # include <cstddef>
 # include <traits.hpp>
@@ -142,7 +142,7 @@ namespace ft {
 		}
 
 		difference_type	operator  - (const pointer_iterator& x) {
-			return (pointer_iterator(this->_ptr - x._ptr));
+			return (this->_ptr - x._ptr);
 		}
 
 		bool			operator  < (const pointer_iterator& x) {
