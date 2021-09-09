@@ -382,16 +382,7 @@ namespace ft {
 
 			iterator	erase(iterator position)
 			{
-				// difference_type	idx = ft::distance(this->begin(), position);
-
-				// // this->_erase_elem(idx);
-				this->_alloc.destroy(&(*position));
-				for (; position != this->end(); position++)
-					*position = *(position + 1);
-				_size--;
-				// this->_move_back_elem(position);
-
-				return (position);
+				return (this->erase(position, position + 1));
 			}
 
 			iterator	erase(iterator first, iterator last)
