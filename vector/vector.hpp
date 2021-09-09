@@ -172,9 +172,9 @@ namespace ft {
 				iterator itr = this->end();
 				while (tmp != pos)
 				{
-					*itr = *tmp;
 					itr--;
 					tmp--;
+					*itr = *tmp;
 				}
 				return (pos);
 			}
