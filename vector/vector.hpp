@@ -173,13 +173,6 @@ namespace ft {
 
 			void		_move_back_range(iterator pos, size_type range)
 			{
-				size_type i = 0;
-				while (i < range)
-				{
-					*pos = *(pos + range);
-					i++;
-					pos++;
-				}
 				for (size_type i = 0; i < range; i++) {
 					*pos = *(pos + range);
 					pos++;
@@ -404,8 +397,8 @@ namespace ft {
 			iterator	erase(iterator first, iterator last)
 			{
 				difference_type range  = ft::distance(first, last);
-				// for (iterator i = first; i != last; i++)
-				// 	this->_alloc.destroy(&(*i));
+				for (iterator i = first; i != last; i++)
+					this->_alloc.destroy(&(*i));
 				this->_move_back_range(first, range);
 				_size -= range;
 				return (first);
