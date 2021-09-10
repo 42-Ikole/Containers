@@ -161,7 +161,8 @@ namespace ft {
 				{
 					itr--;
 					tmp--;
-					*itr = *tmp;
+					_alloc.construct(&(*itr), *tmp);
+					_alloc.destroy(&(*tmp));
 				}
 			}
 
@@ -361,7 +362,7 @@ namespace ft {
 			{
 				this->_move_range(position, n);
 				for (size_type i = 0; i < n; i++)
-					*(position + i) = val;
+					_alloc.construct(&(*(position + i)), val);
 			}
 
 			/* ranged iterator insert */
@@ -373,7 +374,7 @@ namespace ft {
 		
 				_move_range(position, dist);
 				for (size_type i = 0; i < dist; i++)
-					*(position + i) = *(first + i);
+					_alloc.construct(&(*(position + i)), *(first + i));
 			}
 
 			/* element erase */
