@@ -174,13 +174,31 @@ static void modifier_test()
 	std::cout << empty.at(42) << std::endl;
 	std::cout << empty.size() << std::endl;
 
-/* erase */
+/* range erase */
 	empty.erase(empty.begin(), empty.end() - 1);
 
 /* fill insert */
-	// empty.insert(empty.end() - 1, 1337, "living on the edge");
-	// whats_in_this_vector_yo(empty, "fill insert");
+	empty.insert(empty.end() - 1, 1337, "living on the edge");
+	whats_in_this_vector_yo(empty, "fill insert");
 
+/* element erase */
+	for (size_t i = 0; i < empty.size(); i++)
+		empty.erase(empty.begin() + i);
+	whats_in_this_vector_yo(empty, "elemental erase");
+
+/* Range insert */
+	empty.insert(empty.begin(), vec.begin(), vec.end());
+	whats_in_this_vector_yo(empty, "Ranged insert");
+
+/* clear test */
+	empty.clear();
+	whats_in_this_vector_yo(empty, "clear");
+
+/* swaperoo */
+	empty.insert(empty.begin(), 42, "About to get swapped");
+	empty.swap(vec);
+	whats_in_this_vector_yo(empty, "swap 1");
+	whats_in_this_vector_yo(vec, "swap 2");
 }
 
 void	vector_test() {

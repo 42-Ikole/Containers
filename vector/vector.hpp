@@ -175,6 +175,16 @@ namespace ft {
 					_alloc.destroy(&_arr[i + range]);
 				}
 			}
+
+			template < class U >
+			void	_swap(U &a, U &b)
+			{
+				U tmp;
+
+				tmp = b;
+				b = a;
+				a = tmp;
+			}
 	
 	///////////////
 	// ITERATORS //
@@ -365,7 +375,7 @@ namespace ft {
 					_alloc.construct(&(*(position + i)), val);
 			}
 
-			/* ranged iterator insert */
+			/* range insert */
 			template	<class InputIterator>
 				void 		insert(iterator position, InputIterator first, InputIterator last, 
 					typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
@@ -388,7 +398,7 @@ namespace ft {
 			{
 				difference_type range  = ft::distance(first, last);
 				for (iterator i = first; i != last; i++)
-					this->_alloc.destroy(&(*i));
+					_alloc.destroy(&(*i));
 				this->_move_back_range(first, range);
 				_size -= range;
 				return (first);
@@ -396,8 +406,9 @@ namespace ft {
 
 			void		swap(vector& x)
 			{
-				_size = 0;
-				this->insert(this->begin(), x.begin(), x.end());
+				this->_swap(this->_arr, x._arr);
+				this->_swap(this->_size, x._size);
+				this->_swap(this->_capacity, x._capacity);
 			}
 
 			void		clear()
