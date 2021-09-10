@@ -110,14 +110,14 @@ namespace ft {
 	//////////////////////////////
 		private:
 	
-			void		_destruction(void)
+			void	_destruction(void)
 			{
 				for (; _size > 0;)
 					this->pop_back();
 				_alloc.deallocate(_arr, _capacity);
 			}
 
-			void		_resize(size_type n)
+			void	_resize(size_type n)
 			{
 				if (n <= 0)
 					n = 1;
@@ -129,7 +129,7 @@ namespace ft {
 				this->_realloc(n);
 			}
 
-			void		_realloc(size_type n)
+			void	_realloc(size_type n)
 			{
 				pointer	tmp;
 
@@ -144,12 +144,6 @@ namespace ft {
 				_arr = tmp;
 				_size = i;
 				_capacity = n;
-			}
-
-			void		_move_back_elem(iterator pos)
-			{
-				for (; pos < this->end(); pos++)
-					*pos = *(pos + 1);
 			}
 
 			void	_move_range(iterator &pos, size_type &range)
@@ -171,11 +165,13 @@ namespace ft {
 				}
 			}
 
-			void		_move_back_range(iterator pos, size_type range)
+			void	_move_back_range(iterator pos, size_type range)
 			{
-				for (size_type i = 0; i < range; i++) {
-					*pos = *(pos + range);
-					pos++;
+				size_type i = static_cast<size_type>(ft::distance(this->begin(), pos));
+
+				for (; i < i + range && i + range < _size; i++) {
+					_alloc.construct(&_arr[i], _arr[i + range]);
+					_alloc.destroy(&_arr[i + range]);
 				}
 			}
 	
@@ -380,11 +376,13 @@ namespace ft {
 					*(position + i) = *(first + i);
 			}
 
+			/* element erase */
 			iterator	erase(iterator position)
 			{
 				return (this->erase(position, position + 1));
 			}
 
+			/* ranged erase */
 			iterator	erase(iterator first, iterator last)
 			{
 				difference_type range  = ft::distance(first, last);
