@@ -19,12 +19,22 @@
 // TESTS //
 ///////////
 
-void vector_test();
+void	vector_test();
+void	vector_iterator_test();
 
 /////////////
 // HELPERS //
 /////////////
-void print_header(std::string);
+void	print_header(std::string);
+
+template < class Vec >
+	static void whats_in_this_vector_yo(Vec &vec, std::string test)
+{
+	std::cout << "--[ " << test << " ]--" << std::endl;
+	for (size_t i = 0; i < vec.size(); i++)
+		std::cout << vec[i] << std::endl;
+	std::cout << "size = " << vec.size() << std::endl;
+}
 
 /////////////////////
 // Exception class //

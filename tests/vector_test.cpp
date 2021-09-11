@@ -1,6 +1,8 @@
+
 #include <iostream>
 #include <string>
 #include <iostream>
+#include <tests.hpp>
 #include <tests.hpp>
 
 #ifdef STD
@@ -9,15 +11,6 @@
 #else
 	#include <vector.hpp>
 #endif
-
-template < class Vec >
-	static void whats_in_this_vector_yo(Vec &vec, std::string test)
-{
-	std::cout << "--[ " << test << " ]--" << std::endl;
-	for (size_t i = 0; i < vec.size(); i++)
-		std::cout << vec[i] << std::endl;
-	std::cout << "size = " << vec.size() << std::endl;
-}
 
 /////////////////
 // CONSTRUCTOR //
@@ -98,6 +91,12 @@ static void capacity_test()
 	vec.resize(21, 69);
 	whats_in_this_vector_yo(vec, "after resize tot 21 with 69");
 	std::cout << "is empty = " << vec.empty() << std::endl;
+
+	try {
+		vec.reserve(-1);
+	} catch (std::exception &e) {
+		std::cout << e.what() << std::endl;
+	}
 }
 
 ////////////////////
@@ -143,6 +142,9 @@ static void element_access_test()
 ///////////////
 static void modifier_test()
 {
+
+	print_header("VECTOR Modifier test");
+
 	ft::vector<std::string>				vec(2000, "MANY STRINGS YO");
 	ft::vector<std::string>				empty;
 
@@ -201,10 +203,58 @@ static void modifier_test()
 	whats_in_this_vector_yo(vec, "swap 2");
 }
 
-void	vector_test() {
+struct test {
+	private: 
+		int			_val;
+		std::string	_name;
+	public:
+		test(int val = 0, std::string name = "unknown") : _val(val), _name(name) {}
+		~test() {}
+
+	void	print_test() const {
+		std::cout << "val = " << _val << " name = " << _name << std::endl;
+	}
+};
+
+static void	vector_stress()
+{
+	print_header("VECTOR STRESS TEST");
+
+	ft::vector<test> vectest;
+
+	for (size_t i = 0; i < 42069; i++)
+		vectest.push_back(test(i));
+	for (; vectest.size() > 1337; vectest.pop_back());
+	vectest.insert(vectest.begin(), 250000, test(1, "insert"));
+	
+	ft::vector<test> vecswap;
+	vecswap.swap(vectest);
+	vecswap.erase(vecswap.begin(), vecswap.end() - 2500);
+	vecswap.clear();
+
+	ft::vector<int> vec;
+	vec.reserve(500000);
+	for (size_t i = 0; i < vec.capacity(); i++)
+		vec.push_back(i);
+	
+	vec.resize(25000);
+	vec.resize(13370);
+	vec.insert(vec.begin(), 1337, 420);
+
+	vec.resize(25000);
+	for (size_t i = 0; i < vec.size(); i++)
+		vec[i] = i;
+
+	vec.assign(1337, 69);
+	whats_in_this_vector_yo(vec, "assign");
+}
+
+void	vector_test()
+{
 	constructor_test();
 	iterator_test();
 	capacity_test();
 	element_access_test();
 	modifier_test();
+	vector_stress();
 }

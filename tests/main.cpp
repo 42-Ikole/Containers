@@ -42,5 +42,6 @@ int	main(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 	time_function(vector_test, "vector");
+	// time_function(vector_iterator_test, "vector iterators");
 	// vector_iterator_test();
 }
