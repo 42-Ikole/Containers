@@ -14,7 +14,7 @@
 
 # include <memory>
 # include <string>
-# include <pointer_iterator.hpp>
+# include <array_iterator.hpp>
 # include <iostream>
 # include <stdexcept>
 
@@ -40,8 +40,8 @@ namespace ft {
 			typedef const value_type&																			const_reference;
 			typedef value_type*																					pointer;
 			typedef const value_type*																			const_pointer;
-			typedef ft::pointer_iterator<T, ft::random_access_iterator_tag>										iterator;
-			typedef ft::pointer_iterator<T, ft::random_access_iterator_tag, std::ptrdiff_t, const T*, const T&>	const_iterator;
+			typedef ft::array_iterator<T, ft::random_access_iterator_tag>										iterator;
+			typedef ft::array_iterator<T, ft::random_access_iterator_tag, std::ptrdiff_t, const T*, const T&>	const_iterator;
 			typedef ft::reverse_iterator< iterator >															reverse_iterator;
 			typedef ft::reverse_iterator< const_iterator >														const_reverse_iterator;
 
@@ -134,7 +134,7 @@ namespace ft {
 				pointer	tmp;
 
 				if (n > this->max_size())
-					throw std::length_error(std::to_string(n));
+					throw std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
 				tmp = _alloc.allocate(sizeof(T) * n);
 				size_type i = 0;
 				for (; i < _size && i < n; i++)

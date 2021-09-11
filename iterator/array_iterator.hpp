@@ -15,8 +15,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef POINTER_ITERATOR_HPP
-# define POINTER_ITERATOR_HPP
+#ifndef ARRAY_ITERATOR_HPP
+# define ARRAY_ITERATOR_HPP
 
 # include <cstddef>
 # include <traits.hpp>
@@ -34,7 +34,7 @@ namespace ft {
 
 	template < class T, class Category = ft::random_access_iterator_tag,
 		class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
-	class pointer_iterator : public ft::iterator < Category, T, Distance, Pointer, Reference >
+	class array_iterator : public ft::iterator < Category, T, Distance, Pointer, Reference >
 	{
 	//////////////
 	// Typedefs //
@@ -58,45 +58,45 @@ namespace ft {
 	/////////////////
 	public:
 
-		pointer_iterator(Pointer ptr = NULL) : _ptr(ptr) {}
+		array_iterator(Pointer ptr = NULL) : _ptr(ptr) {}
 
-		pointer_iterator(const pointer_iterator& x) {
+		array_iterator(const array_iterator& x) {
 			*this = x;
 		}
 
-		virtual ~pointer_iterator() {}
+		virtual ~array_iterator() {}
 
 	//////////////////////
 	// Common operators //
 	//////////////////////
 	public:
 
-		pointer_iterator&	operator ++ (/* prefix */) {
+		array_iterator&	operator ++ (/* prefix */) {
 			_ptr++;
 			return (*this);
 		}
 
-		pointer_iterator	operator ++ (int /* postfix */) {
-			pointer_iterator tmp = *this;
+		array_iterator	operator ++ (int /* postfix */) {
+			array_iterator tmp = *this;
 			++(*this);
 			return (tmp);
 		}
 
-		pointer_iterator&	operator  = (const pointer_iterator& x) {
+		array_iterator&	operator  = (const array_iterator& x) {
 			this->_ptr = x._ptr;
 			return (*this);
 		}
 
 	//////////////////////////////
-	// Input pointer_iterator operators //
+	// Input array_iterator operators //
 	//////////////////////////////
 	public:
 
-		bool		operator == (const pointer_iterator& x) {
+		bool		operator == (const array_iterator& x) {
 			return (this->_ptr == x._ptr);			
 		}
 
-		bool		operator != (const pointer_iterator& x) {
+		bool		operator != (const array_iterator& x) {
 			return (this->_ptr != x._ptr);
 		}
 	
@@ -109,64 +109,64 @@ namespace ft {
 		}
 	
 	//////////////////////////////////////
-	// Bidirectional pointer_iterator operators //
+	// Bidirectional array_iterator operators //
 	//////////////////////////////////////
 	public:
 	
-		pointer_iterator&	operator -- (/* prefix */) {
+		array_iterator&	operator -- (/* prefix */) {
 			this->_ptr--;
 			return (*this);
 		}
 
-		pointer_iterator	operator -- (int /* postfix */) {
-			pointer_iterator tmp = *this;
+		array_iterator	operator -- (int /* postfix */) {
+			array_iterator tmp = *this;
 			--(*this);
 			return (tmp);
 		}
 
 	//////////////////////////////////////
-	// Random access pointer_iterator operators //
+	// Random access array_iterator operators //
 	//////////////////////////////////////
 	public:
 
-		pointer_iterator		operator  + (difference_type val) {
-			return (pointer_iterator(this->_ptr + val));
+		array_iterator		operator  + (difference_type val) {
+			return (array_iterator(this->_ptr + val));
 		}
 
-		pointer_iterator		operator  + (const pointer_iterator& x) {
-			return (pointer_iterator(*this + x));
+		array_iterator		operator  + (const array_iterator& x) {
+			return (array_iterator(*this + x));
 		}
 
-		pointer_iterator		operator  - (difference_type val) {
-			return (pointer_iterator(this->_ptr - val));
+		array_iterator		operator  - (difference_type val) {
+			return (array_iterator(this->_ptr - val));
 		}
 
-		difference_type	operator  - (const pointer_iterator& x) {
+		difference_type	operator  - (const array_iterator& x) {
 			return (this->_ptr - x._ptr);
 		}
 
-		bool			operator  < (const pointer_iterator& x) {
+		bool			operator  < (const array_iterator& x) {
 			return (this->_ptr < x._ptr);
 		}
 
-		bool			operator  > (const pointer_iterator& x) {
+		bool			operator  > (const array_iterator& x) {
 			return (this->_ptr > x._ptr);
 		}
 
-		bool			operator <= (const pointer_iterator& x) {
+		bool			operator <= (const array_iterator& x) {
 			return (this->_ptr <= x._ptr);
 		}
 
-		bool			operator >= (const pointer_iterator& x) {
+		bool			operator >= (const array_iterator& x) {
 			return (this->_ptr >= x._ptr);
 		}
 
-		pointer_iterator&		operator += (difference_type val) {
+		array_iterator&		operator += (difference_type val) {
 			this->_ptr += val;
 			return (*this);
 		}
 
-		pointer_iterator&		operator -= (difference_type val) {
+		array_iterator&		operator -= (difference_type val) {
 			this->_ptr -= val;
 			return (*this);
 		}
