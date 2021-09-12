@@ -25,7 +25,7 @@ namespace ft
 // NODE CLASS //
 ////////////////
 
-	template < class T, class Pointer = T*, class Alloc = std::allocator<T> >
+	template < class T, class Alloc = std::allocator<T> >
 		class deque_node {
 			
 	///////////////
@@ -35,7 +35,8 @@ namespace ft
 
 			typedef T				value_type;
 			typedef Alloc			allocator_type;
-			typedef Pointer			pointer;
+			typedef T*				pointer;
+			typedef T&				reference;
 			typedef std::size_t		size_type;
 			typedef deque_node*		node_pointer;
 		
@@ -152,6 +153,22 @@ namespace ft
 				}
 			}
 
+		
+		////////////////////
+		// ELEMENT ACCESS //
+		////////////////////
+		public:
+
+			reference		operator[](size_type n)
+			{
+				return (_arr[n]);
+			}
+
+			const_reference	operator[](size_type n) const
+			{
+				return (_arr[n]);
+			}
+
 	}; /* end of node class */
 
 /////////////////
@@ -174,10 +191,22 @@ namespace ft
 			typedef const value_type&																			const_reference;
 			typedef value_type*																					pointer;
 			typedef const value_type*																			const_pointer;
+			typedef deque_node*																					node_pointer;
+
+			/* GA EEN NODE ITERATOR SCHRIJVEN */
 			typedef ft::array_iterator<T, ft::random_access_iterator_tag>										iterator;
 			typedef ft::array_iterator<T, ft::random_access_iterator_tag, std::ptrdiff_t, const T*, const T&>	const_iterator;
 			typedef ft::reverse_iterator< iterator >															reverse_iterator;
 			typedef ft::reverse_iterator< const_iterator >														const_reverse_iterator;
+
+	//////////////////////
+	// Member variables //
+	//////////////////////
+		private:
+
+			node_pointer	_head;
+			node_pointer	_tail;
+			size_type		_size;
 
 	}; /* end of deque */
 
