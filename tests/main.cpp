@@ -29,6 +29,15 @@ void	print_header(std::string header)
 	std::cout << "-----------------" << std::setw(15) << header << "-----------------" << std::endl;
 }
 
+void	print_type_header(std::string type)
+{
+	#ifdef STD
+		std::cerr << "---------------- std::" << type << " -----------------" << std::endl;
+	#else
+		std::cerr << "----------------  ft::" << type << " -----------------" << std::endl;
+	#endif
+}
+
 void	time_function(void(*func)(), std::string container)
 {
 	std::chrono::steady_clock::time_point start = std::chrono::high_resolution_clock::now();
@@ -42,11 +51,10 @@ void	time_function(void(*func)(), std::string container)
 		std::string namespacename = " ft::";
 	#endif
 
-	std::cerr	<< "==============================\n" \
-				<< COLOR_GREEN	<< namespacename \
-				<< COLOR_BLUE	<< container \
-				<< COLOR_RESET	<< " took: " \
-				<< COLOR_YELLOW	<< std::setw(10) << duration.count() \
+	std::cerr	<< COLOR_GREEN	<< namespacename \
+				<< COLOR_BLUE	<< std::setw(20) << std::left << container \
+				<< COLOR_RESET  << " took: " \
+				<< COLOR_YELLOW	<< std::setw(10) << std::right << duration.count() \
 				<< COLOR_RED	<< "µs" \
 				<< COLOR_RESET	<< std::endl;
 }
@@ -55,7 +63,8 @@ int	main(int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
+	print_type_header("vector");
 	time_function(vector_test, "vector");
-	// time_function(vector_iterator_test, "vector iterators");
+	time_function(vector_iterator_test, "vector iterators");
 	// vector_iterator_test();
 }
