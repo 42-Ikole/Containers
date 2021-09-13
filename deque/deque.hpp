@@ -70,8 +70,9 @@ namespace ft
 				this->_clear();
 			}
 
-			deque_node(cosnt deque_node &x)
+			deque_node(const deque_node &x)
 			{
+				_arr = _alloc.allocate(sizeof(T) * _capacity);
 				*this = x;
 			}
 
@@ -287,12 +288,8 @@ namespace ft
 			deque& operator = (const deque& x)
 			{
 				this->_clear();
+				this->_alloc = x._alloc;
 				this->_size	= x._size;
-				for (node_pointer tmp = x._head; tmp != x._tail; tmp = tmp->_next) {
-					this->_head = tmp;
-					this->_tail = tmp;
-					this->_tail = _tail->next;
-				}
 			}
 
 	//////////////////////////////
