@@ -121,9 +121,6 @@ namespace ft {
 			{
 				if (n <= 0)
 					n = 1;
-				else if (n < _capacity)
-					for (size_type i = _capacity; i > n; i--)
-						this->pop_back();
 				else if (n < (_capacity + (_capacity >> 1)))
 					n = (_capacity + (_capacity >> 1));
 				this->_realloc(n);
@@ -240,9 +237,15 @@ namespace ft {
 
 			void		resize(size_type n, value_type val = value_type())
 			{
-				this->_resize(n);
-				for (size_type i = _size; i < _capacity; i++)
-					this->push_back(val);
+				if (n <= _capacity) {
+					for (size_type i = _capacity; i > n; i--)
+						this->pop_back();
+				}
+				else {
+					this->_resize(n);
+					for (size_type i = _size; i < _capacity; i++)
+						this->push_back(val);
+				}
 			}
 
 			size_type	capacity() const
