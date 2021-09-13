@@ -25,6 +25,8 @@ namespace ft
 // NODE CLASS //
 ////////////////
 
+	# define NODE_CAPACITY 16
+
 	template < class T, class Alloc = std::allocator<T> >
 		class deque_node {
 			
@@ -57,7 +59,8 @@ namespace ft
 	/////////////
 		public:
 
-			deque_node(node_pointer next = NULL, node_pointer prev = NULL) : _next(next), _prev(prev), _size(0), _capacity(16)
+			deque_node(node_pointer next = NULL, node_pointer prev = NULL)
+				: _next(next), _prev(prev), _size(0), _capacity(NODE_CAPACITY)
 			{
 				_arr = _alloc.allocate(sizeof(T) * _capacity);
 			}
@@ -153,6 +156,47 @@ namespace ft
 				}
 			}
 
+			/* fill range */
+			node_pointer	add_range_front(size_type n, value_type val)
+			{
+				node_pointer ret = this;
+			
+				for (; n > 0; n--)
+					node_pointer = add_front(val);
+				return (ret);
+			}
+
+			/* iterator range */
+			template <class InputIterator>
+				node_pointer	add_range_front(InputIterator first, InputIterator last)
+			{
+				node_pointer ret = this;
+			
+				for (; first != last; last--)
+					node_pointer = add_front(*last);
+				return (ret);
+			}
+
+			/* fill range */
+			node_pointer	add_range_back(size_type n, value_type val)
+			{
+				node_pointer ret = this;
+
+				for (; n > 0; n--)
+					ret = add_back(val);
+				return (ret);
+			}
+
+			/* iterator range */
+			template <class InputIterator>
+				node_pointer	add_range_back(InputIterator first, InputIterator last)
+			{
+				node_pointer ret = this;
+			
+				for (; first != last; first++)
+					node_pointer = add_back(*first);
+				return (ret);
+			}
 		
 		////////////////////
 		// ELEMENT ACCESS //
@@ -207,6 +251,60 @@ namespace ft
 			node_pointer	_head;
 			node_pointer	_tail;
 			size_type		_size;
+
+	/////////////
+	// CoPliEn //
+	/////////////
+		public:
+
+			/* default constructor */
+			explicit deque (const allocator_type& alloc = allocator_type())
+				: _alloc(alloc), _head(NULL), _tail(NULL)
+			{
+				this->_allocate_head();
+			}
+
+			explicit deque (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
+				: _alloc(alloc), _head(NULL), _tail(NULL)
+			{
+				this->_allocate_head();
+				_tail = _head->add_range_back(val);
+			}
+
+			template <class InputIterator>
+				deque (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
+					: _alloc(alloc), _head(NULL), _tail(NULL)
+			{
+				this->_allocate_head();
+				_tail = _head->add_range_back(first, last);
+			}
+
+			deque (const deque& x)
+			{
+				*this = x;
+			}
+
+			deque& operator = (const deque& x)
+			{
+				this->_clear();
+				this->_size	= x._size;
+				for (node_pointer tmp = x._head; tmp != x._tail; tmp = tmp->_next) {
+					this->_head = tmp;
+					this->_tail = tmp;
+					this->_tail = _tail->next;
+				}
+			}
+
+	//////////////////////////////
+	// Private member functions //
+	//////////////////////////////
+		private:
+
+			void	_allocate_head()
+			{
+				_head = _alloc.allocate(sizeof(deque_node));
+				_alloc.construct(&_head, deque_node());
+			}
 
 	}; /* end of deque */
 
