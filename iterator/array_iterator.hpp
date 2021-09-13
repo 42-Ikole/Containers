@@ -39,6 +39,11 @@ namespace ft {
 	//////////////
 	// Typedefs //
 	//////////////
+	private:
+
+		typedef ft::array_iterator < T, Category, Distance, T*, T& >				iter;
+		typedef ft::array_iterator < T, Category, Distance, const T*, const T& >	const_iter;
+	
 	public:
 
 		typedef typename itr::value_type		value_type;
@@ -46,7 +51,7 @@ namespace ft {
 		typedef typename itr::pointer			pointer;
 		typedef typename itr::reference			reference;
 		typedef typename itr::iterator_category	iterator_category;
-	
+
 	//////////////////////
 	// Member variables //
 	//////////////////////
@@ -129,15 +134,15 @@ namespace ft {
 	//////////////////////////////////////
 	public:
 
-		array_iterator		operator  + (difference_type val) {
+		array_iterator	operator  + (difference_type val) {
 			return (array_iterator(this->_ptr + val));
 		}
 
-		array_iterator		operator  + (const array_iterator& x) {
+		array_iterator	operator  + (const array_iterator& x) {
 			return (array_iterator(*this + x));
 		}
 
-		array_iterator		operator  - (difference_type val) {
+		array_iterator	operator  - (difference_type val) {
 			return (array_iterator(this->_ptr - val));
 		}
 
@@ -161,18 +166,29 @@ namespace ft {
 			return (this->_ptr >= x._ptr);
 		}
 
-		array_iterator&		operator += (difference_type val) {
+		array_iterator&	operator += (difference_type val) {
 			this->_ptr += val;
 			return (*this);
 		}
 
-		array_iterator&		operator -= (difference_type val) {
+		array_iterator&	operator -= (difference_type val) {
 			this->_ptr -= val;
 			return (*this);
 		}
 
 		reference		operator [] (std::size_t n) {
 			return (*(this->_ptr + n));
+		}
+
+		/* implicit conversion operator yo */
+		operator const_iter() const
+		{
+			return (const_iter(this->_ptr));
+		}
+
+		operator iter() const
+		{
+			return (iter(this->_ptr));
 		}
 
 	}; /* end of iterator class */
