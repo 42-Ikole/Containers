@@ -35,13 +35,13 @@ namespace ft
 	///////////////
 		public:
 
-			typedef T					value_type;
-			typedef Alloc				allocator_type;
-			typedef T*					pointer;
-			typedef T&					reference;
-			typedef const value_type&	const_reference;
-			typedef std::size_t			size_type;
-			typedef deque_node*			node_pointer;
+			typedef T										value_type;
+			typedef Alloc									allocator_type;
+			typedef T*										pointer;
+			typedef T&										reference;
+			typedef const value_type&						const_reference;
+			typedef std::size_t								size_type;
+			typedef deque_node<value_type, allocator_type>	node;
 		
 	//////////////////////
 	// member variables //
@@ -49,8 +49,8 @@ namespace ft
 		private: 
 		
 			allocator_type	_alloc;
-			node_pointer	_next;
-			node_pointer	_prev;
+			node			_next;
+			node			_prev;
 			pointer			_arr;
 			size_type		_size;
 			size_type		_capacity;
@@ -60,7 +60,7 @@ namespace ft
 	/////////////
 		public:
 
-			deque_node(node_pointer next = NULL, node_pointer prev = NULL)
+			deque_node(node &next = NULL, node &prev = NULL)
 				: _next(next), _prev(prev), _size(0), _capacity(NODE_CAPACITY)
 			{
 				_arr = _alloc.allocate(sizeof(T) * _capacity);
@@ -123,7 +123,7 @@ namespace ft
 	/////////////////////////////
 		public:
 
-			node_pointer	add_front(value_type val)
+			node	add_front(value_type val)
 			{
 				if (_size == _capacity)
 				{
@@ -141,7 +141,7 @@ namespace ft
 				}
 			}
 
-			node_pointer	add_back(value_type val)
+			node	add_back(value_type val)
 			{
 				if (_size == _capacity)
 				{
@@ -159,9 +159,9 @@ namespace ft
 			}
 
 			/* fill range */
-			node_pointer	add_range_front(size_type n, value_type val)
+			node	add_range_front(size_type n, value_type val)
 			{
-				node_pointer ret = this;
+				node ret = this;
 			
 				for (; n > 0; n--)
 					ret = add_front(val);
@@ -170,9 +170,9 @@ namespace ft
 
 			/* iterator range */
 			template <class InputIterator>
-				node_pointer	add_range_front(InputIterator first, InputIterator last)
+				node	add_range_front(InputIterator first, InputIterator last)
 			{
-				node_pointer ret = this;
+				node ret = this;
 			
 				for (; first != last; last--)
 					ret = add_front(*last);
@@ -180,9 +180,9 @@ namespace ft
 			}
 
 			/* fill range */
-			node_pointer	add_range_back(size_type n, value_type val)
+			node	add_range_back(size_type n, value_type val)
 			{
-				node_pointer ret = this;
+				node ret = this;
 
 				for (; n > 0; n--)
 					ret = add_back(val);
@@ -191,9 +191,9 @@ namespace ft
 
 			/* iterator range */
 			template <class InputIterator>
-				node_pointer	add_range_back(InputIterator first, InputIterator last)
+				node	add_range_back(InputIterator first, InputIterator last)
 			{
-				node_pointer ret = this;
+				node ret = this;
 			
 				for (; first != last; first++)
 					ret = add_back(*first);
@@ -237,7 +237,6 @@ namespace ft
 			typedef const value_type&																			const_reference;
 			typedef value_type*																					pointer;
 			typedef const value_type*																			const_pointer;
-			typedef deque_node<value_type, allocator_type>*														node_pointer;
 			typedef deque_node<value_type, allocator_type>														node;
 
 			/* GA EEN NODE ITERATOR SCHRIJVEN */
@@ -252,8 +251,8 @@ namespace ft
 		private:
 
 			allocator_type	_alloc;
-			node_pointer	_head;
-			node_pointer	_tail;
+			node	_head;
+			node	_tail;
 			size_type		_size;
 
 	/////////////
@@ -303,11 +302,11 @@ namespace ft
 	//////////////////////////////
 		private:
 
-			node_pointer	_allocate_node(node& new_node = node())
+			node	_allocate_node(const node& new_node = node())
 			{
-				node_pointer ret;
+				node ret;
 
-				ret = _alloc.allocate(sizeof(new_node));
+				ret = _alloc.allocate(sizeof(node));
 				_alloc.construct(&_head, new_node);
 				return (ret);
 			}
