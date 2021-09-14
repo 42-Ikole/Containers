@@ -35,12 +35,13 @@ namespace ft
 	///////////////
 		public:
 
-			typedef T				value_type;
-			typedef Alloc			allocator_type;
-			typedef T*				pointer;
-			typedef T&				reference;
-			typedef std::size_t		size_type;
-			typedef deque_node*		node_pointer;
+			typedef T					value_type;
+			typedef Alloc				allocator_type;
+			typedef T*					pointer;
+			typedef T&					reference;
+			typedef const value_type&	const_reference;
+			typedef std::size_t			size_type;
+			typedef deque_node*			node_pointer;
 		
 	//////////////////////
 	// member variables //
@@ -95,7 +96,7 @@ namespace ft
 			void	_destroy_elements()
 			{
 				for (; _size > 0; _size--)
-					_arr.destroy(&_arr[_size - 1]);
+					_alloc.destroy(&_arr[_size - 1]);
 			}
 
 			void	_clear()
@@ -103,7 +104,7 @@ namespace ft
 				this->_destroy_elements();
 				if (_arr)
 				{
-					_arr.deallocate(_arr, _capacity);
+					_alloc.deallocate(_arr, _capacity);
 					_arr = NULL;
 				}
 			}
@@ -163,7 +164,7 @@ namespace ft
 				node_pointer ret = this;
 			
 				for (; n > 0; n--)
-					node_pointer = add_front(val);
+					ret = add_front(val);
 				return (ret);
 			}
 
@@ -174,7 +175,7 @@ namespace ft
 				node_pointer ret = this;
 			
 				for (; first != last; last--)
-					node_pointer = add_front(*last);
+					ret = add_front(*last);
 				return (ret);
 			}
 
@@ -195,7 +196,7 @@ namespace ft
 				node_pointer ret = this;
 			
 				for (; first != last; first++)
-					node_pointer = add_back(*first);
+					ret = add_back(*first);
 				return (ret);
 			}
 		
@@ -236,7 +237,8 @@ namespace ft
 			typedef const value_type&																			const_reference;
 			typedef value_type*																					pointer;
 			typedef const value_type*																			const_pointer;
-			typedef deque_node*																					node_pointer;
+			typedef deque_node<value_type, allocator_type>*														node_pointer;
+			typedef deque_node<value_type, allocator_type>														node;
 
 			/* GA EEN NODE ITERATOR SCHRIJVEN */
 			typedef ft::array_iterator<T, ft::random_access_iterator_tag>										iterator;
@@ -249,6 +251,7 @@ namespace ft
 	//////////////////////
 		private:
 
+			allocator_type	_alloc;
 			node_pointer	_head;
 			node_pointer	_tail;
 			size_type		_size;
@@ -262,21 +265,22 @@ namespace ft
 			explicit deque (const allocator_type& alloc = allocator_type())
 				: _alloc(alloc), _head(NULL), _tail(NULL)
 			{
-				this->_allocate_head();
+				_head = this->_allocate_node();
+				_tail = _head;
 			}
 
 			explicit deque (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 				: _alloc(alloc), _head(NULL), _tail(NULL)
 			{
-				this->_allocate_head();
-				_tail = _head->add_range_back(val);
+				_head = this->_allocate_node();
+				_tail = _head->add_range_back(n, val);
 			}
 
 			template <class InputIterator>
 				deque (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
 					: _alloc(alloc), _head(NULL), _tail(NULL)
 			{
-				this->_allocate_head();
+				_head = this->_allocate_node();
 				_tail = _head->add_range_back(first, last);
 			}
 
@@ -290,6 +294,8 @@ namespace ft
 				this->_clear();
 				this->_alloc = x._alloc;
 				this->_size	= x._size;
+				for (node i = x._head; i != x._tail; i = i->next)
+					this->_add_node_back(*i);
 			}
 
 	//////////////////////////////
@@ -297,10 +303,23 @@ namespace ft
 	//////////////////////////////
 		private:
 
-			void	_allocate_head()
+			node_pointer	_allocate_node(node& new_node = node())
 			{
-				_head = _alloc.allocate(sizeof(deque_node));
-				_alloc.construct(&_head, deque_node());
+				node_pointer ret;
+
+				ret = _alloc.allocate(sizeof(new_node));
+				_alloc.construct(&_head, new_node);
+				return (ret);
+			}
+
+			void	_add_node_front(node& new_node)
+			{
+				_head = _head->add_front(new_node);
+			}
+
+			void	_add_node_back(node& new_node)
+			{
+				_tail = _tail->add_back(new_node);
 			}
 
 	}; /* end of deque */
