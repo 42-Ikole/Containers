@@ -74,6 +74,61 @@ namespace ft
 				_arr = _alloc.allocate(sizeof(value_type) * NODE_CAPACITY);
 			}
 
+			~node()
+			{
+				this->_clear();
+			}
+
+			node operator = (const node &x)
+			{
+				this->_destroy_elements();
+				for (size_t i = 0; i < x._size; i++)
+					this->_alloc.construct(&_arr[i], x._arr[i]);
+				this->_size		= x._size;
+				this->_capacity	= x._capacity;
+				this->_next		= x._next;
+				this->_prev		= x._prev;
+			}
+
+	//////////////////////////////
+	// PRIVATE MEMBER FUNCTIONS //
+	//////////////////////////////
+		private:
+			
+			void	_destroy_elements()
+			{
+				for (; _size > 0; _size--)
+					_alloc.destroy(&_arr[_size - 1]);
+			}
+
+			void	_clear()
+			{
+				this->_destroy_elements();
+				if (_arr)
+				{
+					_alloc.deallocate(_arr, NODE_CAPACITY);
+					_arr = NULL;
+				}
+			}
+
+			void	_move_elements_forward()
+			{
+				for (size_t i = _size; i > 0; i--)
+				{
+					_alloc.construct(&_arr[i], _arr[i - 1]);
+					_alloc.destroy(&_arr[i - 1]);
+				}
+			}
+
+			void	_move_elements_back()
+			{
+				for (size_t i = 0; i < _size; i++)
+				{
+					_alloc.construct(&_arr[i], _arr[i + 1]);
+					_alloc.destroy(&_arr[i + 1]);
+				}
+			}
+
 	/////////////////////////////
 	// PUBLIC MEMBER FUNCTIONS //
 	/////////////////////////////
@@ -90,7 +145,7 @@ namespace ft
 				}
 				else 
 				{
-					this->_move_elements();
+					this->_move_elements_forward();
 					_alloc.construct(&_arr[_size], val);
 					_size++;
 					return (this);
@@ -120,7 +175,7 @@ namespace ft
 				node_pointer ret = this;
 			
 				for (; n > 0; n--)
-					ret = add_front(val);
+					ret = this->add_front(val);
 				return (ret);
 			}
 
@@ -131,7 +186,7 @@ namespace ft
 				node_pointer ret = this;
 			
 				for (; first != last; last--)
-					ret = add_front(*last);
+					ret = this->add_front(*last);
 				return (ret);
 			}
 
@@ -141,7 +196,7 @@ namespace ft
 				node_pointer ret = this;
 
 				for (; n > 0; n--)
-					ret = add_back(val);
+					ret = this->add_back(val);
 				return (ret);
 			}
 
@@ -152,8 +207,26 @@ namespace ft
 				node_pointer ret = this;
 			
 				for (; first != last; first++)
-					ret = add_back(*first);
+					ret = this->add_back(*first);
 				return (ret);
+			}
+
+
+			void	pop_back()
+			{
+				if (_size <= 0)
+					return ;
+				_size--;
+				_alloc.destroy(&_arr[_size]);
+			}
+
+			void	pop_front()
+			{
+				if (_size <= 0)
+					return ;
+				_size--;
+				_alloc.destroy(&_arr[0]);
+				this->_move_elements_back();
 			}
 		
 		////////////////////
@@ -274,7 +347,75 @@ namespace ft
 				_tail = _tail->add_back(new_node);
 			}
 
+	///////////////
+	// ITERATORS //
+	///////////////
+		public:
+
+			iterator				begin() {
+				return (iterator(_head));
+			}
+
+			const_iterator			begin() const {
+				return (const_iterator(_head));
+			}
 	
+			iterator				end() {
+				return (iterator(_tail));
+			}
+
+			const_iterator			end() const {
+				return (const_iterator(_tail));
+			}
+
+			reverse_iterator		rbegin() {
+				return (reverse_iterator(_tail));
+			}
+
+			const_reverse_iterator	rbegin() const {
+				return (const_reverse_iterator(_tail));
+			}
+
+			reverse_iterator		rend() {
+				return (reverse_iterator(_head));
+			}
+
+			const_reverse_iterator	rend() const {
+				return (const_reverse_iterator(_head));
+			}
+
+	//////////////
+	// CAPACITY //
+	//////////////
+		public:
+
+			size_type	size() const
+			{
+				return (_size);
+			}
+
+			size_type	max_size() const
+			{
+				return (_alloc.max_size());
+			}
+
+			void		resize(size_type n, value_type val = value_type())
+			{
+				if (n <= _size) {
+					for (size_type i = _size; i > n; i--)
+						_tail->pop_back();
+				}
+				else {
+					this->_resize(n);
+					for (size_type i = _size; i < n; i++)
+						this->push_back(val);
+				}
+			}
+
+			bool		empty() const
+			{
+				return (_size == 0);
+			}
 
 		#undef NODE_CAPACITY	
 
