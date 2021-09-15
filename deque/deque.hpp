@@ -21,101 +21,57 @@
 namespace ft
 {
 
-////////////////
-// NODE CLASS //
-////////////////
-
-	# define NODE_CAPACITY 16
+/////////////////
+// DEQUE CLASS //
+/////////////////
 
 	template < class T, class Alloc = std::allocator<T> >
-		class deque_node {
-			
+		class deque {
+
+	#define NODE_CAPACITY	16
+
+	//////////
+	// node //
+	//////////
+	private:
+
+		struct node
+		{
+		
 	///////////////
 	// type defs //
 	///////////////
-		public:
+		private:
 
-			typedef T										value_type;
-			typedef Alloc									allocator_type;
-			typedef T*										pointer;
-			typedef T&										reference;
-			typedef const value_type&						const_reference;
-			typedef std::size_t								size_type;
-			typedef deque_node<value_type, allocator_type>	node;
-		
+			typedef	T				value_type;
+			typedef T*				pointer;
+			typedef const T*		const_pointer;
+			typedef	T&				reference;
+			typedef const T&		const_reference;
+			typedef std::size_t		size_type;
+			typedef node*			node_pointer;
+			typedef Alloc			allocator_type;
+			
 	//////////////////////
 	// member variables //
 	//////////////////////
-		private: 
-		
-			allocator_type	_alloc;
-			node			_next;
-			node			_prev;
+		private:
+
+			node_pointer	_next;
+			node_pointer	_prev;
 			pointer			_arr;
 			size_type		_size;
-			size_type		_capacity;
-	
-	/////////////
-	// CoPlIeN //
-	/////////////
+			allocator_type	_alloc;
+
+	/////////////////////
+	// BOB THE BUILDER //
+	/////////////////////
 		public:
 
-			deque_node(node &next = NULL, node &prev = NULL)
-				: _next(next), _prev(prev), _size(0), _capacity(NODE_CAPACITY)
+			node(node_pointer next = NULL, node_pointer prev = NULL)
+				: _next(next), _prev(prev), _arr(NULL), _size(0)
 			{
-				_arr = _alloc.allocate(sizeof(T) * _capacity);
-			}
-
-			~deque_node ()
-			{
-				this->_clear();
-			}
-
-			deque_node(const deque_node &x)
-			{
-				_arr = _alloc.allocate(sizeof(T) * _capacity);
-				*this = x;
-			}
-
-			deque_node operator = (const deque_node &x)
-			{
-				this->_destroy_elements();
-				for (size_t i = 0; i < x._size; i++)
-					this->_alloc.construct(&_arr[i], x._arr[i]);
-				this->_size		= x._size;
-				this->_capacity	= x._capacity;
-				this->_next		= x._next;
-				this->_prev		= x._prev;
-			}
-
-	//////////////////////////////
-	// PRIVATE MEMBER FUNCTIONS //
-	//////////////////////////////
-		private:
-			
-			void	_destroy_elements()
-			{
-				for (; _size > 0; _size--)
-					_alloc.destroy(&_arr[_size - 1]);
-			}
-
-			void	_clear()
-			{
-				this->_destroy_elements();
-				if (_arr)
-				{
-					_alloc.deallocate(_arr, _capacity);
-					_arr = NULL;
-				}
-			}
-
-			void	_move_elements()
-			{
-				for (size_t i = _size; i > 0; i--)
-				{
-					_alloc.construct(&_arr[i], _arr[i - 1]);
-					_alloc.destroy(&_arr[i - 1]);
-				}
+				_arr = _alloc.allocate(sizeof(value_type) * NODE_CAPACITY);
 			}
 
 	/////////////////////////////
@@ -123,12 +79,12 @@ namespace ft
 	/////////////////////////////
 		public:
 
-			node	add_front(value_type val)
+			node_pointer	add_front(value_type val)
 			{
-				if (_size == _capacity)
+				if (_size == NODE_CAPACITY)
 				{
-					_prev = _alloc.allocate(sizeof(deque_node));
-					_alloc.construct(_prev, deque_node(this, NULL));
+					_prev = _alloc.allocate(sizeof(node));
+					_alloc.construct(_prev, node(this, NULL));
 					_prev->add_front(val);
 					return (_prev);
 				}
@@ -141,12 +97,12 @@ namespace ft
 				}
 			}
 
-			node	add_back(value_type val)
+			node_pointer	add_back(value_type val)
 			{
-				if (_size == _capacity)
+				if (_size == NODE_CAPACITY)
 				{
-					_next = _alloc.allocate(sizeof(deque_node));
-					_alloc.construct(_next, deque_node(NULL, this));
+					_next = _alloc.allocate(sizeof(node));
+					_alloc.construct(_next, node(NULL, this));
 					_next->add_back(val);
 					return (_next);
 				}
@@ -159,9 +115,9 @@ namespace ft
 			}
 
 			/* fill range */
-			node	add_range_front(size_type n, value_type val)
+			node_pointer	add_range_front(size_type n, value_type val)
 			{
-				node ret = this;
+				node_pointer ret = this;
 			
 				for (; n > 0; n--)
 					ret = add_front(val);
@@ -170,9 +126,9 @@ namespace ft
 
 			/* iterator range */
 			template <class InputIterator>
-				node	add_range_front(InputIterator first, InputIterator last)
+				node_pointer	add_range_front(InputIterator first, InputIterator last)
 			{
-				node ret = this;
+				node_pointer ret = this;
 			
 				for (; first != last; last--)
 					ret = add_front(*last);
@@ -180,9 +136,9 @@ namespace ft
 			}
 
 			/* fill range */
-			node	add_range_back(size_type n, value_type val)
+			node_pointer	add_range_back(size_type n, value_type val)
 			{
-				node ret = this;
+				node_pointer ret = this;
 
 				for (; n > 0; n--)
 					ret = add_back(val);
@@ -191,9 +147,9 @@ namespace ft
 
 			/* iterator range */
 			template <class InputIterator>
-				node	add_range_back(InputIterator first, InputIterator last)
+				node_pointer	add_range_back(InputIterator first, InputIterator last)
 			{
-				node ret = this;
+				node_pointer ret = this;
 			
 				for (; first != last; first++)
 					ret = add_back(*first);
@@ -215,14 +171,11 @@ namespace ft
 				return (_arr[n]);
 			}
 
-	}; /* end of node class */
+		}; /* end of node */
 
-/////////////////
-// DEQUE CLASS //
-/////////////////
-
-	template < class T, class Alloc = std::allocator<T> >
-		class deque {
+///////////
+// DEQUE //
+///////////
 
 	///////////////
 	// type defs //
@@ -230,14 +183,14 @@ namespace ft
 		public:
 
 			typedef T																							value_type;
-			typedef Alloc																						allocator_type;
+			typedef std::allocator<node>																		allocator_type;
 			typedef std::size_t																					size_type;
 			typedef std::ptrdiff_t																				difference_type;
 			typedef value_type&																					reference;
 			typedef const value_type&																			const_reference;
 			typedef value_type*																					pointer;
 			typedef const value_type*																			const_pointer;
-			typedef deque_node<value_type, allocator_type>														node;
+			typedef node*																						node_pointer;
 
 			/* GA EEN NODE ITERATOR SCHRIJVEN */
 			typedef ft::array_iterator<T, ft::random_access_iterator_tag>										iterator;
@@ -251,8 +204,8 @@ namespace ft
 		private:
 
 			allocator_type	_alloc;
-			node	_head;
-			node	_tail;
+			node_pointer	_head;
+			node_pointer	_tail;
 			size_type		_size;
 
 	/////////////
@@ -302,24 +255,28 @@ namespace ft
 	//////////////////////////////
 		private:
 
-			node	_allocate_node(const node& new_node = node())
+			node_pointer	_allocate_node(const node& new_node = node())
 			{
-				node ret;
+				node_pointer ret;
 
 				ret = _alloc.allocate(sizeof(node));
-				_alloc.construct(&_head, new_node);
+				_alloc.construct(ret, new_node);
 				return (ret);
 			}
 
-			void	_add_node_front(node& new_node)
+			void			_add_node_front(node& new_node)
 			{
 				_head = _head->add_front(new_node);
 			}
 
-			void	_add_node_back(node& new_node)
+			void			_add_node_back(node& new_node)
 			{
 				_tail = _tail->add_back(new_node);
 			}
+
+	
+
+		#undef NODE_CAPACITY	
 
 	}; /* end of deque */
 
