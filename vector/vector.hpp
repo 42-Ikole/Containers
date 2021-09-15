@@ -112,7 +112,7 @@ namespace ft {
 	
 			void	_destruction(void)
 			{
-				for (; _size > 0;)
+				while (_size > 0)
 					this->pop_back();
 				_alloc.deallocate(_arr, _capacity);
 			}
@@ -238,7 +238,7 @@ namespace ft {
 			void		resize(size_type n, value_type val = value_type())
 			{
 				if (n <= _capacity) {
-					for (size_type i = _capacity; i > n; i--)
+					for (size_type i = _size; i > n; i--)
 						this->pop_back();
 				}
 				else {
@@ -432,7 +432,14 @@ namespace ft {
 				return (_alloc);
 			}
 
-	};
-}
+	}; /* end of vector class */
+
+	template< class T, class Alloc >
+		void swap( std::vector<T,Alloc>& lhs, std::vector<T,Alloc>& rhs )
+	{
+		lhs.swap(rhs);
+	}
+
+} /* end of namespace */
 
 #endif
