@@ -38,6 +38,8 @@
 void	vector_test();
 void	vector_iterator_test();
 
+void	deque_test();
+
 /////////////
 // HELPERS //
 /////////////
@@ -48,8 +50,8 @@ template < class Vec >
 {
 	std::cout << "--[ " << test << " ]--" << std::endl;
 	for (size_t i = 0; i < vec.size(); i++)
-		std::cout << vec[i] << std::endl;
-	std::cout << "size = " << vec.size() << std::endl;
+		std::cout << vec[i] << " ";
+	std::cout << "\nsize = " << vec.size() << std::endl;
 }
 
 /////////////////////

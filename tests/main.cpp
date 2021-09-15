@@ -63,8 +63,12 @@ int	main(int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
+
 	print_type_header("vector");
 	time_function(vector_test, "vector");
 	time_function(vector_iterator_test, "vector iterators");
+
+	print_type_header("deque");
+	time_function(deque_test, "deque");
 	// vector_iterator_test();
 }

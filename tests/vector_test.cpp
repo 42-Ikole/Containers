@@ -18,7 +18,6 @@
 #include <string>
 #include <iostream>
 #include <tests.hpp>
-#include <tests.hpp>
 
 #ifdef STD
 	#include <vector>
