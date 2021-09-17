@@ -41,7 +41,7 @@ namespace ft
 // Has iterator typedefs //
 ///////////////////////////
 
-	template < class T>
+	template < class T >
 		struct has_iterator_typedefs
 	{
 		private:
@@ -94,7 +94,7 @@ namespace ft
 		{};
 
 	/* pointer specialisation */
-	template < class T>
+	template < class T >
 		struct iterator_traits<T*>
 	{
 		typedef T								value_type;
@@ -105,7 +105,7 @@ namespace ft
 	};
 
 	/* const pointer specialisation */
-	template < class T>
+	template < class T >
 		struct iterator_traits<const T*>
 	{
 		typedef T								value_type;
@@ -119,7 +119,7 @@ namespace ft
 // has iterator category //
 ///////////////////////////
 
-	template <class T>
+	template < class T >
 		struct has_iterator_category
 	{
 	private:
@@ -151,22 +151,22 @@ namespace ft
 // is iterator //
 /////////////////
 
-	template <class T>
+	template < class T >
 		struct is_input_iterator
 			: public ft::has_iterator_category_convertible_to<T, ft::input_iterator_tag>
 		{};
 
-	template <class T>
+	template < class T >
 		struct is_forward_iterator
 			: public ft::has_iterator_category_convertible_to<T, ft::forward_iterator_tag>
 		{};
 
-	template <class T>
+	template < class T >
 		struct is_bidirectional_iterator
 			: public ft::has_iterator_category_convertible_to<T, ft::bidirectional_iterator_tag>
 		{};
 
-	template <class T>
+	template < class T >
 		struct is_random_access_iterator
 			: public ft::has_iterator_category_convertible_to<T, ft::random_access_iterator_tag>
 		{};
