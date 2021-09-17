@@ -235,6 +235,16 @@ namespace ft
 				_alloc.destroy(&_arr[0]);
 				this->_move_elements_back();
 			}
+
+			node_pointer	get_next() const
+			{
+				return (_next);
+			}
+
+			node_pointer	get_prev() const
+			{
+				return (_prev);
+			}
 		
 		////////////////////
 		// ELEMENT ACCESS //
@@ -360,7 +370,7 @@ namespace ft
 				_tail = _tail->push_back(new_node);
 			}
 
-			value_type		_get_value(size_type n)
+			reference		_get_value(size_type n)
 			{
 				size_type nidx = n >> NODE_MOD;
 
@@ -368,14 +378,14 @@ namespace ft
 				{
 					node_pointer tmp = _head;
 					for (; nidx > 0; nidx--)
-						tmp = tmp->next;
+						tmp = tmp->get_next();
 					return (tmp[n % NODE_CAPACITY]);
 				}
 				else
 				{
 					node_pointer tmp = _tail;
 					for (; nidx > 0; nidx--)
-						tmp = tmp->prev;
+						tmp = tmp->get_prev();
 					return (tmp[n % NODE_CAPACITY]);
 				}
 			}
