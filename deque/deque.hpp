@@ -15,8 +15,9 @@
 #ifndef DEQUE_HPP
 # define DEQUE_HPP
 
-#include <memory>
-#include <array_iterator.hpp>
+# include <memory>
+# include <array_iterator.hpp> //
+# include <general_helpers.hpp>
 
 namespace ft
 {
@@ -28,11 +29,12 @@ namespace ft
 	template < class T, class Alloc = std::allocator<T> >
 		class deque {
 
-	#define NODE_CAPACITY	16
+	# define NODE_CAPACITY	16
+	# define NODE_MOD		4
 
-	//////////
-	// node //
-	//////////
+//////////
+// node //
+//////////
 	private:
 
 		struct node
@@ -57,11 +59,12 @@ namespace ft
 	//////////////////////
 		private:
 
-			node_pointer	_next;
-			node_pointer	_prev;
-			pointer			_arr;
-			size_type		_size;
-			allocator_type	_alloc;
+			node_pointer			_next;
+			node_pointer			_prev;
+			pointer					_arr;
+			size_type				_size;
+			allocator_type			_alloc;
+			std::allocator<node>	_node_alloc;
 
 	/////////////////////
 	// BOB THE BUILDER //
@@ -69,14 +72,19 @@ namespace ft
 		public:
 
 			node(node_pointer next = NULL, node_pointer prev = NULL)
-				: _next(next), _prev(prev), _arr(NULL), _size(0)
+				: _next(next), _prev(prev), _arr(NULL), _size(0), _alloc(allocator_type())
 			{
-				_arr = _alloc.allocate(sizeof(value_type) * NODE_CAPACITY);
+				_arr = _alloc.allocate(NODE_CAPACITY);
 			}
 
 			~node()
 			{
 				this->_clear();
+			}
+
+			node(const node &x)
+			{
+				*this = x;
 			}
 
 			node operator = (const node &x)
@@ -85,9 +93,9 @@ namespace ft
 				for (size_t i = 0; i < x._size; i++)
 					this->_alloc.construct(&_arr[i], x._arr[i]);
 				this->_size		= x._size;
-				this->_capacity	= x._capacity;
 				this->_next		= x._next;
 				this->_prev		= x._prev;
+				return (*this);
 			}
 
 	//////////////////////////////
@@ -97,6 +105,8 @@ namespace ft
 			
 			void	_destroy_elements()
 			{
+
+				std::cerr << _size << std::endl;
 				for (; _size > 0; _size--)
 					_alloc.destroy(&_arr[_size - 1]);
 			}
@@ -134,48 +144,48 @@ namespace ft
 	/////////////////////////////
 		public:
 
-			node_pointer	add_front(value_type val)
+			node_pointer	push_front(const value_type& val)
 			{
-				if (_size == NODE_CAPACITY)
-				{
-					_prev = _alloc.allocate(sizeof(node));
-					_alloc.construct(_prev, node(this, NULL));
-					_prev->add_front(val);
-					return (_prev);
-				}
-				else 
+				if (_size < NODE_CAPACITY)
 				{
 					this->_move_elements_forward();
 					_alloc.construct(&_arr[_size], val);
 					_size++;
 					return (this);
 				}
+				else 
+				{
+					_prev = _node_alloc.allocate(1);
+					_alloc.construct(_prev, node(this, NULL));
+					_prev->push_front(val);
+					return (_prev);
+				}
 			}
 
-			node_pointer	add_back(value_type val)
+			node_pointer	push_back(const value_type& val)
 			{
-				if (_size == NODE_CAPACITY)
-				{
-					_next = _alloc.allocate(sizeof(node));
-					_alloc.construct(_next, node(NULL, this));
-					_next->add_back(val);
-					return (_next);
-				}
-				else 
+				if (_size < NODE_CAPACITY)
 				{
 					_alloc.construct(&_arr[_size], val);
 					_size++;
 					return (this);
 				}
+				else 
+				{
+					_next = _node_alloc.allocate(1);
+					_alloc.construct(_next, node(NULL, this));
+					_next->push_back(val);
+					return (_next);
+				}
 			}
 
 			/* fill range */
-			node_pointer	add_range_front(size_type n, value_type val)
+			node_pointer	add_range_front(size_type n, const value_type& val)
 			{
 				node_pointer ret = this;
 			
 				for (; n > 0; n--)
-					ret = this->add_front(val);
+					ret = this->push_front(val);
 				return (ret);
 			}
 
@@ -186,17 +196,17 @@ namespace ft
 				node_pointer ret = this;
 			
 				for (; first != last; last--)
-					ret = this->add_front(*last);
+					ret = this->push_front(*last);
 				return (ret);
 			}
 
 			/* fill range */
-			node_pointer	add_range_back(size_type n, value_type val)
+			node_pointer	add_range_back(size_type n, const value_type& val)
 			{
 				node_pointer ret = this;
 
 				for (; n > 0; n--)
-					ret = this->add_back(val);
+					ret = this->push_back(val);
 				return (ret);
 			}
 
@@ -207,23 +217,22 @@ namespace ft
 				node_pointer ret = this;
 			
 				for (; first != last; first++)
-					ret = this->add_back(*first);
+					ret = this->push_back(*first);
 				return (ret);
 			}
 
-
-			void	pop_back()
+			node_pointer	pop_back()
 			{
 				if (_size <= 0)
-					return ;
+					return (_prev);
 				_size--;
 				_alloc.destroy(&_arr[_size]);
 			}
 
-			void	pop_front()
+			node_pointer	pop_front()
 			{
 				if (_size <= 0)
-					return ;
+					return _next;
 				_size--;
 				_alloc.destroy(&_arr[0]);
 				this->_move_elements_back();
@@ -288,10 +297,10 @@ namespace ft
 
 			/* default constructor */
 			explicit deque (const allocator_type& alloc = allocator_type())
-				: _alloc(alloc), _head(NULL), _tail(NULL)
+				: _alloc(alloc), _head(_allocate_node()), _tail(_head)
 			{
-				_head = this->_allocate_node();
-				_tail = _head;
+				// _head = this->_allocate_node();
+				// _tail = _head;
 			}
 
 			explicit deque (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
@@ -328,23 +337,49 @@ namespace ft
 	//////////////////////////////
 		private:
 
+			void			_destruction()
+			{
+				while(_size > 0)
+					this->pop_back();
+			}
+
 			node_pointer	_allocate_node(const node& new_node = node())
 			{
 				node_pointer ret;
 
-				ret = _alloc.allocate(sizeof(node));
+				ret = _alloc.allocate(1);
 				_alloc.construct(ret, new_node);
 				return (ret);
 			}
 
 			void			_add_node_front(node& new_node)
 			{
-				_head = _head->add_front(new_node);
+				_head = _head->push_front(new_node);
 			}
 
 			void			_add_node_back(node& new_node)
 			{
-				_tail = _tail->add_back(new_node);
+				_tail = _tail->push_back(new_node);
+			}
+
+			value_type		_get_value(size_type n)
+			{
+				size_type nidx = n >> NODE_MOD;
+
+				if (_size >> 1 > n)
+				{
+					node_pointer tmp = _head;
+					for (; nidx > 0; nidx--)
+						tmp = tmp->next;
+					return (tmp[n % NODE_CAPACITY]);
+				}
+				else
+				{
+					node_pointer tmp = _tail;
+					for (; nidx > 0; nidx--)
+						tmp = tmp->prev;
+					return (tmp[n % NODE_CAPACITY]);
+				}
 			}
 
 	///////////////
@@ -403,10 +438,9 @@ namespace ft
 			{
 				if (n <= _size) {
 					for (size_type i = _size; i > n; i--)
-						_tail->pop_back();
+						this->pop_back();
 				}
 				else {
-					this->_resize(n);
 					for (size_type i = _size; i < n; i++)
 						this->push_back(val);
 				}
@@ -417,7 +451,145 @@ namespace ft
 				return (_size == 0);
 			}
 
-		#undef NODE_CAPACITY	
+
+	////////////////////
+	// ELEMENT ACCESS //
+	////////////////////
+		public:
+
+			reference		operator[](size_type n)
+			{
+				return (_get_value(n));
+			}
+
+			const_reference	operator[](size_type n) const
+			{
+				return (_get_value(n));
+			}
+
+			reference		at(size_type n)
+			{
+				if (n < 0 || n >= _size)
+					throw std::out_of_range("deque");
+				return (_get_value(n));
+			}
+
+			const_reference	at(size_type n) const
+			{
+				if (n < 0 || n > _size)
+					throw std::out_of_range("deque");
+				return (_get_value(n));
+			}
+
+			reference		front()
+			{
+				return (_get_value(0));
+			}
+
+			const_reference	front() const
+			{
+				return (_get_value(0));
+			}
+
+			reference		back()
+			{
+				return (_get_value(_size - 1));
+			}
+
+			const_reference	back() const
+			{
+				return (_get_value(_size - 1));
+			}
+
+	///////////////
+	// MODIFIERS //
+	///////////////
+	public:
+
+		/* iterator range assign */
+		template	<class InputIterator>
+			void		assign(InputIterator first, InputIterator last,
+				typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
+			{
+				this->clear();
+				while (first != last)
+				{
+					this->push_back(*first);
+					first++;
+				}
+			}
+
+			/* fill assign */
+			void		assign(size_type n, const value_type& val)
+			{
+				this->clear();
+				for (; n > 0; n--)
+					this->push_back(val);
+			}
+
+			void		push_back(const value_type& val)
+			{
+				_tail = _tail->push_back(val);
+				_size++;
+			}
+
+			void		pop_back()
+			{
+				if (_size <= 0)
+					return ;
+				_tail = _tail->pop_back();
+				_size--;
+			}
+
+			void		push_front(const value_type& val)
+			{
+				_head = _head->push_front(val);
+				_size++;
+			}
+
+			void		pop_front()
+			{
+				if (_size <= 0)
+					return ;
+				_size--;
+				_head = _head->pop_front();
+			}
+
+			/*
+			** INSERT MAKES NO SENSE IN DEQUE!
+			*/
+
+			/*
+			** ERASE ALSO MAKES NO SENSE AT ALL :/
+			*/
+
+			void		swap(deque& x)
+			{
+				ft::value_swap(this->_head, x._head);
+				ft::value_swap(this->_tail, x._tail);
+				ft::value_swap(this->_size, x._size);
+			}
+
+			void		clear()
+			{
+				_destruction();
+				_head = NULL;
+				_tail = NULL;
+				_size = 0;
+			}
+
+	///////////////
+	// ALLOCATOR //
+	///////////////
+		public:
+
+			allocator_type	get_allocator() const
+			{
+				return (_head->_alloc);
+			}
+
+		# undef NODE_CAPACITY
+		# undef NODE_MOD
 
 	}; /* end of deque */
 
