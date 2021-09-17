@@ -83,18 +83,18 @@ namespace ft
 			}
 
 			node(const node &x)
+				: _next(NULL), _prev(NULL), _arr(NULL), _size(0), _alloc(allocator_type()) 
 			{
+				_arr = _alloc.allocate(NODE_CAPACITY);
 				*this = x;
 			}
 
-			node operator = (const node &x)
+			node& operator = (const node &x)
 			{
 				this->_destroy_elements();
+				this->_size	= x._size;
 				for (size_t i = 0; i < x._size; i++)
 					this->_alloc.construct(&_arr[i], x._arr[i]);
-				this->_size		= x._size;
-				this->_next		= x._next;
-				this->_prev		= x._prev;
 				return (*this);
 			}
 
@@ -105,8 +105,6 @@ namespace ft
 			
 			void	_destroy_elements()
 			{
-
-				std::cerr << _size << std::endl;
 				for (; _size > 0; _size--)
 					_alloc.destroy(&_arr[_size - 1]);
 			}
