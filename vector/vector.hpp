@@ -17,6 +17,7 @@
 # include <array_iterator.hpp>
 # include <iostream>
 # include <stdexcept>
+# include <general_helpers.hpp>
 
 namespace ft {
 
@@ -171,16 +172,6 @@ namespace ft {
 					_alloc.construct(&_arr[i], _arr[i + range]);
 					_alloc.destroy(&_arr[i + range]);
 				}
-			}
-
-			template < class U >
-			void	_swap(U &a, U &b)
-			{
-				U tmp;
-
-				tmp = b;
-				b = a;
-				a = tmp;
 			}
 	
 	///////////////
@@ -409,9 +400,9 @@ namespace ft {
 
 			void		swap(vector& x)
 			{
-				this->_swap(this->_arr, x._arr);
-				this->_swap(this->_size, x._size);
-				this->_swap(this->_capacity, x._capacity);
+				ft::value_swap(this->_arr, x._arr);
+				ft::value_swap(this->_size, x._size);
+				ft::value_swap(this->_capacity, x._capacity);
 			}
 
 			void		clear()
