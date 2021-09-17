@@ -128,7 +128,7 @@ static void element_access_test()
 	whats_in_this_vector_yo(vec, "1 till 1337");
 
 /* subscript operator */
-	int j = vec.size();
+	int j = vec.size() - 1;
 	for (int i = 0; i != j; i++)
 		vec[j] = vec[i];
 	whats_in_this_vector_yo(vec, "reversed the vector");

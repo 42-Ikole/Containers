@@ -33,7 +33,24 @@ static void	constructor_test()
 	ft::deque<int> nice;
 }
 
+static void	capacity_test()
+{
+
+}
+
+static void	modifier_test()
+{
+	print_header("DEQUE MODIFIER");
+	ft::deque<int> deq;
+
+	for(int i = 0; i < 42; i++)
+		deq.push_back(i);
+	whats_in_this_deque_yo(deq, "42");
+}
+
 void		deque_test()
 {
 	constructor_test();
+	capacity_test();
+	modifier_test();
 }
