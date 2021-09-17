@@ -99,8 +99,7 @@ namespace ft {
 					this->clear();
 				this->_size = x._size;
 				this->_capacity = x._capacity;
-				this->_alloc = x._alloc;
-				this->_arr = this->_alloc.allocate(sizeof(T) * x._capacity);
+				this->_arr = this->_alloc.allocate(x._capacity);
 				for (size_type i = 0; i < x._size; i++)
 					this->_alloc.construct(&this->_arr[i], x._arr[i]);
 				return (*this);
@@ -133,7 +132,7 @@ namespace ft {
 
 				if (n > this->max_size())
 					throw std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
-				tmp = _alloc.allocate(sizeof(T) * n);
+				tmp = _alloc.allocate(n);
 				size_type i = 0;
 				for (; i < _size && i < n; i++)
 					_alloc.construct(&tmp[i], _arr[i]);
