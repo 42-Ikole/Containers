@@ -57,7 +57,7 @@ namespace ft
 	//////////////////////
 	// member variables //
 	//////////////////////
-		private:
+		public:
 
 			node_pointer			_next;
 			node_pointer			_prev;
@@ -235,16 +235,6 @@ namespace ft
 				_alloc.destroy(&_arr[0]);
 				this->_move_elements_back();
 			}
-
-			node_pointer	get_next() const
-			{
-				return (_next);
-			}
-
-			node_pointer	get_prev() const
-			{
-				return (_prev);
-			}
 		
 		////////////////////
 		// ELEMENT ACCESS //
@@ -305,22 +295,19 @@ namespace ft
 
 			/* default constructor */
 			explicit deque (const allocator_type& alloc = allocator_type())
-				: _alloc(alloc), _head(_allocate_node()), _tail(_head)
+				: _alloc(alloc), _head(_allocate_node()), _tail(_head), _size(0)
 			{
-				// _head = this->_allocate_node();
-				// _tail = _head;
 			}
 
 			explicit deque (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
-				: _alloc(alloc), _head(NULL), _tail(NULL)
+				: _alloc(alloc), _head(_allocate_node()), _tail(NULL), _size(0)
 			{
-				_head = this->_allocate_node();
 				_tail = _head->add_range_back(n, val);
 			}
 
 			template <class InputIterator>
 				deque (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
-					: _alloc(alloc), _head(NULL), _tail(NULL)
+					: _alloc(alloc), _head(NULL), _tail(NULL), _size(0)
 			{
 				_head = this->_allocate_node();
 				_tail = _head->add_range_back(first, last);
@@ -370,24 +357,24 @@ namespace ft
 				_tail = _tail->push_back(new_node);
 			}
 
-			reference		_get_value(size_type n)
+			reference		_get_value(size_type n) const
 			{
-				size_type nidx = n >> NODE_MOD;
+				size_type		nidx = n >> NODE_MOD;
+				node_pointer	tmp;
 
 				if (_size >> 1 > n)
 				{
-					node_pointer tmp = _head;
+					tmp = _head;
 					for (; nidx > 0; nidx--)
-						tmp = tmp->get_next();
-					return (tmp[n % NODE_CAPACITY]);
+						tmp = tmp->_next;
 				}
 				else
 				{
-					node_pointer tmp = _tail;
+					tmp = _tail;
 					for (; nidx > 0; nidx--)
-						tmp = tmp->get_prev();
-					return (tmp[n % NODE_CAPACITY]);
+						tmp = tmp->_prev;
 				}
+				return (tmp->_arr[n % NODE_CAPACITY]);
 			}
 
 	///////////////
