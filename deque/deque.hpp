@@ -93,6 +93,8 @@ namespace ft
 			{
 				this->_destroy_elements();
 				this->_size	= x._size;
+				this->_next = x._next;
+				this->_prev	= x._prev;
 				for (size_t i = 0; i < x._size; i++)
 					this->_alloc.construct(&_arr[i], x._arr[i]);
 				return (*this);
@@ -147,7 +149,7 @@ namespace ft
 				if (_size < NODE_CAPACITY)
 				{
 					this->_move_elements_forward();
-					_alloc.construct(&_arr[_size], val);
+					_alloc.construct(&_arr[0], val);
 					_size++;
 					return (this);
 				}
@@ -359,10 +361,10 @@ namespace ft
 
 			reference		_get_value(size_type n) const
 			{
-				size_type		nidx = n >> NODE_MOD;
+				size_type		nidx	= n >> NODE_MOD;
 				node_pointer	tmp;
 
-				if (_size >> 1 > n)
+				if (_size >> 1 >= n)
 				{
 					tmp = _head;
 					for (; nidx > 0; nidx--)
@@ -370,6 +372,7 @@ namespace ft
 				}
 				else
 				{
+					nidx = (_size >> NODE_MOD) - nidx;
 					tmp = _tail;
 					for (; nidx > 0; nidx--)
 						tmp = tmp->_prev;
