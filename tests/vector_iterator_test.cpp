@@ -54,7 +54,7 @@ static void vector_iterator_functions()
 	std::cout << "Const end: " << *citr << std::endl;
 	// std::cout << "Reverse end: " << *ritr << std::endl;
 	// std::cout << "Const reverse end: " << *critr << std::endl;
-	whats_in_this_vector_yo(vec, "iterator functions");
+	whats_in_this_container_yo(vec, "iterator functions");
 }
 
 void	vector_iterator_test()

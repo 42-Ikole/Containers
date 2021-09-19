@@ -45,7 +45,10 @@ static void	modifier_test()
 
 	for(int i = 0; i < 42; i++)
 		deq.push_back(i);
-	whats_in_this_deque_yo(deq, "42");
+	whats_in_this_container_yo(deq, "42");
+	for (int i = 0; i < 12; i++)
+		deq.push_front(i);
+	whats_in_this_container_yo(deq, "42069");
 }
 
 void		deque_test()

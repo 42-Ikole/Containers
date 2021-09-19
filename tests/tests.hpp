@@ -46,16 +46,7 @@ void	deque_test();
 void	print_header(std::string);
 
 template < class Vec >
-	static void whats_in_this_vector_yo(Vec &vec, std::string test)
-{
-	std::cout << "--[ " << test << " ]--" << std::endl;
-	for (size_t i = 0; i < vec.size(); i++)
-		std::cout << vec[i] << " ";
-	std::cout << "\nsize = " << vec.size() << std::endl;
-}
-
-template < class Vec >
-	static void whats_in_this_deque_yo(Vec &vec, std::string test)
+	static void whats_in_this_container_yo(Vec &vec, std::string test)
 {
 	std::cout << "--[ " << test << " ]--" << std::endl;
 	for (size_t i = 0; i < vec.size(); i++)

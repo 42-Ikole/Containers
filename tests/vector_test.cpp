@@ -35,27 +35,27 @@ static void constructor_test()
 
 /* default constructor */
 	ft::vector<int> default_constructor;
-	whats_in_this_vector_yo(default_constructor, "default constructor");
+	whats_in_this_container_yo(default_constructor, "default constructor");
 
 /* set allocator */
 	ft::vector<std::string, std::allocator<std::string>> set_allocator;
-	whats_in_this_vector_yo(set_allocator, "set allocater");
+	whats_in_this_container_yo(set_allocator, "set allocater");
 
 /* fill constructor */
 	ft::vector<unsigned char> fill_constructor(42, 'a');
-	whats_in_this_vector_yo(fill_constructor, "fill constructor");
+	whats_in_this_container_yo(fill_constructor, "fill constructor");
 
 /* range constructor */
 	ft::vector<unsigned char> range_constructor(fill_constructor.begin(), fill_constructor.end() - 21);
-	whats_in_this_vector_yo(range_constructor, "range constructor");
+	whats_in_this_container_yo(range_constructor, "range constructor");
 
 /* copy constructor */
 	ft::vector<unsigned char> copy_constructor(range_constructor);
-	whats_in_this_vector_yo(copy_constructor, "copy constructor");
+	whats_in_this_container_yo(copy_constructor, "copy constructor");
 
 /* assigantion operator */
 	ft::vector<unsigned char> assignation = copy_constructor;
-	whats_in_this_vector_yo(assignation, "assignation operator");
+	whats_in_this_container_yo(assignation, "assignation operator");
 	std::cout << "capacity = " << assignation.capacity() << std::endl;
 }
 
@@ -89,21 +89,21 @@ static void capacity_test()
 	print_header("VECTOR CAPACITY");
 
 	ft::vector<int>	vec;
-	whats_in_this_vector_yo(vec, "empty vector");
+	whats_in_this_container_yo(vec, "empty vector");
 	std::cout << "max_size = " << vec.max_size() << std::endl;
 	std::cout << "is empty = " << vec.empty() << std::endl;
 
 	vec.reserve(42);
-	whats_in_this_vector_yo(vec, "after reserve for 42");
+	whats_in_this_container_yo(vec, "after reserve for 42");
 	std::cout << "capacity = " << vec.capacity() << std::endl;
 	std::cout << "is empty = " << vec.empty() << std::endl;\
 
 	vec.resize(69, 420);
-	whats_in_this_vector_yo(vec, "after resize tot 69 with 420");
+	whats_in_this_container_yo(vec, "after resize tot 69 with 420");
 	std::cout << "is empty = " << vec.empty() << std::endl;
 
 	vec.resize(21, 69);
-	whats_in_this_vector_yo(vec, "after resize tot 21 with 69");
+	whats_in_this_container_yo(vec, "after resize tot 21 with 69");
 	std::cout << "is empty = " << vec.empty() << std::endl;
 
 	try {
@@ -125,13 +125,13 @@ static void element_access_test()
 
 	for (int i = 0; i < 1337; i++)
 		vec.push_back(i);
-	whats_in_this_vector_yo(vec, "1 till 1337");
+	whats_in_this_container_yo(vec, "1 till 1337");
 
 /* subscript operator */
 	int j = vec.size() - 1;
 	for (int i = 0; i != j; i++)
 		vec[j] = vec[i];
-	whats_in_this_vector_yo(vec, "reversed the vector");
+	whats_in_this_container_yo(vec, "reversed the vector");
 
 /* at */
 	try {
@@ -166,7 +166,7 @@ static void modifier_test()
 	ft::vector<std::string>::iterator	first = vec.begin() + 42;
 	ft::vector<std::string>::iterator	last = vec.begin() + 1337;
 	empty.assign(first, last);
-	whats_in_this_vector_yo(empty, "iterator range assign");
+	whats_in_this_container_yo(empty, "iterator range assign");
 
 /* fill assign */
 	std::string assigned("we just got assigned yo");
@@ -178,12 +178,12 @@ static void modifier_test()
 /* push back */
 	for (size_t i = 0; i < 6969; i++)
 		empty.push_back(std::to_string(i));
-	whats_in_this_vector_yo(empty, "had to do a lot of pushing for this");
+	whats_in_this_container_yo(empty, "had to do a lot of pushing for this");
 
 /* pop back */
 	for (size_t i = 0; i < 6969; i++)
 		empty.pop_back();
-	whats_in_this_vector_yo(empty, "POP");
+	whats_in_this_container_yo(empty, "POP");
 
 /* insert */
 	empty.insert(empty.begin() + 42, "LEGENDARY");
@@ -195,26 +195,26 @@ static void modifier_test()
 
 /* fill insert */
 	empty.insert(empty.end() - 1, 1337, "living on the edge");
-	whats_in_this_vector_yo(empty, "fill insert");
+	whats_in_this_container_yo(empty, "fill insert");
 
 /* element erase */
 	for (size_t i = 0; i < empty.size(); i++)
 		empty.erase(empty.begin() + i);
-	whats_in_this_vector_yo(empty, "elemental erase");
+	whats_in_this_container_yo(empty, "elemental erase");
 
 /* Range insert */
 	empty.insert(empty.begin(), vec.begin(), vec.end());
-	whats_in_this_vector_yo(empty, "Ranged insert");
+	whats_in_this_container_yo(empty, "Ranged insert");
 
 /* clear test */
 	empty.clear();
-	whats_in_this_vector_yo(empty, "clear");
+	whats_in_this_container_yo(empty, "clear");
 
 /* swaperoo */
 	empty.insert(empty.begin(), 42, "About to get swapped");
 	empty.swap(vec);
-	whats_in_this_vector_yo(empty, "swap 1");
-	whats_in_this_vector_yo(vec, "swap 2");
+	whats_in_this_container_yo(empty, "swap 1");
+	whats_in_this_container_yo(vec, "swap 2");
 }
 
 struct test {
@@ -260,7 +260,7 @@ static void	vector_stress()
 		vec[i] = i;
 
 	vec.assign(1337, 69);
-	whats_in_this_vector_yo(vec, "assign");
+	whats_in_this_container_yo(vec, "assign");
 }
 
 void	vector_test()
