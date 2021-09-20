@@ -45,13 +45,13 @@ void	deque_test();
 /////////////
 void	print_header(std::string);
 
-template < class Vec >
-	static void whats_in_this_container_yo(Vec &vec, std::string test)
+template < class Con >
+	static void whats_in_this_container_yo(Con &con, std::string test)
 {
-	std::cout << "--[ " << test << " ]--" << std::endl;
-	for (size_t i = 0; i < vec.size(); i++)
-		std::cout << vec[i] << " ";
-	std::cout << "\nsize = " << vec.size() << std::endl;
+	std::cout << "\n--[ " << test << " ]--" << std::endl;
+	std::cout << "\nsize = " << con.size() << std::endl;
+	for (size_t i = 0; i < con.size(); i++)
+		std::cout << con[i] << " ";
 }
 
 /////////////////////
