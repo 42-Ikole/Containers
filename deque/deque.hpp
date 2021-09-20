@@ -111,8 +111,8 @@ namespace ft
 			{
 				_capacity = 4096;
 
-				if (16 * sizeof(value_type) > _capacity)
-					_capacity = 16;
+				// if ((16 * sizeof(value_type)) > _capacity)
+				// 	_capacity = 16;
 				_arr = _alloc.allocate(_capacity);
 			}
 			
@@ -374,12 +374,12 @@ namespace ft
 				node_pointer	tmp;
 
 				tmp = _head;
-				for (; n >= tmp->_size;) {
+				while (n >= tmp->_size) {
 					n -= tmp->_size;
 					tmp = tmp->_next;
 				}
 				if (tmp->_reverse == true)
-					n = tmp->_size - n;
+					n = tmp->_size - n - 1;
 				return (tmp->_arr[n]);
 			}
 
@@ -460,46 +460,46 @@ namespace ft
 
 			reference		operator[](size_type n)
 			{
-				return (_get_value(n));
+				return (this->_get_value(n));
 			}
 
 			const_reference	operator[](size_type n) const
 			{
-				return (_get_value(n));
+				return (this->_get_value(n));
 			}
 
 			reference		at(size_type n)
 			{
 				if (n < 0 || n >= _size)
 					throw std::out_of_range("deque");
-				return (_get_value(n));
+				return (this->_get_value(n));
 			}
 
 			const_reference	at(size_type n) const
 			{
 				if (n < 0 || n > _size)
 					throw std::out_of_range("deque");
-				return (_get_value(n));
+				return (this->_get_value(n));
 			}
 
 			reference		front()
 			{
-				return (_get_value(0));
+				return (this->_get_value(0));
 			}
 
 			const_reference	front() const
 			{
-				return (_get_value(0));
+				return (this->_get_value(0));
 			}
 
 			reference		back()
 			{
-				return (_get_value(_size - 1));
+				return (this->_get_value(_size - 1));
 			}
 
 			const_reference	back() const
 			{
-				return (_get_value(_size - 1));
+				return (this->_get_value(_size - 1));
 			}
 
 	///////////////
