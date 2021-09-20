@@ -29,9 +29,6 @@ namespace ft
 	template < class T, class Alloc = std::allocator<T> >
 		class deque {
 
-	# define NODE_CAPACITY	16
-	# define NODE_MOD		4
-
 //////////
 // node //
 //////////
@@ -63,18 +60,21 @@ namespace ft
 			node_pointer			_prev;
 			pointer					_arr;
 			size_type				_size;
+			size_type				_capacity;
 			allocator_type			_alloc;
 			std::allocator<node>	_node_alloc;
+			bool					_reverse;
 
 	/////////////////////
 	// BOB THE BUILDER //
 	/////////////////////
 		public:
 
-			node(node_pointer next = NULL, node_pointer prev = NULL)
+			node(node_pointer next = NULL, node_pointer prev = NULL, bool reverse = false)
 				: _next(next), _prev(prev), _arr(NULL), _size(0), _alloc(allocator_type())
 			{
-				_arr = _alloc.allocate(NODE_CAPACITY);
+				_reverse = reverse;
+				this->_allocate_array();
 			}
 
 			~node()
@@ -82,19 +82,21 @@ namespace ft
 				this->_clear();
 			}
 
-			node(const node &x)
+			node(const node &x, bool reverse = false)
 				: _next(NULL), _prev(NULL), _arr(NULL), _size(0), _alloc(allocator_type()) 
 			{
-				_arr = _alloc.allocate(NODE_CAPACITY);
+				_reverse = reverse;
+				this->_allocate_array();
 				*this = x;
 			}
 
 			node& operator = (const node &x)
 			{
 				this->_destroy_elements();
-				this->_size	= x._size;
-				this->_next = x._next;
-				this->_prev	= x._prev;
+				this->_size		= x._size;
+				this->_next		= x._next;
+				this->_prev		= x._prev;
+				this->_reverse	= x._reverse;
 				for (size_t i = 0; i < x._size; i++)
 					this->_alloc.construct(&_arr[i], x._arr[i]);
 				return (*this);
@@ -104,6 +106,15 @@ namespace ft
 	// PRIVATE MEMBER FUNCTIONS //
 	//////////////////////////////
 		private:
+
+			void	_allocate_array()
+			{
+				_capacity = 4096;
+
+				if (16 * sizeof(value_type) > _capacity)
+					_capacity = 16;
+				_arr = _alloc.allocate(_capacity);
+			}
 			
 			void	_destroy_elements()
 			{
@@ -116,7 +127,7 @@ namespace ft
 				this->_destroy_elements();
 				if (_arr)
 				{
-					_alloc.deallocate(_arr, NODE_CAPACITY);
+					_alloc.deallocate(_arr, _capacity);
 					_arr = NULL;
 				}
 			}
@@ -146,17 +157,16 @@ namespace ft
 
 			node_pointer	push_front(const value_type& val)
 			{
-				if (_size < NODE_CAPACITY)
+				if (_size < _capacity && _reverse == true)
 				{
-					this->_move_elements_forward();
-					_alloc.construct(&_arr[0], val);
+					_alloc.construct(&_arr[_size], val);
 					_size++;
 					return (this);
 				}
 				else 
 				{
 					_prev = _node_alloc.allocate(1);
-					_alloc.construct(_prev, node(this, NULL));
+					_alloc.construct(_prev, node(this, NULL, true));
 					_prev->push_front(val);
 					return (_prev);
 				}
@@ -164,7 +174,7 @@ namespace ft
 
 			node_pointer	push_back(const value_type& val)
 			{
-				if (_size < NODE_CAPACITY)
+				if (_size < _capacity)
 				{
 					_alloc.construct(&_arr[_size], val);
 					_size++;
@@ -359,25 +369,18 @@ namespace ft
 				_tail = _tail->push_back(new_node);
 			}
 
-			reference		_get_value(size_type n) const
+			reference		_get_value(size_type& n) const
 			{
-				size_type		nidx	= n >> NODE_MOD;
 				node_pointer	tmp;
 
-				if (_size >> 1 >= n)
-				{
-					tmp = _head;
-					for (; nidx > 0; nidx--)
-						tmp = tmp->_next;
+				tmp = _head;
+				for (; n >= tmp->_size;) {
+					n -= tmp->_size;
+					tmp = tmp->_next;
 				}
-				else
-				{
-					nidx = (_size >> NODE_MOD) - nidx;
-					tmp = _tail;
-					for (; nidx > 0; nidx--)
-						tmp = tmp->_prev;
-				}
-				return (tmp->_arr[n % NODE_CAPACITY]);
+				if (tmp->_reverse == true)
+					n = tmp->_size - n;
+				return (tmp->_arr[n]);
 			}
 
 	///////////////
@@ -585,9 +588,6 @@ namespace ft
 			{
 				return (_head->_alloc);
 			}
-
-		# undef NODE_CAPACITY
-		# undef NODE_MOD
 
 	}; /* end of deque */
 
