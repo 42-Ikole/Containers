@@ -259,24 +259,24 @@ namespace ft {
 	////////////////////
 		public:
 
-			reference		operator[](size_type n)
+			reference		operator[](size_type& n)
 			{
 				return (_arr[n]);
 			}
 
-			const_reference	operator[](size_type n) const
+			const_reference	operator[](size_type& n) const
 			{
 				return (_arr[n]);
 			}
 
-			reference		at(size_type n)
+			reference		at(size_type& n)
 			{
 				if (n < 0 || n >= _size)
 					throw std::out_of_range("vector");
 				return (_arr[n]);
 			}
 
-			const_reference	at(size_type n) const
+			const_reference	at(size_type& n) const
 			{
 				if (n < 0 || n > _size)
 					throw std::out_of_range("vector");
