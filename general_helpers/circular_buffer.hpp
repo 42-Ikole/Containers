@@ -85,8 +85,7 @@ namespace ft {
 					this->_head		= x._head;
 					this->_tail		= x._tail;
 					this->_capacity = x._capacity;
-					for (size_type	i = x._head; i % x._capacity != x._tail; i++)
-						this->_construct_element(i, x._arr[i]);
+					return (*this);
 				}
 
 		//////////////////////////////
@@ -96,7 +95,7 @@ namespace ft {
 
 				void	_construct_element(size_type& idx, reference val)
 				{
-					_alloc.construct(&arr[idx], val);
+					_alloc.construct(&_arr[idx], val);
 				}
 
 				void	_destroy_elements()
@@ -153,9 +152,14 @@ namespace ft {
 		//////////////
 			public:
 			
-				bool	is_full()
+				bool		is_full()
 				{
 					return (_head == _tail);
+				}
+
+				size_type	size()
+				{
+					return (_capacity - std::abs(_head - _tail));
 				}
 
 		////////////////////
@@ -165,12 +169,12 @@ namespace ft {
 
 				reference operator[](const size_type& n)
 				{
-					return (_arr[(_head + n) % _capacity])
+					return (_arr[(_head + n) % _capacity]);
 				}
 
 				reference operator[](const size_type& n) const
 				{
-					return (_arr[(_head + n) % _capacity])
+					return (_arr[(_head + n) % _capacity]);
 				}
 
 			}; /* end of circular buffer */

@@ -18,8 +18,7 @@
 # include <memory>
 # include <array_iterator.hpp> //
 # include <general_helpers.hpp>
-# include <circular_buffer.hpp>
-# include <deque> //
+# include <linke_list.hpp>
 
 namespace ft
 {
@@ -44,6 +43,9 @@ namespace ft
 			typedef const value_type&																			const_reference;
 			typedef value_type*																					pointer;
 			typedef const value_type*																			const_pointer;
+			typedef linke_list<T>																				node;
+			typedef node*																						node_pointer;
+			typedef std::allocator<node>																		node_allocator_type;
 
 			/* GA EEN NODE ITERATOR SCHRIJVEN */
 			typedef ft::array_iterator<T, ft::random_access_iterator_tag>										iterator;
@@ -56,145 +58,145 @@ namespace ft
 	//////////////////////
 		private:
 
-			allocator_type	_alloc;
-
-
-		////////////////
-		// LINKE LIST //
-		////////////////
-		protected:
-
-			struct linke_list
-			{
-			///////////////
-			// TYPE DEFS //
-			///////////////
-			public:
-
-				typedef	std::allocator<linke_list>						node_allocator_type;
-				typedef	linke_list*										node_pointer;
-				typedef	circular_buffer< value_type, allocator_type >	cbuf;
-
-			//////////////////////
-			// Member variables //
-			//////////////////////
-			protected:
-
-				node_allocator_type _node_allocator;
-				node_pointer		_next;
-				node_pointer		_prev;
-				cbuf				_elements;  // moet ik dit allocaten im confused
-
-			/////////////
-			// CoPlIeN //
-			/////////////
-			public:
-
-				linke_list(node_pointer	next = NULL, node_pointer prev = NULL)
-					: _next(next), _prev(prev)
-				{
-				}
-
-				~linke_list()
-				{
-					this->clear();
-				}
-
-			///////////////
-			// MODIFIERS //
-			///////////////
-			public:
-
-				node_pointer	push_front(const value_type& val)
-				{
-					if (_elements->is_full() == true)
-					{
-						_prev = _node_allocator.allocate(1);
-						_node_allocator.construct(_prev, cbuf(NULL, this));
-						_prev->_elements.emplace_front(val);
-						return (_prev);
-					}
-					_elements.emplace_front(val);
-					return (this);
-				}
-
-				node_pointer	push_back(const value_type& val)
-				{
-					if (_elements->is_full() == true)
-					{
-						_next = _node_allocator.allocate(1);
-						_node_allocator.construct(_next, cbuf(this, NULL));
-						_next->_elements.emplace_back(val);
-						return (_next);
-					}
-					_elements.emplace_back(val);
-					return (this);
-				}
-
-				void			pop_front()
-				{
-					_elements.dequeue_front();
-				}
-
-				void			pop_back()
-				{
-					_elements.dequeue_back();
-				}
-
-				void		clear()
-				{
-					
-				}
-
-			////////////////////
-			// ELEMENT ACCESS //
-			////////////////////
-			public:
-
-				reference		operator[](size_type n)
-				{
-					return (_elements[n]);
-				}
-
-				const_reference	operator[](size_type n) const
-				{
-					return (_elements[n]);
-				}
-				
-			}; /* end of linke list */
-
-
+			allocator_type		_alloc;
+			node_pointer		_head;
+			node_pointer		_tail;
+			size_type			_size;
+			node_allocator_type	_node_alloc;
 
 	/////////////
 	// CoPliEn //
 	/////////////
 	public:
 
-		deque()
+		explicit deque(const allocator_type& alloc = allocator_type())
+			: _alloc(alloc), _head(_allocate_node()), _tail(_head), _size(0), _node_alloc(node_allocator_type())
 		{
-
 		}
 
-		explicit deque( const allocator_type& alloc )
+		explicit deque(size_type n, const T& val = T(), const allocator_type& alloc = allocator_type())
+			: _alloc(alloc), _head(_allocate_node()), _tail(_head), _size(0), _node_alloc(node_allocator_type())
 		{
-
-		}
-
-		explicit deque( size_type n, const T& value = T(), const allocator_type& alloc = allocator_type())
-		{
-
+			_tail = _tail->add_range_back(n, val);
 		}
 
 		template< class InputIt >
-			deque( InputIt first, InputIt last,	const allocator_type& alloc = allocator_type())
+			deque(InputIt first, InputIt last,	const allocator_type& alloc = allocator_type())
+				: _alloc(alloc), _head(_allocate_node()), _tail(_head), _size(0), _node_alloc(node_allocator_type())
 		{
-
+			_tail = _head->add_range_back(first, last);
 		}
 		
-		deque( const deque& other )
+		deque(const deque& x)
 		{
-			
+			*this = x;
 		}
+
+		deque&	operator = (const deque &x)
+		{
+			this->clear();
+			this->_head = x._head;
+			this->_tail = x._tail;
+			this->_size = x._size;
+			return (*this);
+		}
+
+	//////////////////////////////
+	// Private member functions //
+	//////////////////////////////
+		private:
+
+			void			_destruction()
+			{
+				while(_size > 0)
+					this->pop_back();
+			}
+
+			node_pointer	_allocate_node(const node& new_node = node())
+			{
+				node_pointer ret;
+
+				ret = _node_alloc.allocate(1);
+				_node_alloc.construct(ret, new_node);
+				return (ret);
+			}
+
+	///////////////
+	// MODIFIERS //
+	///////////////
+	public:
+
+		/* iterator range assign */
+		template	<class InputIterator>
+			void		assign(InputIterator first, InputIterator last,
+				typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
+			{
+				this->clear();
+				while (first != last)
+				{
+					this->push_back(*first);
+					first++;
+				}
+			}
+
+			/* fill assign */
+			void		assign(size_type n, const value_type& val)
+			{
+				this->clear();
+				for (; n > 0; n--)
+					this->push_back(val);
+			}
+
+			void		push_back(const value_type& val)
+			{
+				_tail = _tail->push_back(val);
+				_size++;
+			}
+
+			void		pop_back()
+			{
+				if (_size <= 0)
+					return ;
+				_tail = _tail->pop_back();
+				_size--;
+			}
+
+			void		push_front(const value_type& val)
+			{
+				_head = _head->push_front(val);
+				_size++;
+			}
+
+			void		pop_front()
+			{
+				if (_size <= 0)
+					return ;
+				_size--;
+				_head = _head->pop_front();
+			}
+
+			/*
+			** INSERT MAKES NO SENSE IN DEQUE!
+			*/
+
+			/*
+			** ERASE ALSO MAKES NO SENSE AT ALL :/
+			*/
+
+			void		swap(deque& x)
+			{
+				ft::value_swap(this->_head, x._head);
+				ft::value_swap(this->_tail, x._tail);
+				ft::value_swap(this->_size, x._size);
+			}
+
+			void		clear()
+			{
+				_destruction();
+				_head = NULL;
+				_tail = NULL;
+				_size = 0;
+			}
 
 	}; /* end of deque */
 

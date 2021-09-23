@@ -60,4 +60,5 @@ static void vector_iterator_functions()
 void	vector_iterator_test()
 {
 	vector_iterator_functions();
+
 }
