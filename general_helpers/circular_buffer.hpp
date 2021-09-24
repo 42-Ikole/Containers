@@ -52,6 +52,7 @@ namespace ft {
 				size_type		_head;
 				size_type		_tail;
 				size_type		_capacity;
+				size_type		_size;
 				allocator_type	_alloc;
 
 		/////////////
@@ -60,7 +61,7 @@ namespace ft {
 			public:
 
 				circular_buffer(allocator_type alloc = allocator_type())
-					: _capacity(4096), _alloc(alloc)
+					: _capacity(4096), _size(0), _alloc(alloc)
 				{
 					if (16 * (sizeof(value_type)) > _capacity >> 1)
 						_capacity = 16;
@@ -85,6 +86,7 @@ namespace ft {
 					this->_head		= x._head;
 					this->_tail		= x._tail;
 					this->_capacity = x._capacity;
+					this->_arr		= x._arr;
 					return (*this);
 				}
 
@@ -95,13 +97,13 @@ namespace ft {
 
 				void	_construct_element(size_type& idx, reference val)
 				{
-					_alloc.construct(&_arr[idx], val);
+					_alloc.construct(&_arr[idx % _capacity], val);
 				}
 
 				void	_destroy_elements()
 				{
 					for (; _head % _capacity != _tail; _head++)
-						_alloc.destroy(&_arr[_head]);
+						_alloc.destroy(&_arr[_head % _capacity]);
 				}
 
 				void	_clear()
@@ -125,6 +127,7 @@ namespace ft {
 						return ;
 					this->_construct_element(_tail, val);
 					_tail++;
+					_size++;
 				}
 
 				void	emplace_front(reference	val)
@@ -133,18 +136,21 @@ namespace ft {
 						return ;
 					this->_construct_element(_head, val);
 					_head--;
+					_size++;
 				}
 
 				void	dequeue_back()
 				{
 					_tail--;
-					this->_alloc.destroy(&_arr[_tail]);
+					this->_alloc.destroy(&_arr[_tail % _capacity]);
+					_size--;
 				}
 
 				void	dequeue_front()
 				{
 					_head++;
-					this->_alloc.destroy(&_arr[_head]);
+					this->_alloc.destroy(&_arr[_head % _capacity]);
+					_size--;
 				}
 
 		//////////////
@@ -159,7 +165,7 @@ namespace ft {
 
 				size_type	size()
 				{
-					return (_capacity - std::abs(_head - _tail));
+					return (_size);
 				}
 
 		////////////////////
@@ -169,12 +175,12 @@ namespace ft {
 
 				reference operator[](const size_type& n)
 				{
-					return (_arr[(_head + n) % _capacity]);
+					return (_arr[(_head + 1 + n) % _capacity]);
 				}
 
 				reference operator[](const size_type& n) const
 				{
-					return (_arr[(_head + n) % _capacity]);
+					return (_arr[(_head + 1 + n) % _capacity]);
 				}
 
 			}; /* end of circular buffer */
