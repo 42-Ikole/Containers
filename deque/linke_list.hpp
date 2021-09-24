@@ -87,7 +87,7 @@ namespace ft
 	//////////////////////////////
 	private:
 
-		void	_allocate_node(node_pointer& location, cbuf& val)
+		void	_allocate_node(node_pointer& location, const linke_list& val)
 		{
 			location = _node_allocator.allocate(1);
 			_node_allocator.construct(location, val);
@@ -112,7 +112,7 @@ namespace ft
 		{
 			if (_elements.is_full() == true)
 			{
-				this->_allocate_node(_prev, cbuf(NULL, this));
+				this->_allocate_node(_prev, linke_list(NULL, this));
 				_prev->_elements.emplace_front(val);
 				return (_prev);
 			}
@@ -124,7 +124,7 @@ namespace ft
 		{
 			if (_elements.is_full() == true)
 			{
-				this->_allocate_node(_next, cbuf(this, NULL));
+				this->_allocate_node(_next, linke_list(this, NULL));
 				_next->_elements.emplace_back(val);
 				return (_next);
 			}

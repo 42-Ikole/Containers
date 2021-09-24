@@ -74,12 +74,12 @@ namespace ft {
 					this->_clear();
 				}
 
-				circular_buffer(circular_buffer &x)
+				circular_buffer(const circular_buffer &x)
 				{
 					*this = x;
 				}
 
-				circular_buffer&	operator = (circular_buffer &x)
+				circular_buffer&	operator = (const circular_buffer &x)
 				{
 					this->_destroy_elements();
 					this->_head		= x._head;

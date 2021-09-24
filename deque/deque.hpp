@@ -64,9 +64,9 @@ namespace ft
 			size_type			_size;
 			node_allocator_type	_node_alloc;
 
-	/////////////
-	// CoPliEn //
-	/////////////
+	/////////////////////
+	// BOB THE BUILDER //
+	/////////////////////
 	public:
 
 		explicit deque(const allocator_type& alloc = allocator_type())
@@ -121,6 +121,38 @@ namespace ft
 				return (ret);
 			}
 
+	//////////////
+	// CAPACITY //
+	//////////////
+		public:
+
+			size_type	size() const
+			{
+				return (_size);
+			}
+
+			size_type	max_size() const
+			{
+				return (_alloc.max_size());
+			}
+
+			void		resize(size_type n, value_type val = value_type())
+			{
+				if (n <= _size) {
+					for (size_type i = _size; i > n; i--)
+						this->pop_back();
+				}
+				else {
+					for (size_type i = _size; i < n; i++)
+						this->push_back(val);
+				}
+			}
+
+			bool		empty() const
+			{
+				return (_size == 0);
+			}
+
 	///////////////
 	// MODIFIERS //
 	///////////////
@@ -147,7 +179,7 @@ namespace ft
 					this->push_back(val);
 			}
 
-			void		push_back(const value_type& val)
+			void		push_back(value_type& val)
 			{
 				_tail = _tail->push_back(val);
 				_size++;
@@ -161,7 +193,7 @@ namespace ft
 				_size--;
 			}
 
-			void		push_front(const value_type& val)
+			void		push_front(value_type& val)
 			{
 				_head = _head->push_front(val);
 				_size++;
@@ -182,6 +214,24 @@ namespace ft
 			/*
 			** ERASE ALSO MAKES NO SENSE AT ALL :/
 			*/
+
+
+		////////////////////
+		// ELEMENT ACCESS //
+		////////////////////
+		public:
+
+			reference		operator[](size_type n)
+			{
+				return ((*_head)[n]);
+			}
+
+			const_reference	operator[](size_type n) const
+			{
+				return ((*_head)[n]);
+			}
+
+		
 
 			void		swap(deque& x)
 			{
