@@ -121,6 +121,18 @@ namespace ft
 				return (ret);
 			}
 
+			reference		_get_element(size_type n)
+			{
+				node_pointer tmp = _head;
+
+				while (n > tmp->size())
+				{
+					n -= tmp->size();
+					tmp = tmp->_next;
+				}
+				return ((*tmp)[n]);
+			}
+
 	//////////////
 	// CAPACITY //
 	//////////////
@@ -223,15 +235,15 @@ namespace ft
 
 			reference		operator[](size_type n)
 			{
-				return ((*_head)[n]);
+				return (this->_get_element(n));
 			}
 
 			const_reference	operator[](size_type n) const
 			{
-				return ((*_head)[n]);
+				return (this->_get_element(n));
 			}
 
-		
+
 
 			void		swap(deque& x)
 			{
