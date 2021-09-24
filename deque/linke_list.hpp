@@ -48,7 +48,7 @@ namespace ft
 	//////////////////////
 	// Member variables //
 	//////////////////////
-	protected:
+	public:
 
 		node_allocator_type _node_allocator;
 		node_pointer		_next;
@@ -71,6 +71,7 @@ namespace ft
 		}
 
 		linke_list(const linke_list& x)
+			: _elements(cbuf())
 		{
 			*this = x;
 		}
@@ -79,7 +80,7 @@ namespace ft
 		{
 			this->_next		= x._next;
 			this->_prev		= x._prev;
-			this->_elements	= x._elements;
+			// this->_elements	= x._elements;
 			return (*this);
 		}
 	//////////////////////////////
