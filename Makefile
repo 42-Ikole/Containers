@@ -76,7 +76,7 @@ test: re
 	@printf "\n\033[33mcompiling std::containers\n\n\033[0m"
 	@$(CC) $(TEST_FLAGS) $(TEST_SRC) -D STD -o $(STD)
 	@./$(STD) > $(STD).txt
-	diff $(FT).txt $(STD).txt
+	# diff $(FT).txt $(STD).txt
 
 debug: fclean
 	$(CC) $(FLAGS) $(DEBUG_FLAGS) $(SRC) -D DEBUG -o $(NAME)
