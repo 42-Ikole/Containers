@@ -19,6 +19,8 @@
 # include <stdexcept>
 # include <general_helpers.hpp>
 
+# define LENGTH_ERROR "allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size"
+
 namespace ft {
 
 //////////////////
@@ -77,7 +79,7 @@ namespace ft {
 			template <class InputIterator>
 				vector(InputIterator first, InputIterator last,
 					const allocator_type& alloc = allocator_type())
-					: _arr(NULL), _size(0), _capacity(0), _alloc(alloc)
+						: _arr(NULL), _size(0), _capacity(0), _alloc(alloc)
 			{
 				this->assign(first, last);
 			}
@@ -131,7 +133,7 @@ namespace ft {
 				pointer	tmp;
 
 				if (n > this->max_size())
-					throw std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
+					throw std::length_error(LENGTH_ERROR);
 				tmp = _alloc.allocate(n);
 				size_type i = 0;
 				for (; i < _size && i < n; i++)
