@@ -69,17 +69,19 @@ namespace ft {
 
 		~circular_buffer()
 		{
+			this->clear();
 		}
 
 		circular_buffer(const circular_buffer &x)
-			: _size(0)
+			: _arr(NULL)
 		{
 			*this = x;
 		}
 
 		circular_buffer&	operator = (const circular_buffer &x)
 		{
-			this->_destroy_elements();
+			if (this->_arr != NULL)
+				this->clear();
 			this->_head		= x._head;
 			this->_tail		= x._tail;
 			this->_capacity = x._capacity;
