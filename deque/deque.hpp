@@ -58,7 +58,7 @@ namespace ft
 	private:
 
 		cbuf_allocator_type	_alloc;
-		cbuf				*_arr; /* dubbele pointer om niet de copy constructor te hoeven callen */
+		cbuf				**_arr; /* dubbele pointer om niet de copy constructor te hoeven callen */
 		size_type			_head;
 		size_type			_tail;
 		size_type			_capacity;
@@ -93,8 +93,7 @@ namespace ft
 			for (; _head != _tail; i++) {
 				if (_head == _capacity >> 1)
 					_head = 0;
-				_alloc.construct(&tmp[i], _arr[_head]);
-				_alloc.destroy(_arr[_head]);
+				tmp[i] = _arr[_head];
 				_head++;
 			}
 			_tail = i;
@@ -105,7 +104,8 @@ namespace ft
 
 		void	_construct_element(size_type& idx, cbuf& = cbuf())
 		{
-			_alloc.construct(&_arr[idx], val);
+			_arr[idx] = _alloc.allocate(1);
+			_alloc.construct(_arr[idx][0], val);
 		}
 
 		void	_destroy_element(size_type& idx)
@@ -127,7 +127,7 @@ namespace ft
 
 		void push_back(const value_type& val)
 		{
-			if (_arr[_tail].is_full()) {
+			if (_arr[_tail]->is_full()) {
 				_tail++;
 				if (_tail == _capacity)
 					_tail = 0;
@@ -135,13 +135,13 @@ namespace ft
 				// 	realloc ofzo
 				this->_construct_element(_tail);
 			}
-			_arr[_tail].emplace_back(val);
+			_arr[_tail]->emplace_back(val);
 			_size++;
 		}
 
 		void push_front(const value_type& val)
 		{
-			if (_arr[_head].is_full()) {
+			if (_arr[_head]->is_full()) {
 				_head--;
 				if (_head == -1)
 					_head = _capacity - 1;
@@ -149,7 +149,7 @@ namespace ft
 				// 	realloc ofzo
 				this->_construct_element(_head);
 			}
-			_arr[_head].emplace_front(val);
+			_arr[_head]->emplace_front(val);
 			_size++;
 		}
 
@@ -157,8 +157,8 @@ namespace ft
 		{
 			if (this->_empty())
 				return ;
-			_arr[_tail].dequeue_back();
-			if (_arr[_tail].empty())
+			_arr[_tail]->dequeue_back();
+			if (_arr[_tail]->empty())
 			{
 				if (_tail != _head) {
 					this->_destroy_element(_tail);
@@ -171,8 +171,8 @@ namespace ft
 		{
 			if (this->_empty())
 				return ;
-			_arr[_head].dequeue_front();
-			if (_arr[_head].empty())
+			_arr[_head]->dequeue_front();
+			if (_arr[_head]->empty())
 			{
 				if (_head != _tail) {
 					this->_destroy_element(_head);
