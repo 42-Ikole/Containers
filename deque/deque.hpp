@@ -58,7 +58,7 @@ namespace ft
 	private:
 
 		cbuf_allocator_type	_alloc;
-		cbuf				**_arr; /* dubbele pointer om niet de copy constructor te hoeven callen */
+		cbuf				**_arr;
 		size_type			_head;
 		size_type			_tail;
 		size_type			_capacity;
@@ -70,12 +70,29 @@ namespace ft
 	public:
 
 		explicit deque (const allocator_type& alloc = allocator_type())
-			: _alloc(cbuf_allocator_type()), _arr(NULL), _capacity(128), _size(0)
+			: _alloc(cbuf_allocator_type()), _arr(NULL), _head(0), _tail(0), _capacity(128), _size(0)
 		{
-			_arr = _alloc.allocate(_capacity);
-			_head = 0;
-			_tail = 0;
-			this->_construct_element(_head);
+			this->_initial_alloc();
+		}
+
+		explicit deque (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
+			: _alloc(alloc), _arr(NULL), _head(0), _tail(0), _capacity(128), _size(0)
+		{
+			_this->_initial_alloc();
+			this->assign(n, val);
+		}
+
+		template <class InputIterator>
+			deque (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
+				: _alloc(alloc), _arr(NULL), _head(0), _tail(0), _capacity(128), _size(0)
+		{
+			this->_initial_alloc();
+			this->assign(first, last);
+		}
+
+		deque (const deque& x)
+		{
+			*this = x;
 		}
 
 	//////////////////////////////
@@ -85,7 +102,7 @@ namespace ft
 
 		void	_realloc()
 		{
-			cbuf		*tmp;
+			cbuf	*tmp;
 
 			_capacity <<= 1;
 			tmp = _alloc.allocate(_capacity);
@@ -102,6 +119,12 @@ namespace ft
 			_arr = tmp;
 		}
 
+		void	_initial_alloc()
+		{
+			_arr = _alloc.allocate(_capacity);
+			this->_construct_element(_head);
+		}
+
 		void	_construct_element(size_type& idx, cbuf& = cbuf())
 		{
 			_arr[idx] = _alloc.allocate(1);
@@ -110,7 +133,16 @@ namespace ft
 
 		void	_destroy_element(size_type& idx)
 		{
-			_alloc.destroy(&_arr[idx]);
+			_alloc.destroy(_arr[idx]);
+		}
+
+		void	_destroy_elements()
+		{
+			for (; _head != _tail; _head++) {
+				if (_head == _capacity)
+					_head = 0;
+				this->_destroy_element(_head);
+			}
 		}
 
 		bool	_empty()
@@ -123,7 +155,20 @@ namespace ft
 	///////////////
 	public:
 
-		/* assign */
+		void assign (size_type n, const value_type& val)
+		{
+			this->_destroy_elements();
+			for (size_type i = 0; i < n; i++)
+				this->push_back(val);
+		}
+
+		template <class InputIterator>
+ 			void assign (InputIterator first, InputIterator last)
+		{
+			this->_destroy_elements();
+			for (; first != last; first++)
+				this->push_back(*first);
+		}
 
 		void push_back(const value_type& val)
 		{
