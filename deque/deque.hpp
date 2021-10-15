@@ -71,7 +71,7 @@ namespace ft
 	public:
 
 		explicit deque (const allocator_type& alloc = allocator_type())
-			: _alloc(cbuf_allocator_type()), _arr(NULL), _head(0), _tail(0), _capacity(128), _size(0)
+			: _alloc(alloc), _arr(NULL), _head(0), _tail(0), _capacity(128), _size(0)
 		{
 			this->_initial_alloc();
 		}
@@ -79,7 +79,7 @@ namespace ft
 		explicit deque (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 			: _alloc(alloc), _arr(NULL), _head(0), _tail(0), _capacity(128), _size(0)
 		{
-			_this->_initial_alloc();
+			this->_initial_alloc();
 			this->assign(n, val);
 		}
 
@@ -94,7 +94,7 @@ namespace ft
 		~deque()
 		{
 			this->_destroy_elements();
-			_alloc.deallocate(_arr);
+			_alloc.deallocate((cbuf*)_arr, _capacity);
 		}
 
 		deque (const deque& x)
@@ -105,7 +105,7 @@ namespace ft
 		deque&	operator = (const deque &x)
 		{
 			this->_destroy_elements();
-			_alloc.deallocate(_arr);
+			_alloc.deallocate((cbuf*)_arr, _capacity);
 			this->_head		= x._head;
 			this->_tail		= x._tail;
 			this->_capacity	= x._capacity;
@@ -122,21 +122,21 @@ namespace ft
 
 		void	_initial_alloc()
 		{
-			_arr = _alloc.allocate(_capacity);
+			_arr = (cbuf**)_alloc.allocate(_capacity);
 			this->_construct_element(_head);
 			_cb_cap = _arr[_head]->_capacity;
 		}
 
-		void	_construct_element(size_type& idx, cbuf& = cbuf())
+		void	_construct_element(size_type& idx, const cbuf& val = cbuf())
 		{
 			_arr[idx] = _alloc.allocate(1);
-			_alloc.construct(_arr[idx][0], val);
+			_alloc.construct(&_arr[idx][0], val);
 		}
 
 		void	_destroy_element(size_type& idx)
 		{
-			_alloc.destroy(_arr[idx][0]);
-			_alloc.deallocate(_arr[idx]);
+			_alloc.destroy(&_arr[idx][0]);
+			_alloc.deallocate(_arr[idx], 1);
 		}
 
 		void	_destroy_elements()
@@ -150,10 +150,10 @@ namespace ft
 
 		void	_realloc()
 		{
-			cbuf	*tmp;
+			cbuf	**tmp;
 
 			_capacity <<= 1;
-			tmp = _alloc.allocate(_capacity);
+			tmp = (cbuf**)_alloc.allocate(_capacity);
 			size_type i = 0;
 			for (; _head != _tail; i++) {
 				if (_head == _capacity >> 1)
@@ -163,61 +163,61 @@ namespace ft
 			}
 			_tail = i;
 			_head = 0;
-			_alloc.deallocate(_arr);
+			_alloc.deallocate((cbuf*)_arr, _capacity);
 			_arr = tmp;
 		}
 
 		reference	get_val(size_type idx)
 		{
 			if (idx < _arr[_head]->_size)
-				return (_arr[_head][idx]);
+				return (_arr[_head][0][idx]);
 			else
 				idx -= _arr[_head]->_size;
 			size_type i = idx %= _cb_cap;
-			return (_arr[i][idx]);
+			return (_arr[i][0][idx]);
 		}
 
 		bool	_is_full()
 		{
-			return (_size == (_capacity * _arr[_head]->_capacity));
+			return (_size == (this->_capacity * _arr[_head]->_capacity));
 		}
 
 	///////////////
 	// ITERATORS //
 	///////////////
-		public:
+	public:
 
-		// iterator				begin() {
-		// 	return (iterator(this->_arr));
-		// }
+	// iterator				begin() {
+	// 	return (iterator(this->_arr));
+	// }
 
-		// const_iterator			begin() const {
-		// 	return (const_iterator(this->_arr));
-		// }
+	// const_iterator			begin() const {
+	// 	return (const_iterator(this->_arr));
+	// }
 
-		// iterator				end() {
-		// 	return (iterator(&this->_arr[this->_size]));
-		// }
+	// iterator				end() {
+	// 	return (iterator(&this->_arr[this->_size]));
+	// }
 
-		// const_iterator			end() const {
-		// 	return (const_iterator(&this->_arr[this->_size]));
-		// }
+	// const_iterator			end() const {
+	// 	return (const_iterator(&this->_arr[this->_size]));
+	// }
 
-		// reverse_iterator		rbegin() {
-		// 	return (reverse_iterator(&this->_arr[this->_size]));
-		// }
+	// reverse_iterator		rbegin() {
+	// 	return (reverse_iterator(&this->_arr[this->_size]));
+	// }
 
-		// const_reverse_iterator	rbegin() const {
-		// 	return (const_reverse_iterator(&this->_arr[this->_size]));
-		// }
+	// const_reverse_iterator	rbegin() const {
+	// 	return (const_reverse_iterator(&this->_arr[this->_size]));
+	// }
 
-		// reverse_iterator		rend() {
-		// 	return (reverse_iterator(this->_arr));
-		// }
+	// reverse_iterator		rend() {
+	// 	return (reverse_iterator(this->_arr));
+	// }
 
-		// const_reverse_iterator	rend() const {
-		// 	return (const_reverse_iterator(this->_arr));
-		// }
+	// const_reverse_iterator	rend() const {
+	// 	return (const_reverse_iterator(this->_arr));
+	// }
 
 	//////////////
 	// CAPACITY //
@@ -321,7 +321,7 @@ namespace ft
 				this->push_back(*first);
 		}
 
-		void push_back(const value_type& val)
+		void push_back(value_type& val)
 		{
 			if (_arr[_tail]->is_full()) {
 				_tail++;
