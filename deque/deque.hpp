@@ -90,9 +90,28 @@ namespace ft
 			this->assign(first, last);
 		}
 
+		~deque()
+		{
+			this->_destroy_elements();
+			_alloc.deallocate(_arr);
+		}
+
 		deque (const deque& x)
 		{
 			*this = x;
+		}
+
+		deque&	operator = (const deque &x)
+		{
+			this->_destroy_elements();
+			_alloc.deallocate(_arr);
+			this->_head		= x._head;
+			this->_tail		= x._tail;
+			this->_capacity	= x._capacity;
+			this->_initial_alloc();
+			for (size_t i = 0; i < x._size; i++)
+				this->push_back(x[i]);
+			return (*this);
 		}
 
 	//////////////////////////////
@@ -133,7 +152,8 @@ namespace ft
 
 		void	_destroy_element(size_type& idx)
 		{
-			_alloc.destroy(_arr[idx]);
+			_alloc.destroy(_arr[idx][0]);
+			_alloc.deallocate(_arr[idx]);
 		}
 
 		void	_destroy_elements()
@@ -145,7 +165,77 @@ namespace ft
 			}
 		}
 
-		bool	_empty()
+		bool	_is_full()
+		{
+			return (_size == (_capacity * _arr[_head]->_capacity));
+		}
+
+	///////////////
+	// ITERATORS //
+	///////////////
+		public:
+
+		// iterator				begin() {
+		// 	return (iterator(this->_arr));
+		// }
+
+		// const_iterator			begin() const {
+		// 	return (const_iterator(this->_arr));
+		// }
+
+		// iterator				end() {
+		// 	return (iterator(&this->_arr[this->_size]));
+		// }
+
+		// const_iterator			end() const {
+		// 	return (const_iterator(&this->_arr[this->_size]));
+		// }
+
+		// reverse_iterator		rbegin() {
+		// 	return (reverse_iterator(&this->_arr[this->_size]));
+		// }
+
+		// const_reverse_iterator	rbegin() const {
+		// 	return (const_reverse_iterator(&this->_arr[this->_size]));
+		// }
+
+		// reverse_iterator		rend() {
+		// 	return (reverse_iterator(this->_arr));
+		// }
+
+		// const_reverse_iterator	rend() const {
+		// 	return (const_reverse_iterator(this->_arr));
+		// }
+
+	//////////////
+	// CAPACITY //
+	//////////////
+	public:
+
+		size_type	size() const
+		{
+			return (_size);
+		}
+
+		size_type	max_size() const
+		{
+			return (_arr[_head]->_alloc.max_size());
+		}
+
+		void		resize(size_type n, value_type val = value_type())
+		{
+			if (n <= _capacity) {
+				for (size_type i = _size; i > n; i--)
+					this->pop_back();
+			}
+			else {
+				this->_resize(n);
+				for (size_type i = _size; i < _capacity; i++)
+					this->push_back(val);
+			}
+		}
+
+		bool		empty() const
 		{
 			return (_size == 0);
 		}
@@ -176,8 +266,8 @@ namespace ft
 				_tail++;
 				if (_tail == _capacity)
 					_tail = 0;
-				// if (this->is_full())
-				// 	realloc ofzo
+				if (this->_is_full())
+					this->_realloc();
 				this->_construct_element(_tail);
 			}
 			_arr[_tail]->emplace_back(val);
@@ -190,8 +280,8 @@ namespace ft
 				_head--;
 				if (_head == -1)
 					_head = _capacity - 1;
-				// if (this->is_full())
-				// 	realloc ofzo
+				if (this->_is_full())
+					this->_realloc();
 				this->_construct_element(_head);
 			}
 			_arr[_head]->emplace_front(val);
@@ -200,7 +290,7 @@ namespace ft
 
 		void pop_back()
 		{
-			if (this->_empty())
+			if (this->empty())
 				return ;
 			_arr[_tail]->dequeue_back();
 			if (_arr[_tail]->empty())
@@ -214,7 +304,7 @@ namespace ft
 
 		void pop_front()
 		{
-			if (this->_empty())
+			if (this->empty())
 				return ;
 			_arr[_head]->dequeue_front();
 			if (_arr[_head]->empty())
