@@ -321,7 +321,7 @@ namespace ft
 				this->push_back(*first);
 		}
 
-		void push_back(value_type& val)
+		void push_back(const value_type& val)
 		{
 			if (_arr[_tail]->is_full()) {
 				_tail++;
@@ -339,7 +339,7 @@ namespace ft
 		{
 			if (_arr[_head]->is_full()) {
 				_head--;
-				if (_head == -1)
+				if (_head < 0)
 					_head = _capacity - 1;
 				if (this->_is_full())
 					this->_realloc();
@@ -381,13 +381,13 @@ namespace ft
 
 		void		swap(deque& x)
 		{
-			ft::value_swap(this->_alloc, x._alloc);
-			ft::value_swap(this->_arr, x._arr);
-			ft::value_swap(this->_head, x._head);
-			ft::value_swap(this->_tail, x._tail);
-			ft::value_swap(this->_capacity, x._capacity);
-			ft::value_swap(this->_size, x._size);
-			ft::value_swap(this->_cb_cap, x._cb_cap);
+			ft::value_swap(this->_alloc,	x._alloc);
+			ft::value_swap(this->_arr,		x._arr);
+			ft::value_swap(this->_head,		x._head);
+			ft::value_swap(this->_tail,		x._tail);
+			ft::value_swap(this->_capacity,	x._capacity);
+			ft::value_swap(this->_size,		x._size);
+			ft::value_swap(this->_cb_cap,	x._cb_cap);
 		}
 
 		void		clear()
