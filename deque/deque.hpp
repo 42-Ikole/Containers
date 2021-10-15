@@ -63,6 +63,7 @@ namespace ft
 		size_type			_tail;
 		size_type			_capacity;
 		size_type			_size;
+		size_type			_cb_cap;
 
 	/////////////////////
 	// BOB THE BUILDER //
@@ -138,10 +139,21 @@ namespace ft
 			_arr = tmp;
 		}
 
+		reference	get_val(size_type idx)
+		{
+			if (idx < _arr[_head]->_size)
+				return (_arr[_head][idx]);
+			else
+				idx -= _arr[_head]->_size;
+			size_type i = idx %= _cb_cap;
+			return (_arr[i][idx]);
+		}
+
 		void	_initial_alloc()
 		{
 			_arr = _alloc.allocate(_capacity);
 			this->_construct_element(_head);
+			_cb_cap = _arr[_head]->_capacity;
 		}
 
 		void	_construct_element(size_type& idx, cbuf& = cbuf())
@@ -238,6 +250,55 @@ namespace ft
 		bool		empty() const
 		{
 			return (_size == 0);
+		}
+
+	////////////////////
+	// ELEMENT ACCESS //
+	////////////////////
+	public:
+
+		reference		operator[](size_type n)
+		{
+			return (get_val(n));
+		}
+
+		const_reference	operator[](size_type n) const
+		{
+			return (get_val(n));
+		}
+
+		reference		at(size_type n)
+		{
+			if (n < 0 || n >= _size)
+				throw std::out_of_range("deque"); /* check deze shit neef */
+			return (get_val(n));
+		}
+
+		const_reference	at(size_type n) const
+		{
+			if (n < 0 || n > _size)
+				throw std::out_of_range("deque"); /* check deze shit neef */
+			return (get_val(n));
+		}
+
+		reference		front()
+		{
+			return (_arr[_head][0]);
+		}
+
+		const_reference	front() const
+		{
+			return (_arr[_head][0]);
+		}
+
+		reference		back()
+		{
+			return (get_val(_size - 1));
+		}
+
+		const_reference	back() const
+		{
+			return (get_val(_size - 1));
 		}
 
 	///////////////
