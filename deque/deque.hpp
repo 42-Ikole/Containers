@@ -120,6 +120,34 @@ namespace ft
 	//////////////////////////////
 	private:
 
+		void	_initial_alloc()
+		{
+			_arr = _alloc.allocate(_capacity);
+			this->_construct_element(_head);
+			_cb_cap = _arr[_head]->_capacity;
+		}
+
+		void	_construct_element(size_type& idx, cbuf& = cbuf())
+		{
+			_arr[idx] = _alloc.allocate(1);
+			_alloc.construct(_arr[idx][0], val);
+		}
+
+		void	_destroy_element(size_type& idx)
+		{
+			_alloc.destroy(_arr[idx][0]);
+			_alloc.deallocate(_arr[idx]);
+		}
+
+		void	_destroy_elements()
+		{
+			for (; _head != _tail; _head++) {
+				if (_head == _capacity)
+					_head = 0;
+				this->_destroy_element(_head);
+			}
+		}
+
 		void	_realloc()
 		{
 			cbuf	*tmp;
@@ -147,34 +175,6 @@ namespace ft
 				idx -= _arr[_head]->_size;
 			size_type i = idx %= _cb_cap;
 			return (_arr[i][idx]);
-		}
-
-		void	_initial_alloc()
-		{
-			_arr = _alloc.allocate(_capacity);
-			this->_construct_element(_head);
-			_cb_cap = _arr[_head]->_capacity;
-		}
-
-		void	_construct_element(size_type& idx, cbuf& = cbuf())
-		{
-			_arr[idx] = _alloc.allocate(1);
-			_alloc.construct(_arr[idx][0], val);
-		}
-
-		void	_destroy_element(size_type& idx)
-		{
-			_alloc.destroy(_arr[idx][0]);
-			_alloc.deallocate(_arr[idx]);
-		}
-
-		void	_destroy_elements()
-		{
-			for (; _head != _tail; _head++) {
-				if (_head == _capacity)
-					_head = 0;
-				this->_destroy_element(_head);
-			}
 		}
 
 		bool	_is_full()
@@ -375,6 +375,28 @@ namespace ft
 					_head++;
 				}
 			}
+		}
+
+		/* WHY DOES THIS HAVE INSERT AND ERASE? */
+
+		void		swap(deque& x)
+		{
+			ft::value_swap(this->_alloc, x._alloc);
+			ft::value_swap(this->_arr, x._arr);
+			ft::value_swap(this->_head, x._head);
+			ft::value_swap(this->_tail, x._tail);
+			ft::value_swap(this->_capacity, x._capacity);
+			ft::value_swap(this->_size, x._size);
+			ft::value_swap(this->_cb_cap, x._cb_cap);
+		}
+
+		void		clear()
+		{
+			_destroy_elements();
+			_head = 0;
+			_tail = 0;
+			_size = 0;
+			this->_construct_element(_head);
 		}
 
 	}; /* end of deque */
