@@ -27,6 +27,8 @@ namespace ft {
 	template < class T, class Alloc = std::allocator<T> >
 		struct circular_buffer
 	{
+	
+	#define CAPACITY 1024
 
 	///////////////
 	// type defs //
@@ -60,11 +62,11 @@ namespace ft {
 	public:
 
 		circular_buffer(allocator_type alloc = allocator_type())
-			: _capacity(256), _size(0), _alloc(alloc)
+			: _capacity(CAPACITY), _size(0), _alloc(alloc)
 		{
 			_arr = _alloc.allocate(_capacity);
-			_head = _capacity >> 1;
-			_tail = _head + 1;
+			_head = 0;
+			_tail = 0;
 		}
 
 		~circular_buffer()
@@ -73,19 +75,21 @@ namespace ft {
 		}
 
 		circular_buffer(const circular_buffer &x)
-			: _arr(NULL)
+			: _size(0)
 		{
+			_arr = _alloc.allocate(_capacity);
 			*this = x;
 		}
 
 		circular_buffer&	operator = (const circular_buffer &x)
 		{
-			if (this->_arr != NULL)
+			if (this->_size > 0)
 				this->clear();
-			this->_head		= x._head;
-			this->_tail		= x._tail;
-			this->_capacity = x._capacity;
-			this->_arr		= x._arr;
+			this->_head		= 0;
+			this->_tail		= 0;
+			for (size_type i = 0; i < this->_capacity; i++)
+				this->_construct_element(i, x._arr[i]);
+			this->_arr		= x._arr;		/* make a deep copy you imbelic */
 			return (*this);
 		}
 
@@ -110,9 +114,11 @@ namespace ft {
 	///////////////
 	public:
 
-		void	emplace_back(reference	val)
+		void	emplace_back(const reference	val)
 		{
 			_tail++;
+			if (_tail == _capacity)
+				_tail = 0;
 			this->_construct_element(_tail, val);
 			_size++;
 		}
@@ -120,6 +126,8 @@ namespace ft {
 		void	emplace_front(reference	val)
 		{
 			_head--;
+			if (_head < 0)
+				_head = _capacity - 1;
 			this->_construct_element(_head, val);
 			_size++;
 		}
@@ -128,6 +136,8 @@ namespace ft {
 		{
 			this->_alloc.destroy(&_arr[_tail]);
 			_tail--;
+			if (_tail == 0)
+				_tail = _capacity - 1;
 			_size--;
 		}
 
@@ -135,6 +145,8 @@ namespace ft {
 		{
 			this->_alloc.destroy(&_arr[_head]);
 			_head++;
+			if (_head == _capacity)
+				_head = 0;
 			_size--;
 		}
 
@@ -175,12 +187,12 @@ namespace ft {
 
 		reference operator[](const size_type& n)
 		{
-			return (_arr[_head + n]);
+			return (_arr[(_head + n) % _capacity]);
 		}
 
 		reference operator[](const size_type& n) const
 		{
-			return (_arr[_head + n]);
+			return (_arr[(_head + n) % _capacity]);
 		}
 
 	}; /* end of circular buffer */
