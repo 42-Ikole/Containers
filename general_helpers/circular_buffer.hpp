@@ -124,9 +124,9 @@ namespace ft {
 
 		void	emplace_front(const value_type& val)
 		{
+			if (_head == 0)
+				_head = _capacity;
 			_head--;
-			if (_head < 0)
-				_head = _capacity - 1;
 			this->_construct_element(_head, val);
 			_size++;
 		}
@@ -134,9 +134,9 @@ namespace ft {
 		void	dequeue_back()
 		{
 			this->_alloc.destroy(&_arr[_tail]);
-			_tail--;
 			if (_tail == 0)
-				_tail = _capacity - 1;
+				_tail = _capacity;
+			_tail--;
 			_size--;
 		}
 
@@ -166,7 +166,7 @@ namespace ft {
 	
 		bool		is_full()
 		{
-			return (_head == _tail);
+			return (_size == _capacity);
 		}
 
 		bool	empty()

@@ -162,10 +162,10 @@ namespace ft
 			tmp = _palloc.allocate(_capacity);
 			size_type i = 0;
 			for (; _head != _tail; i++) {
-				if (_head == _capacity >> 1)
-					_head = 0;
 				tmp[i] = _arr[_head];
 				_head++;
+				if (_head == _capacity)
+					_head = 0;
 			}
 			_tail = i;
 			_head = 0;
@@ -185,7 +185,7 @@ namespace ft
 
 		bool	_is_full()
 		{
-			return (_size == (this->_capacity * _arr[_head]->_capacity));
+			return (_size == (this->_capacity * _cb_cap));
 		}
 
 	///////////////
@@ -344,9 +344,9 @@ namespace ft
 		void push_front(const value_type& val)
 		{
 			if (_arr[_head]->is_full()) {
+				if (_head == 0)
+					_head = _capacity; 
 				_head--;
-				if (_head < 0)
-					_head = _capacity - 1;
 				if (this->_is_full())
 					this->_realloc();
 				this->_construct_element(_head);
