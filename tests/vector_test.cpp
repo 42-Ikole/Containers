@@ -42,19 +42,19 @@ static void constructor_test()
 	whats_in_this_container_yo(set_allocator, "set allocater");
 
 /* fill constructor */
-	ft::vector<unsigned char> fill_constructor(42, 'a');
+	ft::vector<int> fill_constructor(42, 'a');
 	whats_in_this_container_yo(fill_constructor, "fill constructor");
 
 /* range constructor */
-	ft::vector<unsigned char> range_constructor(fill_constructor.begin(), fill_constructor.end() - 21);
+	ft::vector<int> range_constructor(fill_constructor.begin(), fill_constructor.end() - 21);
 	whats_in_this_container_yo(range_constructor, "range constructor");
 
 /* copy constructor */
-	ft::vector<unsigned char> copy_constructor(range_constructor);
+	ft::vector<int> copy_constructor(range_constructor);
 	whats_in_this_container_yo(copy_constructor, "copy constructor");
 
 /* assigantion operator */
-	ft::vector<unsigned char> assignation = copy_constructor;
+	ft::vector<int> assignation = copy_constructor;
 	whats_in_this_container_yo(assignation, "assignation operator");
 	std::cout << "capacity = " << assignation.capacity() << std::endl;
 }

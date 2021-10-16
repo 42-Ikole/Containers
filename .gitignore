@@ -35,3 +35,6 @@ containers
 #other
 *.pdf
 *.DS_Store
+*.dSYM/
+.idea/
+.vscode/
