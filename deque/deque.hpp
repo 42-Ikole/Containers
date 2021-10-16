@@ -45,6 +45,7 @@ namespace ft
 		typedef const value_type*																			const_pointer;
 		typedef circular_buffer<T>																			cbuf;
 		typedef	std::allocator<cbuf>																		cbuf_allocator_type;
+		typedef std::allocator<cbuf*>																		ptr_alloc;
 
 		/* GA EEN NODE ITERATOR SCHRIJVEN */
 		typedef ft::array_iterator<T, ft::random_access_iterator_tag>										iterator;
@@ -58,6 +59,7 @@ namespace ft
 	private:
 
 		cbuf_allocator_type	_alloc;
+		ptr_alloc			_palloc;
 		cbuf				**_arr;
 		size_type			_head;
 		size_type			_tail;
@@ -71,13 +73,13 @@ namespace ft
 	public:
 
 		explicit deque (const allocator_type& alloc = allocator_type())
-			: _alloc(alloc), _arr(NULL), _head(0), _tail(0), _capacity(128), _size(0)
+			: _alloc(alloc), _palloc(ptr_alloc()), _arr(NULL), _head(0), _tail(0), _capacity(128), _size(0)
 		{
 			this->_initial_alloc();
 		}
 
 		explicit deque (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
-			: _alloc(alloc), _arr(NULL), _head(0), _tail(0), _capacity(128), _size(0)
+			: _alloc(alloc), _palloc(ptr_alloc()), _arr(NULL), _head(0), _tail(0), _capacity(128), _size(0)
 		{
 			this->_initial_alloc();
 			this->assign(n, val);
@@ -85,7 +87,7 @@ namespace ft
 
 		template <class InputIterator>
 			deque (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
-				: _alloc(alloc), _arr(NULL), _head(0), _tail(0), _capacity(128), _size(0)
+				: _alloc(alloc), _palloc(ptr_alloc()), _arr(NULL), _head(0), _tail(0), _capacity(128), _size(0)
 		{
 			this->_initial_alloc();
 			this->assign(first, last);
@@ -94,7 +96,7 @@ namespace ft
 		~deque()
 		{
 			this->_destroy_elements();
-			_alloc.deallocate((cbuf*)_arr, _capacity);
+			_palloc.deallocate(_arr, _capacity);
 		}
 
 		deque (const deque& x)
@@ -105,10 +107,12 @@ namespace ft
 		deque&	operator = (const deque &x)
 		{
 			this->_destroy_elements();
-			_alloc.deallocate((cbuf*)_arr, _capacity);
+			_palloc.deallocate(_arr, _capacity);
 			this->_head		= x._head;
 			this->_tail		= x._tail;
 			this->_capacity	= x._capacity;
+			this->_alloc 	= x._alloc;
+			this->_palloc	= x._palloc;
 			this->_initial_alloc();
 			for (size_t i = 0; i < x._size; i++)
 				this->push_back(x[i]);
@@ -122,7 +126,7 @@ namespace ft
 
 		void	_initial_alloc()
 		{
-			_arr = (cbuf**)_alloc.allocate(_capacity);
+			_arr = _palloc.allocate(_capacity);
 			this->_construct_element(_head);
 			_cb_cap = _arr[_head]->_capacity;
 		}
@@ -153,7 +157,7 @@ namespace ft
 			cbuf	**tmp;
 
 			_capacity <<= 1;
-			tmp = (cbuf**)_alloc.allocate(_capacity);
+			tmp = _palloc.allocate(_capacity);
 			size_type i = 0;
 			for (; _head != _tail; i++) {
 				if (_head == _capacity >> 1)
@@ -163,7 +167,7 @@ namespace ft
 			}
 			_tail = i;
 			_head = 0;
-			_alloc.deallocate((cbuf*)_arr, _capacity);
+			_palloc.deallocate(_arr, _capacity);
 			_arr = tmp;
 		}
 
