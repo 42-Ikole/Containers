@@ -27,6 +27,8 @@ namespace ft
 // DEQUE CLASS //
 /////////////////
 
+	# define CAPACITY 128
+
 	template < class T, class Alloc = std::allocator<T> >
 		class deque {
 
@@ -73,13 +75,13 @@ namespace ft
 	public:
 
 		explicit deque (const allocator_type& alloc = allocator_type())
-			: _alloc(alloc), _palloc(ptr_alloc()), _arr(NULL), _head(0), _tail(0), _capacity(128), _size(0)
+			: _alloc(alloc), _palloc(ptr_alloc()), _arr(NULL), _head(0), _tail(0), _capacity(CAPACITY), _size(0)
 		{
 			this->_initial_alloc();
 		}
 
 		explicit deque (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
-			: _alloc(alloc), _palloc(ptr_alloc()), _arr(NULL), _head(0), _tail(0), _capacity(128), _size(0)
+			: _alloc(alloc), _palloc(ptr_alloc()), _arr(NULL), _head(0), _tail(0), _capacity(CAPACITY), _size(0)
 		{
 			this->_initial_alloc();
 			this->assign(n, val);
@@ -87,7 +89,7 @@ namespace ft
 
 		template <class InputIterator>
 			deque (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
-				: _alloc(alloc), _palloc(ptr_alloc()), _arr(NULL), _head(0), _tail(0), _capacity(128), _size(0)
+				: _alloc(alloc), _palloc(ptr_alloc()), _arr(NULL), _head(0), _tail(0), _capacity(CAPACITY), _size(0)
 		{
 			this->_initial_alloc();
 			this->assign(first, last);
@@ -134,7 +136,7 @@ namespace ft
 		void	_construct_element(size_type& idx, const cbuf& val = cbuf())
 		{
 			_arr[idx] = _alloc.allocate(1);
-			_alloc.construct(&_arr[idx][0], val);
+			_alloc.construct(_arr[idx], val);
 		}
 
 		void	_destroy_element(size_type& idx)
@@ -177,7 +179,7 @@ namespace ft
 				return (_arr[_head][0][idx]);
 			else
 				idx -= _arr[_head]->_size;
-			size_type i = idx %= _cb_cap;
+			size_type i = idx /= _cb_cap;
 			return (_arr[i][0][idx]);
 		}
 
@@ -404,6 +406,8 @@ namespace ft
 		}
 
 	}; /* end of deque */
+
+	# undef CAPACITY
 
 } /* end of namespace */
 
