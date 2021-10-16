@@ -75,7 +75,7 @@ namespace ft {
 		}
 
 		circular_buffer(const circular_buffer &x)
-			: _size(0)
+			: _capacity(CAPACITY), _size(0), _alloc(allocator_type())
 		{
 			_arr = _alloc.allocate(_capacity);
 			*this = x;
@@ -89,7 +89,6 @@ namespace ft {
 			this->_tail		= 0;
 			for (size_type i = 0; i < this->_capacity; i++)
 				this->_construct_element(i, x._arr[i]);
-			this->_arr		= x._arr;		/* make a deep copy you imbelic */
 			return (*this);
 		}
 
@@ -196,6 +195,8 @@ namespace ft {
 		}
 
 	}; /* end of circular buffer */
+
+	# undef CAPACITY
 
 }
 
