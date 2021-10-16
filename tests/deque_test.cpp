@@ -43,12 +43,12 @@ static void	modifier_test()
 	print_header("DEQUE MODIFIER");
 	ft::deque<int> deq;
 
-	// for(int i = 0; i < 42; i++)
-		deq.push_back(42);
-	// whats_in_this_container_yo(deq, "42");
-	// for (int i = 0; i < 42069; i++)
-	// 	deq.push_front(i);
-	// whats_in_this_container_yo(deq, "42069");
+	for(int i = 0; i < 2042; i++)
+		deq.push_back(i);
+	whats_in_this_container_yo(deq, "2042");
+	for (int i = 0; i < 42069; i++)
+		deq.push_back(i);
+	whats_in_this_container_yo(deq, "42069");
 }
 
 void		deque_test()
