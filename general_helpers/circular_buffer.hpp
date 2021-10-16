@@ -98,7 +98,7 @@ namespace ft {
 	//////////////////////////////
 	private:
 
-		void	_construct_element(size_type& idx, reference val)
+		void	_construct_element(size_type& idx, const value_type& val)
 		{
 			_alloc.construct(&_arr[idx], val);
 		}
@@ -114,7 +114,7 @@ namespace ft {
 	///////////////
 	public:
 
-		void	emplace_back(const reference	val)
+		void	emplace_back(const value_type& val)
 		{
 			_tail++;
 			if (_tail == _capacity)
@@ -123,7 +123,7 @@ namespace ft {
 			_size++;
 		}
 
-		void	emplace_front(reference	val)
+		void	emplace_front(const value_type& val)
 		{
 			_head--;
 			if (_head < 0)
