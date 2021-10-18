@@ -33,7 +33,7 @@ namespace ft {
 	///////////////
 	// type defs //
 	///////////////
-	public:
+	protected:
 
 		typedef T					value_type;
 		typedef	Alloc				allocator_type;
