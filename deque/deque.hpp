@@ -167,7 +167,7 @@ namespace ft
 				if (_head == _capacity)
 					_head = 0;
 			}
-			_tail = i;
+			_tail = i - 1;
 			_head = 0;
 			_palloc.deallocate(_arr, _capacity);
 			_arr = tmp;
