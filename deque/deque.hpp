@@ -169,7 +169,7 @@ namespace ft
 			}
 			_tail = i - 1;
 			_head = 0;
-			_palloc.deallocate(_arr, _capacity);
+			_palloc.deallocate(_arr, _capacity >> 1);
 			_arr = tmp;
 		}
 

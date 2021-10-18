@@ -44,11 +44,12 @@ static void	modifier_test()
 	ft::deque<int> deq;
 
 	for(int i = 0; i < 2042; i++)
-		deq.push_back(i);
+		deq.push_front(i);
 	whats_in_this_container_yo(deq, "2042");
-	for (int i = 0; i < 42069; i++)
-		deq.push_back(i);
-	whats_in_this_container_yo(deq, "42069");
+	// for (int i = 0; i < 129030; i++)
+	// 	deq.push_back(i);
+	// whats_in_this_container_yo(deq, "42069");
+	std::cerr << "please not again" << std::endl;
 }
 
 void		deque_test()
@@ -56,4 +57,5 @@ void		deque_test()
 	constructor_test();
 	capacity_test();
 	modifier_test();
+	std::cerr << "fakka" << std::endl;
 }
