@@ -162,10 +162,10 @@ namespace ft
 			tmp = _palloc.allocate(_capacity * 2);
 			size_type i = 0;
 			for (; i < _capacity; ++i) {
-				tmp[i] = _arr[_head];
 				_head++;
 				if (_head == _capacity)
 					_head = 0;
+				tmp[i] = _arr[_head];
 			}
 			_tail = i - 1;
 			_head = 0;
@@ -176,13 +176,11 @@ namespace ft
 
 		reference	get_val(size_type idx)
 		{
-			// std::cout << "idx = " << idx;
 			if (idx < _arr[_head]->_size)
 				return (_arr[_head][0][idx]);
 			else
 				idx -= _arr[_head]->_size;
 			size_type i = 1 + (idx / _cb_cap);
-			// std::cout << " | " << (_head + i) % _capacity;
 			return (_arr[(_head + i) % _capacity][0][idx]);
 		}
 
