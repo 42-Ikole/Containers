@@ -17,7 +17,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <chrono>
+#include <sys/time.h>
 #include <tests.hpp>
 
 #ifdef STD
@@ -40,10 +40,14 @@ void	print_type_header(std::string type)
 
 void	time_function(void(*func)(), std::string container)
 {
-	std::chrono::steady_clock::time_point start = std::chrono::high_resolution_clock::now();
+	struct timeval	time;
+	size_t			duration;
+
+	gettimeofday(&time, NULL);
+	duration = (time.tv_sec * 1000 * 1000) + time.tv_usec;
 	func();
-	std::chrono::high_resolution_clock::time_point finish = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(finish - start);
+	gettimeofday(&time, NULL);
+	duration = ((time.tv_sec * 1000 * 1000) + time.tv_usec) - duration;
 
 	#ifdef STD
 		std::string namespacename = "std::"; 
@@ -54,7 +58,7 @@ void	time_function(void(*func)(), std::string container)
 	std::cerr	<< COLOR_GREEN	<< namespacename \
 				<< COLOR_BLUE	<< std::setw(20) << std::left << container \
 				<< COLOR_RESET  << " took: " \
-				<< COLOR_YELLOW	<< std::setw(10) << std::right << duration.count() \
+				<< COLOR_YELLOW	<< std::setw(10) << std::right << duration \
 				<< COLOR_RED	<< "µs" \
 				<< COLOR_RESET	<< std::endl;
 }

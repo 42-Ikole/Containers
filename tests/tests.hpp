@@ -51,7 +51,7 @@ template < class Con >
 	std::cout << "\n--[ " << test << " ]--" << std::endl;
 	std::cout << "\nsize = " << con.size() << std::endl;
 	for (size_t i = 0; i < con.size(); i++)
-		std::cout << con[i] << " " << std::endl;
+		std::cout << con[i] << " ";
 }
 
 /////////////////////

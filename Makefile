@@ -21,7 +21,7 @@ CC			=	clang++
 
 FLAGS		=	-std=c++98 -pedantic -Wall -Werror -Wextra $(HEADER_LOC)
 
-TEST_FLAGS	=	-std=c++11 -pedantic -Wall -Wextra -Werror $(HEADER_LOC) $(TEST_HEADER)
+TEST_FLAGS	=	-std=c++98 -pedantic -Wall -Wextra -Werror $(HEADER_LOC) $(TEST_HEADER)
 
 DEBUG_FLAGS	=	-g -fsanitize=address
 
@@ -72,7 +72,7 @@ run: re
 test: re
 	@ clear
 	@ printf "\n\033[33mcompiling ft::containters\n\n\033[0m"
-	@ $(CC) $(TEST_FLAGS) $(DEBUG_FLAGS) $(TEST_SRC) -o $(FT)
+	@ $(CC) $(TEST_FLAGS) $(TEST_SRC) -o $(FT)
 	@ ./$(FT) > $(FT).txt
 	@ printf "\n\033[33mcompiling std::containers\n\n\033[0m"
 	@ $(CC) $(TEST_FLAGS) $(TEST_SRC) -D STD -o $(STD)

@@ -38,7 +38,7 @@ static void constructor_test()
 	whats_in_this_container_yo(default_constructor, "default constructor");
 
 /* set allocator */
-	ft::vector<std::string, std::allocator<std::string>> set_allocator;
+	ft::vector<std::string, std::allocator<std::string> > set_allocator;
 	whats_in_this_container_yo(set_allocator, "set allocater");
 
 /* fill constructor */
