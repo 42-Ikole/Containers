@@ -104,8 +104,12 @@ namespace ft {
 
 		void	_destroy_elements()
 		{
-			for (; _head != _tail; _head++)
+			while (_head != _tail) {
 				_alloc.destroy(&_arr[_head]);
+				_head++;
+				if (_head == _capacity)
+					_head = 0;
+			}
 		}
 
 	///////////////

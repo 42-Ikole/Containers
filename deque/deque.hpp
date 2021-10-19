@@ -17,7 +17,7 @@
 
 # include <memory>
 # include <array_iterator.hpp> //
-# include <general_helpers.hpp>
+# include <utility.hpp>
 # include <circular_buffer.hpp>
 
 namespace ft
@@ -147,10 +147,11 @@ namespace ft
 
 		void	_destroy_elements()
 		{
-			for (; _head != _tail; _head++) {
+			while (_head != _tail) {
+				this->_destroy_element(_head);
+				_head++;
 				if (_head == _capacity)
 					_head = 0;
-				this->_destroy_element(_head);
 			}
 		}
 
@@ -312,7 +313,7 @@ namespace ft
 	///////////////
 	public:
 
-		void assign (size_type n, const value_type& val)
+		void assign(size_type n, const value_type& val)
 		{
 			this->_destroy_elements();
 			for (size_type i = 0; i < n; i++)
@@ -320,7 +321,7 @@ namespace ft
 		}
 
 		template <class InputIterator>
- 			void assign (InputIterator first, InputIterator last)
+ 			void assign(InputIterator first, InputIterator last)
 		{
 			this->_destroy_elements();
 			for (; first != last; first++)
@@ -367,6 +368,7 @@ namespace ft
 					_tail--;
 				}
 			}
+			_size--;
 		}
 
 		void pop_front()
@@ -381,6 +383,7 @@ namespace ft
 					_head++;
 				}
 			}
+			_size--;
 		}
 
 		/* WHY DOES THIS HAVE INSERT AND ERASE? */
