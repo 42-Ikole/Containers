@@ -180,7 +180,7 @@ namespace ft
 				return (_arr[_head][0][idx]);
 			else
 				idx -= _arr[_head]->_size;
-			size_type i = idx /= _cb_cap;
+			size_type i = idx / _cb_cap;
 			return (_arr[i][0][idx]);
 		}
 
