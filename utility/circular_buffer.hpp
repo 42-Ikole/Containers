@@ -119,10 +119,10 @@ namespace ft {
 
 		void	emplace_back(const value_type& val)
 		{
+			this->_construct_element(_tail, val);
 			_tail++;
 			if (_tail == _capacity)
 				_tail = 0;
-			this->_construct_element(_tail, val);
 			_size++;
 		}
 
