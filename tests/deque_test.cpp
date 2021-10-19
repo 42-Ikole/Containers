@@ -30,7 +30,7 @@ static void	constructor_test()
 {
 	print_header("DEQUE CONSTRUCTOR");
 
-	ft::deque<int> nice;
+	// ft::deque<int> nice;
 }
 
 static void	capacity_test()
@@ -43,13 +43,18 @@ static void	modifier_test()
 	print_header("DEQUE MODIFIER");
 	ft::deque<int> deq;
 
-	for(int i = 0; i < 2042; i++)
+	for(int i = 0; i < 2048; i++)
+		deq.push_back(i);
+	whats_in_this_container_yo(deq, "1024");
+	for (int i = 0; i < 129024; i++)
 		deq.push_front(i);
-	whats_in_this_container_yo(deq, "2042");
-	// for (int i = 0; i < 129030; i++)
-	// 	deq.push_back(i);
-	// whats_in_this_container_yo(deq, "42069");
-	std::cerr << "please not again" << std::endl;
+	whats_in_this_container_yo(deq, "42069");
+	// deq.push_back(4);
+	// deq.push_back(5);
+	// deq.push_front(3);
+	// deq.push_front(2);
+	// deq.push_front(1);
+	// whats_in_this_container_yo(deq, "fadj");
 }
 
 void		deque_test()
@@ -57,5 +62,4 @@ void		deque_test()
 	constructor_test();
 	capacity_test();
 	modifier_test();
-	std::cerr << "fakka" << std::endl;
 }

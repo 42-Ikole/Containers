@@ -33,10 +33,11 @@ TEST_SRC	=	tests/main.cpp \
 				tests/deque_test.cpp
 
 HEADER_LOC	=	-I deque/			\
-				-I general_helpers/	\
+				-I utility/			\
 				-I iterator/		\
 				-I list/			\
 				-I map/				\
+				-I pair/			\
 				-I multimap/		\
 				-I priority_queue/	\
 				-I queue/			\
@@ -69,13 +70,13 @@ run: re
 	./$(NAME)
 
 test: re
-	@clear
-	@printf "\n\033[33mcompiling ft::containters\n\n\033[0m"
-	@$(CC) $(TEST_FLAGS) $(DEBUG_FLAGS) $(TEST_SRC) -o $(FT)
-	@./$(FT) > $(FT).txt
-	@printf "\n\033[33mcompiling std::containers\n\n\033[0m"
-	@$(CC) $(TEST_FLAGS) $(TEST_SRC) -D STD -o $(STD)
-	@./$(STD) > $(STD).txt
+	@ clear
+	@ printf "\n\033[33mcompiling ft::containters\n\n\033[0m"
+	@ $(CC) $(TEST_FLAGS) $(DEBUG_FLAGS) $(TEST_SRC) -o $(FT)
+	@ ./$(FT) > $(FT).txt
+	@ printf "\n\033[33mcompiling std::containers\n\n\033[0m"
+	@ $(CC) $(TEST_FLAGS) $(TEST_SRC) -D STD -o $(STD)
+	@ ./$(STD) > $(STD).txt
 	diff $(FT).txt $(STD).txt
 
 debug: fclean
