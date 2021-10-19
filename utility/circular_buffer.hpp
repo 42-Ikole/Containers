@@ -188,12 +188,12 @@ namespace ft {
 	////////////////////
 	public:
 
-		reference operator[](const size_type& n)
+		reference operator [] (const size_type& n)
 		{
 			return (_arr[(_head + n) % _capacity]);
 		}
 
-		reference operator[](const size_type& n) const
+		reference operator [] (const size_type& n) const
 		{
 			return (_arr[(_head + n) % _capacity]);
 		}
