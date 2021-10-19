@@ -162,10 +162,10 @@ namespace ft
 			tmp = _palloc.allocate(_capacity * 2);
 			size_type i = 0;
 			for (; i < _capacity; ++i) {
+				tmp[i] = _arr[_head];
 				_head++;
 				if (_head == _capacity)
 					_head = 0;
-				tmp[i] = _arr[_head];
 			}
 			_tail = i - 1;
 			_head = 0;
@@ -335,6 +335,9 @@ namespace ft
 				if (_tail == _capacity)
 					_tail = 0;
 				if (_head == _tail) {
+					if (_tail == 0)
+						_tail = _capacity;
+					_tail--;
 					this->_realloc();
 					return this->push_back(val);
 				}
@@ -351,6 +354,9 @@ namespace ft
 					_head = _capacity; 
 				_head--;
 				if (_head == _tail) {
+					_head++;
+					if (_head == _capacity)
+						_head = 0;
 					this->_realloc();
 					return this->push_front(val);
 				}
