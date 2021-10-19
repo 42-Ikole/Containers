@@ -180,8 +180,8 @@ namespace ft
 				return (_arr[_head][0][idx]);
 			else
 				idx -= _arr[_head]->_size;
-			size_type i = idx / _cb_cap;
-			return (_arr[i][0][idx]);
+			size_type i = 1 + (idx / _cb_cap);
+			return (_arr[(_head + i) % _capacity][0][idx]);
 		}
 
 		bool	_is_full()
@@ -334,7 +334,7 @@ namespace ft
 				_tail++;
 				if (_tail == _capacity)
 					_tail = 0;
-				if (this->_is_full())
+				if (_head == _tail)
 					this->_realloc();
 				this->_construct_element(_tail);
 			}
@@ -348,7 +348,7 @@ namespace ft
 				if (_head == 0)
 					_head = _capacity; 
 				_head--;
-				if (this->_is_full())
+				if (_head == _tail)
 					this->_realloc();
 				this->_construct_element(_head);
 			}
