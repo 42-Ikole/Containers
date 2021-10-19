@@ -313,7 +313,7 @@ namespace ft {
 		/* iterator range assign */
 		template	<class InputIterator>
 			void		assign(InputIterator first, InputIterator last,
-				typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
+				typename ft::iterator_traits<InputIterator>::iterator_category* = 0) /* fix deze */
 			{
 				if (static_cast<size_type>(ft::distance(first, last)) > _capacity)
 					this->_resize(ft::distance(first, last) + _capacity);

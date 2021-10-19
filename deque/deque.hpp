@@ -321,7 +321,8 @@ namespace ft
 		}
 
 		template <class InputIterator>
- 			void assign(InputIterator first, InputIterator last)
+ 			void assign(InputIterator first, InputIterator last,
+				typename ft::iterator_traits<InputIterator>::iterator_category* = 0) /* pls fix */
 		{
 			this->_destroy_elements();
 			for (; first != last; first++)
