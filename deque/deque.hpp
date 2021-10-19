@@ -159,10 +159,9 @@ namespace ft
 		{
 			cbuf	**tmp;
 
-			_capacity <<= 1;
-			tmp = _palloc.allocate(_capacity);
+			tmp = _palloc.allocate(_capacity * 2);
 			size_type i = 0;
-			for (; _head != _tail; i++) {
+			for (; i < _capacity; ++i) {
 				tmp[i] = _arr[_head];
 				_head++;
 				if (_head == _capacity)
@@ -170,17 +169,20 @@ namespace ft
 			}
 			_tail = i - 1;
 			_head = 0;
-			_palloc.deallocate(_arr, _capacity >> 1);
+			_palloc.deallocate(_arr, _capacity);
+			_capacity *= 2;
 			_arr = tmp;
 		}
 
 		reference	get_val(size_type idx)
 		{
+			// std::cout << "idx = " << idx;
 			if (idx < _arr[_head]->_size)
 				return (_arr[_head][0][idx]);
 			else
 				idx -= _arr[_head]->_size;
 			size_type i = 1 + (idx / _cb_cap);
+			// std::cout << " | " << (_head + i) % _capacity;
 			return (_arr[(_head + i) % _capacity][0][idx]);
 		}
 
@@ -334,8 +336,10 @@ namespace ft
 				_tail++;
 				if (_tail == _capacity)
 					_tail = 0;
-				if (_head == _tail)
+				if (_head == _tail) {
 					this->_realloc();
+					return this->push_back(val);
+				}
 				this->_construct_element(_tail);
 			}
 			_arr[_tail]->emplace_back(val);
@@ -348,8 +352,10 @@ namespace ft
 				if (_head == 0)
 					_head = _capacity; 
 				_head--;
-				if (_head == _tail)
+				if (_head == _tail) {
 					this->_realloc();
+					return this->push_front(val);
+				}
 				this->_construct_element(_head);
 			}
 			_arr[_head]->emplace_front(val);
