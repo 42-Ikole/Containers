@@ -98,6 +98,7 @@ namespace ft
 		~deque()
 		{
 			this->clear();
+			this->_destroy_element(_head);
 			_palloc.deallocate(_arr, _capacity);
 		}
 
@@ -319,7 +320,6 @@ namespace ft
 		void assign(size_type n, const value_type& val)
 		{
 			this->clear();
-			this->_construct_element(_head);
 			for (size_type i = 0; i < n; i++)
 				this->push_back(val);
 		}
@@ -329,7 +329,6 @@ namespace ft
 				typename ft::iterator_traits<InputIterator>::iterator_category* = 0) /* pls fix */
 		{
 			this->clear();
-			this->_construct_element(_head);
 			for (; first != last; first++)
 				this->push_back(*first);
 		}
@@ -421,6 +420,7 @@ namespace ft
 			_head = 0;
 			_tail = 0;
 			_size = 0;
+			this->_construct_element(_head);
 		}
 
 	}; /* end of deque */
