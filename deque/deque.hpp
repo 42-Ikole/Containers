@@ -316,6 +316,7 @@ namespace ft
 		void assign(size_type n, const value_type& val)
 		{
 			this->_destroy_elements();
+			this->_initial_alloc();
 			for (size_type i = 0; i < n; i++)
 				this->push_back(val);
 		}
@@ -325,6 +326,7 @@ namespace ft
 				typename ft::iterator_traits<InputIterator>::iterator_category* = 0) /* pls fix */
 		{
 			this->_destroy_elements();
+			this->_initial_alloc();
 			for (; first != last; first++)
 				this->push_back(*first);
 		}
