@@ -72,6 +72,7 @@ namespace ft {
 		~circular_buffer()
 		{
 			this->clear();
+			_alloc.deallocate(_arr, _capacity);
 		}
 
 		circular_buffer(const circular_buffer &x)
@@ -83,12 +84,11 @@ namespace ft {
 
 		circular_buffer&	operator = (const circular_buffer &x)
 		{
-			if (this->_size > 0)
-				this->clear();
-			this->_head		= 0;
-			this->_tail		= 0;
-			for (size_type i = 0; i < this->_capacity; i++)
+			this->clear();
+			size_type i = 0;
+			for (; i < x._size; i++)
 				this->_construct_element(i, x._arr[i]);
+			this->_tail = i;
 			return (*this);
 		}
 
@@ -104,12 +104,8 @@ namespace ft {
 
 		void	_destroy_elements()
 		{
-			while (_head != _tail) {
-				_alloc.destroy(&_arr[_head]);
-				_head++;
-				if (_head == _capacity)
-					_head = 0;
-			}
+			while (_size > 0)
+				this->dequeue_back();
 		}
 
 	///////////////
@@ -137,10 +133,10 @@ namespace ft {
 
 		void	dequeue_back()
 		{
-			this->_alloc.destroy(&_arr[_tail]);
 			if (_tail == 0)
 				_tail = _capacity;
 			_tail--;
+			this->_alloc.destroy(&_arr[_tail]);
 			_size--;
 		}
 
@@ -156,11 +152,8 @@ namespace ft {
 		void	clear()
 		{
 			this->_destroy_elements();
-			_alloc.deallocate(_arr, _capacity);
 			_head		= 0;
 			_tail		= 0;
-			_capacity	= 0;
-			_arr		= NULL;
 		}
 
 	//////////////
