@@ -27,7 +27,7 @@ namespace ft
 // DEQUE CLASS //
 /////////////////
 
-	# define CAPACITY 128
+	# define CAPACITY	128
 
 	template < class T, class Alloc = std::allocator<T> >
 		class deque {
@@ -97,7 +97,7 @@ namespace ft
 
 		~deque()
 		{
-			this->_destroy_elements();
+			this->clear();
 			_palloc.deallocate(_arr, _capacity);
 		}
 
@@ -143,6 +143,7 @@ namespace ft
 		{
 			_alloc.destroy(&_arr[idx][0]);
 			_alloc.deallocate(_arr[idx], 1);
+			_arr[idx] = NULL;
 		}
 
 		void	_destroy_elements()
@@ -153,6 +154,8 @@ namespace ft
 				if (_head == _capacity)
 					_head = 0;
 			}
+			if (_arr[_head] != NULL)
+				this->_destroy_element(_head);
 		}
 
 		void	_realloc()
@@ -316,7 +319,7 @@ namespace ft
 		void assign(size_type n, const value_type& val)
 		{
 			this->clear();
-			this->_initial_alloc();
+			this->_construct_element(_head);
 			for (size_type i = 0; i < n; i++)
 				this->push_back(val);
 		}
@@ -326,7 +329,7 @@ namespace ft
 				typename ft::iterator_traits<InputIterator>::iterator_category* = 0) /* pls fix */
 		{
 			this->clear();
-			this->_initial_alloc();
+			this->_construct_element(_head);
 			for (; first != last; first++)
 				this->push_back(*first);
 		}
@@ -342,7 +345,7 @@ namespace ft
 						_tail = _capacity;
 					_tail--;
 					this->_realloc();
-					return this->push_back(val);
+					return (this->push_back(val));
 				}
 				this->_construct_element(_tail);
 			}
@@ -361,7 +364,7 @@ namespace ft
 					if (_head == _capacity)
 						_head = 0;
 					this->_realloc();
-					return this->push_front(val);
+					return (this->push_front(val));
 				}
 				this->_construct_element(_head);
 			}
@@ -414,7 +417,7 @@ namespace ft
 
 		void		clear()
 		{
-			_destroy_elements();
+			this->_destroy_elements();
 			_head = 0;
 			_tail = 0;
 			_size = 0;
