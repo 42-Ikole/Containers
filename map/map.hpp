@@ -96,6 +96,34 @@ namespace ft
 			return (*this);
 		}
 
+	///////////////
+	// Rotations //
+	///////////////
+	private:
+
+		void	left_rotate(node* pivot)
+		{
+			node* x = pivot->right;
+
+			pivot->right = x->left;
+			if (x->left != NULL)
+				x->left->parent = pivot;
+			x->parent = pivot->parent;
+			if (pivot->parent == NULL)
+				_root = x;
+			else if (pivot == pivot->parent->left)
+				pivot->parent->left = x;
+			else
+				pivot->parent->right = x;
+			x->left = pivot;
+			pivot->parent = x;
+		}
+
+		void	right_rotate(node* pivot)
+		{
+
+		}
+
 	//////////////////
 	// Iterators 🤮 //
 	//////////////////
