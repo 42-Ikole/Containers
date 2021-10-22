@@ -96,88 +96,88 @@ namespace ft
 			return (*this);
 		}
 
-		//////////////////
-		// Iterators 🤮 //
-		//////////////////
-		public:
+	//////////////////
+	// Iterators 🤮 //
+	//////////////////
+	public:
 
-			iterator begin()
-			{
+		iterator begin()
+		{
 
-			}
+		}
 
-			const_iterator begin() const
-			{
+		const_iterator begin() const
+		{
 
-			}
+		}
 
-			iterator end()
-			{
+		iterator end()
+		{
 
-			}
+		}
 
-			const_iterator end() const
-			{
+		const_iterator end() const
+		{
 
-			}
+		}
 
-			reverse_iterator rbegin()
-			{
+		reverse_iterator rbegin()
+		{
 
-			}
+		}
 
-			const_reverse_iterator rbegin() const
-			{
+		const_reverse_iterator rbegin() const
+		{
 
-			}
+		}
 
-			reverse_iterator rend()
-			{
+		reverse_iterator rend()
+		{
 
-			}
+		}
 
-			const_reverse_iterator rend() const
-			{
-				
-			}
+		const_reverse_iterator rend() const
+		{
 
-		//////////////
-		// Capacity //
-		//////////////
-		public:
+		}
 
-			bool empty() const
-			{
-				return (_size == 0);
-			}
+	//////////////
+	// Capacity //
+	//////////////
+	public:
 
-			size_type size() const
-			{
-				return (_size);
-			}
+		bool empty() const
+		{
+			return (_size == 0);
+		}
 
-			size_type max_size() const
-			{
-				return (_alloc.max_size());
-			}
+		size_type size() const
+		{
+			return (_size);
+		}
 
-		////////////////////
-		// Element access //
-		////////////////////
-		public:
+		size_type max_size() const
+		{
+			return (_alloc.max_size());
+		}
 
-			mapped_type& operator[] (const key_type& k)
-			{
-				return (*((this->insert(make_pair(k, mapped_type()))).first)).second;
-			}
+	////////////////////
+	// Element access //
+	////////////////////
+	public:
 
-		///////////////
-		// Modifiers //
-		///////////////
-		public:
+		mapped_type& operator[] (const key_type& k)
+		{
+			return (*((this->insert(make_pair(k, mapped_type()))).first)).second;
+		}
+
+	///////////////
+	// Modifiers //
+	///////////////
+	public:
 
 		/* single element */
-		pair<iterator,bool> insert(const value_type& val)
+		ft::pair<iterator, bool> insert(const value_type& val)
 		{
 
 		}
