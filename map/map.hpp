@@ -121,7 +121,20 @@ namespace ft
 
 		void	right_rotate(node* pivot)
 		{
+			node* x = pivot->left;
 
+			pivot->left = x->right;
+			if (x->right != NULL)
+				x->right->parent = pivot;
+			x->parent = pivot->parent;
+			if (pivot->parent == NULL)
+				_root = x;
+			else if (pivot == pivot->parent->right)
+				pivot->parent->right = x;
+			else
+				pivot->parent->left = x;
+			x->right = pivot;
+			pivot->parent = x;
 		}
 
 	//////////////////
