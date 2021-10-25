@@ -77,6 +77,18 @@ namespace ft
 		{
 			return (value.first);
 		}
+
+		colors&		get_uncle_color()
+		{
+			if (parent == parent->parent->right) {
+				if (parent->parent->right == NULL)
+					return (black);
+				return (parent->parent->right->color);
+			}
+			if (parent->parent->left == NULL)
+				return (black);
+			return (parent->parent->left->color);
+		}
 		
 	}; /* end of map_node */
 
