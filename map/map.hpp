@@ -101,7 +101,21 @@ namespace ft
 	///////////////
 	private:
 
-		void	left_rotate(node* pivot)
+		node*	_new_node(value_type& val)
+		{
+			node* ret;
+
+			ret = _node_alloc.allocate(1);
+			_node_alloc.construct(&ret, node(val));
+			return (ret);
+		}
+
+		void	_insert_fix(node* x)
+		{
+
+		}
+
+		void	_left_rotate(node* pivot)
 		{
 			node* x = pivot->right;
 
@@ -119,7 +133,7 @@ namespace ft
 			pivot->parent = x;
 		}
 
-		void	right_rotate(node* pivot)
+		void	_right_rotate(node* pivot)
 		{
 			node* x = pivot->left;
 
@@ -209,7 +223,7 @@ namespace ft
 
 		mapped_type& operator[] (const key_type& k)
 		{
-			return (*((this->insert(make_pair(k, mapped_type()))).first)).second;
+			return (*((this->insert(ft::make_pair(k, mapped_type()))).first)).second;
 		}
 
 	///////////////
@@ -220,7 +234,30 @@ namespace ft
 		/* single element */
 		ft::pair<iterator, bool> insert(const value_type& val)
 		{
+			node* new_node	= this->_new_node(val);
+			node* parent	= NULL:
 
+			// find node to go to
+			for (node* x = _root; x != NULL;) {
+				y = x;
+				if (_comp(x->get_key(), new_node->get_key()) == true)
+					x = x->right;
+				else
+					x = x->left;
+			}
+
+			// set parents
+			new_node->parent = parent;
+			if (_root == NULL) {
+				_root = new_node;
+				_root->color = black;
+			}
+			else if (_comp(x->get_key(), new_node->get_key()) == true)
+				parent->left = new_node;
+			else
+				parent->right = new_node;
+
+			this->_insert_fix(new_node);
 		}
 
 		/* with hint */
@@ -268,7 +305,7 @@ namespace ft
 
 		key_compare key_comp() const
 		{
-
+			return (_comp);
 		}
 
 		value_compare value_comp() const
@@ -331,3 +368,8 @@ namespace ft
 } /* end of namespace */
 
 #endif
+
+
+template <class T> struct less {
+  bool operator() (const T& x, const T& y) const {return x<y;}
+};
