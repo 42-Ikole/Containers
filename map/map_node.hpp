@@ -67,6 +67,16 @@ namespace ft
 		map_node(value_type& val, node* p = NULL, node* l = NULL, node* r = NULL, colors c = red)
 			: value(val), parent(p), left(l), right(r), color(c)
 		{}
+
+	/////////////////////////////
+	// Public member functions //
+	/////////////////////////////
+	public:
+
+		key_type&	get_key(void)
+		{
+			return (value.first);
+		}
 		
 	}; /* end of map_node */
 
