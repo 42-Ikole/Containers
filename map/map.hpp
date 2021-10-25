@@ -19,6 +19,9 @@
 
 namespace ft
 {
+	# define grandparent	parent->parent
+	# define left_uncle		parent->parent->left
+	# define right_uncle	parent->parent->right
 
 ////////////
 // MAPPIE //
@@ -110,9 +113,67 @@ namespace ft
 			return (ret);
 		}
 
-		void	_insert_fix(node* x)
+		void	_flip_color(node* x)
 		{
+			x->color ^= black;
+		}
 
+		void	_violation_justifier(node* x)
+		{
+			if (x->parent->color == red) {
+				if (x->get_uncle_color() == red) {
+					x = this->_red_uncle(x);
+				}
+				else {
+					x = this->_black_diamond(x);
+					this->_black_line(x);
+				}
+			}
+			root->color = black;
+		}
+
+		/* violation case one */
+		node*	_red_uncle(node* x)
+		{
+			this->_flip_color(x->parent);
+			this->_flip_color(x->grandparent);
+			if (x->parent == x->right_uncle)
+				this->_flip_color(x->left_uncle);
+			else
+				this->_flip_color(x->right_uncle);
+			return (x->grandparent);
+		}
+
+		/* violation case two */
+		node*	_black_diamond(node* x)
+		{
+			node*	y = x->parent;
+
+			/* uncle on left side of grandparent */
+			if (x == x->parent->left && x->parent == x->right_uncle)
+				this->_right_rotate(x->parent);
+
+			/* uncle on right side of grandparent */
+			else if (x == x->parent->right && x->parent == x->left_uncle)
+				this->_left_rotate(x->parent);
+			
+			/* its a line and x is violator*/
+			else
+				return (x);
+			
+			/* fixed violation and old parent is now new violator (line) */
+			return (y);
+		}
+
+		void	_black_line(node* x)
+		{
+			/* line on right side of grandparent */
+			if (x->parent == x->right_uncle)
+				this->_left_rotate(x->grandparent);
+
+			/* line on left side of grandparent */
+			else
+				this->_right_rotate(x->grandparent);
 		}
 
 		void	_left_rotate(node* pivot)
@@ -248,16 +309,17 @@ namespace ft
 
 			// set parents
 			new_node->parent = parent;
-			if (_root == NULL) {
+			if (_root == NULL)
 				_root = new_node;
-				_root->color = black;
-			}
 			else if (_comp(x->get_key(), new_node->get_key()) == true)
 				parent->left = new_node;
 			else
 				parent->right = new_node;
 
-			this->_insert_fix(new_node);
+			/* fix all the violations */
+			this->_violation_justifier(new_node);
+			
+			// return (ft::makepair())
 		}
 
 		/* with hint */
@@ -365,11 +427,10 @@ namespace ft
 
 	}; /* end of map */
 
+	# undef grandparent
+	# undef left_uncle	
+	# undef right_uncle
+
 } /* end of namespace */
 
 #endif
-
-
-template <class T> struct less {
-  bool operator() (const T& x, const T& y) const {return x<y;}
-};
