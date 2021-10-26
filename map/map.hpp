@@ -19,6 +19,11 @@
 
 namespace ft
 {
+
+/////////////////////////////
+// defines for readability //
+/////////////////////////////
+
 	# define grandparent	parent->parent
 	# define left_uncle		parent->parent->left
 	# define right_uncle	parent->parent->right
@@ -115,7 +120,7 @@ namespace ft
 
 		void	_flip_color(node* x)
 		{
-			x->color ^= black;
+			x->color = !x->color;
 		}
 
 		void	_violation_justifier(node* x)
