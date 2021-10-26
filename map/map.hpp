@@ -106,9 +106,9 @@ namespace ft
 			return (*this);
 		}
 
-	///////////////
-	// Rotations //
-	///////////////
+	/////////////
+	// Helpers //
+	/////////////
 	private:
 
 		void	_print_tree(const std::string& prefix, node* x, bool isLeft)
@@ -142,6 +142,69 @@ namespace ft
 			x->color = (colors)!x->color;
 		}
 
+	///////////////
+	// Rotations //
+	///////////////
+	private:
+
+		void	_left_rotate(node* x)
+		{
+			node* y = x->right;
+
+			/* assign y's left subtree to x */
+			x->right = y->left;
+			if (y->left != NULL)
+				y->left->parent = x;
+			y->parent = x->parent;
+			
+			/* x was root */
+			if (x->parent == NULL)
+				_root = y;
+			
+			/* if x was the left child, y becomes left child */
+			else if (x == x->parent->left)
+				x->parent->left = y;
+
+			/* y becomes right child */
+			else
+				x->parent->right = y;
+	
+			y->left = x;
+			x->parent = y;
+		}
+
+		void	_right_rotate(node* x)
+		{
+			node* y = x->left;
+
+			/* assign y's right subtree to x */
+			x->left = y->right;
+			if (y->right != NULL)
+				y->right->parent = x;
+			y->parent = x->parent;
+
+			/* x was root */
+			if (x->parent == NULL)
+				_root = y;
+			
+			/* if x was a right child, y becomes right child */
+			else if (x == x->parent->right)
+				x->parent->right = y;
+
+			/* y becomes left child */
+			else
+				x->parent->left = y;
+
+			y->right = x;
+			x->parent = y;
+		}
+
+	///////////////////
+	// Violation fix //
+	///////////////////
+	private:
+
+		/* violation routine */
 		void	_violation_justifier(node* x)
 		{
 			while (x->parent && x->parent->color == red) {
@@ -156,10 +219,14 @@ namespace ft
 			_root->color = black;
 		}
 
-		/* violation case one */
+		/*
+		** Violation case one:
+		** -------------------
+		** violator has a red uncle.
+		** recolor parent, grandparent and uncle
+		*/
 		node*	_red_uncle(node* x)
 		{
-			std::cout << "red uncle found, flipping colors!\n\n";
 			this->_flip_color(x->parent);
 			this->_flip_color(x->grandparent);
 			if (x->parent == x->right_uncle)
@@ -169,85 +236,53 @@ namespace ft
 			return (x->grandparent);
 		}
 
-		/* violation case two */
+		/*
+		** Violation case two:
+		** -------------------
+		** Diamond with a black uncle.
+		** rotate parent of violator in oposite direction
+		*/
 		node*	_black_diamond(node* x)
 		{
 			node*	y = x->parent;
 
 			/* uncle on left side of grandparent */
-			if (x == x->parent->left && x->parent == x->right_uncle) {
-				std::cout << "right rotate on black diamond (left child)\n\n";
+			if (x == x->parent->left && x->parent == x->right_uncle)
 				this->_right_rotate(x->parent);
-			}
 
 			/* uncle on right side of grandparent */
-			else if (x == x->parent->right && x->parent == x->left_uncle) {
-				std::cout << "left rotate on black diamond (right child)\n\n";
+			else if (x == x->parent->right && x->parent == x->left_uncle)
 				this->_left_rotate(x->parent);
-			}
 			
 			/* its a line and x is violator*/
-			else {
-				std::cout << "its not a diamond\n\n";
+			else
 				return (x);
-			}
 			
 			/* fixed violation and old parent is now new violator (line) */
 			return (y);
 		}
 
+		/*
+		** Violation case three:
+		** ---------------------
+		** Line with a black uncle
+		** flip color of parent and grandparent.
+		** then rotate in opposite direction of the line
+		*/
 		void	_black_line(node* x)
 		{
 			this->_flip_color(x->parent);
 			this->_flip_color(x->grandparent);
+
 			/* line on right side of grandparent */
-			if (x->parent == x->right_uncle) {
-				std::cout << "line on right side of grandpa, doing a left rotate\n\n";
+			if (x->parent == x->right_uncle)
 				this->_left_rotate(x->grandparent);
-			}
 
 			/* line on left side of grandparent */
-			else {
-				std::cout << "line on left side of grandpa doing a right rotate\n\n";
+			else
 				this->_right_rotate(x->grandparent);
-			}
 		}
 
-		void	_left_rotate(node* pivot)
-		{
-			node* x = pivot->right;
-
-			pivot->right = x->left;
-			if (x->left != NULL)
-				x->left->parent = pivot;
-			x->parent = pivot->parent;
-			if (pivot->parent == NULL)
-				_root = x;
-			else if (pivot == pivot->parent->left)
-				pivot->parent->left = x;
-			else
-				pivot->parent->right = x;
-			x->left = pivot;
-			pivot->parent = x;
-		}
-
-		void	_right_rotate(node* pivot)
-		{
-			node* x = pivot->left;
-
-			pivot->left = x->right;
-			if (x->right != NULL)
-				x->right->parent = pivot;
-			x->parent = pivot->parent;
-			if (pivot->parent == NULL)
-				_root = x;
-			else if (pivot == pivot->parent->right)
-				pivot->parent->right = x;
-			else
-				pivot->parent->left = x;
-			x->right = pivot;
-			pivot->parent = x;
-		}
 
 	//////////////////
 	// Iterators 🤮 //
