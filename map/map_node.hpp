@@ -31,7 +31,7 @@ namespace ft
 //////////////
 // MAP NODE //
 //////////////
-	template < class Key, class T, class Compare >
+	template < class Key, class T >
 		struct map_node
 	{
 
@@ -40,13 +40,12 @@ namespace ft
 	///////////////
 	public:
 			
-		typedef Key												key_type;
-		typedef T												mapped_type;
-		typedef ft::pair<const key_type, mapped_type>			value_type;
-		typedef Compare											key_compare;
-		typedef	std::ptrdiff_t									difference_type;
-		typedef	std::size_t										size_type;
-		typedef map_node<key_type, mapped_type, key_compare>	node;
+		typedef Key										key_type;
+		typedef T										mapped_type;
+		typedef ft::pair<key_type, mapped_type>			value_type;
+		typedef	std::ptrdiff_t							difference_type;
+		typedef	std::size_t								size_type;
+		typedef map_node<key_type, mapped_type>			node;
 	
 	//////////////////////
 	// Member variables //
@@ -64,9 +63,28 @@ namespace ft
 	/////////////////
 	public:
 
-		map_node(value_type& val, node* p = NULL, node* l = NULL, node* r = NULL, colors c = red)
+		map_node(const value_type& val, node* p = NULL, node* l = NULL, node* r = NULL, colors c = red)
 			: value(val), parent(p), left(l), right(r), color(c)
 		{}
+
+		~map_node()
+		{
+		}
+
+		map_node(const map_node& x)
+		{
+			*this = x;
+		}
+
+		map_node&	operator = (const map_node &x)
+		{
+			this->value		= x.value;
+			this->parent	= x.parent;
+			this->left		= x.left;
+			this->right		= x.right;
+			this->color		= x.color;
+			return (*this);
+		}
 
 	/////////////////////////////
 	// Public member functions //
@@ -78,16 +96,16 @@ namespace ft
 			return (value.first);
 		}
 
-		colors&		get_uncle_color()
+		colors		get_uncle_color()
 		{
 			if (parent == parent->parent->right) {
-				if (parent->parent->right == NULL)
+				if (parent->parent->left == NULL)
 					return (black);
-				return (parent->parent->right->color);
+				return (parent->parent->left->color);
 			}
-			if (parent->parent->left == NULL)
+			if (parent->parent->right == NULL)
 				return (black);
-			return (parent->parent->left->color);
+			return (parent->parent->right->color);
 		}
 		
 	}; /* end of map_node */
