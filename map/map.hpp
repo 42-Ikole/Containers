@@ -111,16 +111,21 @@ namespace ft
 	///////////////
 	private:
 
-		void	_print_tree(node* x)
+		void	_print_tree(const std::string& prefix, node* x, bool isLeft)
 		{
-			if (x == NULL)
-				return ;
-			this->_print_tree(x->left);
-			std::cout << ((x->color == red) ? "\033[31;01m" : "") << "[" << x->value.first << "]\033[0m" << (void*)x;
-			std::cout << " parent: " << (void*)x->parent \
-					  << " left:   " << (void*)x->left \
-					  << " right:  " << (void*)x->right << std::endl;
-			this->_print_tree(x->right);
+			if( x != NULL )
+			{
+				std::cout << prefix;
+
+				std::cout << (isLeft ? "\033[33m├──\033[0m" : "└──" );
+
+				// print the value of the node
+				std::cout << ((x->color == red) ? "\033[31;01m" : "") << "[" << x->value.first << "]\033[0m" << std::endl;
+
+				// enter the next tree level - left and right branch
+				this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->left, true);
+				this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->right, false);
+			}
 		}
 
 		node*	_new_node(const value_type& val)
@@ -354,7 +359,7 @@ namespace ft
 			this->_violation_justifier(new_node);
 	
 			_size++;
-			this->_print_tree(_root);
+			this->_print_tree("", _root, false);
 			// return (ft::makepair())
 		}
 
