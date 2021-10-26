@@ -37,10 +37,10 @@ namespace ft
 ///////////////
 // MAKE_PAIR //
 ///////////////
-	template <class T1,class T2>
-		ft::pair<T1,T2> make_pair (T1 x, T2 y)
+	template < class T1, class T2 >
+		ft::pair<T1, T2> make_pair (T1 x, T2 y)
 	{
-		return ( ft::pair<T1,T2>(x,y) );
+		return ( ft::pair<T1, T2>(x, y) );
 	}
 
 } /* end of namespace */
