@@ -16,6 +16,7 @@
 # include <memory>
 # include <pair.hpp>
 # include <map_node.hpp>
+# include <utility.hpp>
 
 namespace ft
 {
@@ -41,19 +42,19 @@ namespace ft
 	///////////////
 	public:
 			
-		typedef Key													key_type;
-		typedef T													mapped_type;
-		typedef ft::pair<const key_type, mapped_type>				value_type;
-		typedef Compare												key_compare;
-		typedef Alloc												allocator_type;
-		typedef typename allocator_type::reference					reference;
-		typedef typename allocator_type::const_reference			const_reference;
-		typedef typename allocator_type::pointer					pointer;
-		typedef typename allocator_type::const_pointer				const_pointer;
-		typedef	std::ptrdiff_t										difference_type;
-		typedef	std::size_t											size_type;
-		typedef ft::map_node<key_type, mapped_type, key_compare>	node;
-		typedef std::allocator<node>								node_allocator_type;
+		typedef Key											key_type;
+		typedef T											mapped_type;
+		typedef ft::pair<key_type, mapped_type>				value_type;
+		typedef Compare										key_compare;
+		typedef Alloc										allocator_type;
+		typedef typename allocator_type::reference			reference;
+		typedef typename allocator_type::const_reference	const_reference;
+		typedef typename allocator_type::pointer			pointer;
+		typedef typename allocator_type::const_pointer		const_pointer;
+		typedef	std::ptrdiff_t								difference_type;
+		typedef	std::size_t									size_type;
+		typedef ft::map_node<key_type, mapped_type>			node;
+		typedef std::allocator<node>						node_allocator_type;
 
 		/* iterators fkdjfkjdskfjdksjf */
 
@@ -80,14 +81,14 @@ namespace ft
 		
 		}
 
-		template <class InputIterator>
-			map (InputIterator first, InputIterator last,
-				const key_compare& comp = key_compare(),
-				const allocator_type& alloc = allocator_type())
-					: _root(NULL), _comp(comp), _size(0), _alloc(alloc), _node_alloc(node_allocator_type())
-		{
+		// template <class InputIterator>
+		// 	map (InputIterator first, InputIterator last,
+		// 		const key_compare& comp = key_compare(),
+		// 		const allocator_type& alloc = allocator_type())
+		// 			: _root(NULL), _comp(comp), _size(0), _alloc(alloc), _node_alloc(node_allocator_type())
+		// {
 
-		}
+		// }
 
 		~map()
 		{
@@ -101,6 +102,7 @@ namespace ft
 
 		map& operator = (const map &x)
 		{
+			this->_comp = x._comp;
 			return (*this);
 		}
 
@@ -109,23 +111,35 @@ namespace ft
 	///////////////
 	private:
 
-		node*	_new_node(value_type& val)
+		void	_print_tree(node* x)
+		{
+			if (x == NULL)
+				return ;
+			this->_print_tree(x->left);
+			std::cout << ((x->color == red) ? "\033[31;01m" : "") << "[" << x->value.first << "]\033[0m" << (void*)x;
+			std::cout << " parent: " << (void*)x->parent \
+					  << " left:   " << (void*)x->left \
+					  << " right:  " << (void*)x->right << std::endl;
+			this->_print_tree(x->right);
+		}
+
+		node*	_new_node(const value_type& val)
 		{
 			node* ret;
 
 			ret = _node_alloc.allocate(1);
-			_node_alloc.construct(&ret, node(val));
+			_node_alloc.construct(ret, node(val));
 			return (ret);
 		}
 
 		void	_flip_color(node* x)
 		{
-			x->color = !x->color;
+			x->color = (colors)!x->color;
 		}
 
 		void	_violation_justifier(node* x)
 		{
-			if (x->parent->color == red) {
+			while (x->parent && x->parent->color == red) {
 				if (x->get_uncle_color() == red) {
 					x = this->_red_uncle(x);
 				}
@@ -134,12 +148,13 @@ namespace ft
 					this->_black_line(x);
 				}
 			}
-			root->color = black;
+			_root->color = black;
 		}
 
 		/* violation case one */
 		node*	_red_uncle(node* x)
 		{
+			std::cout << "red uncle found, flipping colors!\n\n";
 			this->_flip_color(x->parent);
 			this->_flip_color(x->grandparent);
 			if (x->parent == x->right_uncle)
@@ -155,16 +170,22 @@ namespace ft
 			node*	y = x->parent;
 
 			/* uncle on left side of grandparent */
-			if (x == x->parent->left && x->parent == x->right_uncle)
+			if (x == x->parent->left && x->parent == x->right_uncle) {
+				std::cout << "right rotate on black diamond (left child)\n\n";
 				this->_right_rotate(x->parent);
+			}
 
 			/* uncle on right side of grandparent */
-			else if (x == x->parent->right && x->parent == x->left_uncle)
+			else if (x == x->parent->right && x->parent == x->left_uncle) {
+				std::cout << "left rotate on black diamond (right child)\n\n";
 				this->_left_rotate(x->parent);
+			}
 			
 			/* its a line and x is violator*/
-			else
+			else {
+				std::cout << "its not a diamond\n\n";
 				return (x);
+			}
 			
 			/* fixed violation and old parent is now new violator (line) */
 			return (y);
@@ -172,13 +193,19 @@ namespace ft
 
 		void	_black_line(node* x)
 		{
+			this->_flip_color(x->parent);
+			this->_flip_color(x->grandparent);
 			/* line on right side of grandparent */
-			if (x->parent == x->right_uncle)
+			if (x->parent == x->right_uncle) {
+				std::cout << "line on right side of grandpa, doing a left rotate\n\n";
 				this->_left_rotate(x->grandparent);
+			}
 
 			/* line on left side of grandparent */
-			else
+			else {
+				std::cout << "line on left side of grandpa doing a right rotate\n\n";
 				this->_right_rotate(x->grandparent);
+			}
 		}
 
 		void	_left_rotate(node* pivot)
@@ -222,45 +249,45 @@ namespace ft
 	//////////////////
 	public:
 
-		iterator begin()
-		{
+		// iterator begin()
+		// {
 
-		}
+		// }
 
-		const_iterator begin() const
-		{
+		// const_iterator begin() const
+		// {
 
-		}
+		// }
 
-		iterator end()
-		{
+		// iterator end()
+		// {
 
-		}
+		// }
 
-		const_iterator end() const
-		{
+		// const_iterator end() const
+		// {
 
-		}
+		// }
 
-		reverse_iterator rbegin()
-		{
+		// reverse_iterator rbegin()
+		// {
 
-		}
+		// }
 
-		const_reverse_iterator rbegin() const
-		{
+		// const_reverse_iterator rbegin() const
+		// {
 
-		}
+		// }
 
-		reverse_iterator rend()
-		{
+		// reverse_iterator rend()
+		// {
 
-		}
+		// }
 
-		const_reverse_iterator rend() const
-		{
+		// const_reverse_iterator rend() const
+		// {
 
-		}
+		// }
 
 	//////////////
 	// Capacity //
@@ -298,72 +325,76 @@ namespace ft
 	public:
 
 		/* single element */
-		ft::pair<iterator, bool> insert(const value_type& val)
+		// ft::pair<iterator, bool> insert(const value_type& val)
+		void	insert(const value_type& val)
 		{
+			std::cerr << "\n---inserting: " << val.first << "---\n\n";
 			node* new_node	= this->_new_node(val);
-			node* parent	= NULL:
+			node* parent	= NULL;
 
 			// find node to go to
 			for (node* x = _root; x != NULL;) {
-				y = x;
-				if (_comp(x->get_key(), new_node->get_key()) == true)
-					x = x->right;
-				else
+				parent = x;
+				if (_comp(new_node->get_key(), x->get_key()) == true)
 					x = x->left;
+				else
+					x = x->right;
 			}
 
 			// set parents
 			new_node->parent = parent;
 			if (_root == NULL)
 				_root = new_node;
-			else if (_comp(x->get_key(), new_node->get_key()) == true)
+			else if (_comp(new_node->get_key(), parent->get_key()) == true)
 				parent->left = new_node;
 			else
 				parent->right = new_node;
 
 			/* fix all the violations */
 			this->_violation_justifier(new_node);
-			
+	
+			_size++;
+			this->_print_tree(_root);
 			// return (ft::makepair())
 		}
 
 		/* with hint */
-		iterator insert(iterator position, const value_type& val)
-		{
+		// iterator insert(iterator position, const value_type& val)
+		// {
 
-		}
+		// }
 	
-		/* range */
-		template <class InputIterator>
-			void insert(InputIterator first, InputIterator last)
-		{
+		// /* range */
+		// template <class InputIterator>
+		// 	void insert(InputIterator first, InputIterator last)
+		// {
 			
-		}
+		// }
 
-		void erase(iterator position)
-		{
+		// void erase(iterator position)
+		// {
 
-		}
+		// }
 
-		size_type erase(const key_type& k)
-		{
+		// size_type erase(const key_type& k)
+		// {
 
-		}
+		// }
 
-		void erase(iterator first, iterator last)
-		{
+		// void erase(iterator first, iterator last)
+		// {
 
-		}
+		// }
 
-		void swap(map& x)
-		{
+		// void swap(map& x)
+		// {
 
-		}
+		// }
 
-		void clear()
-		{
+		// void clear()
+		// {
 
-		}
+		// }
 	
 	///////////////
 	// Observers //
@@ -375,60 +406,60 @@ namespace ft
 			return (_comp);
 		}
 
-		value_compare value_comp() const
-		{
+		// value_compare value_comp() const
+		// {
 
-		}
+		// }
 	
 	////////////////
 	// Operations //
 	////////////////
 	public:
 
-		iterator find(const key_type& k)
-		{
+		// iterator find(const key_type& k)
+		// {
 
-		}
+		// }
 
-		const_iterator find(const key_type& k) const
-		{
+		// const_iterator find(const key_type& k) const
+		// {
 			
-		}
+		// }
 
-		size_type count(const key_type& k) const
-		{
+		// size_type count(const key_type& k) const
+		// {
 
-		}
+		// }
 
-		iterator lower_bound(const key_type& k)
-		{
+		// iterator lower_bound(const key_type& k)
+		// {
 
-		}
+		// }
 
-		const_iterator lower_bound(const key_type& k) const
-		{
+		// const_iterator lower_bound(const key_type& k) const
+		// {
 
-		}
+		// }
 
-		iterator upper_bound(const key_type& k)
-		{
+		// iterator upper_bound(const key_type& k)
+		// {
 
-		}
+		// }
 
-		const_iterator upper_bound(const key_type& k) const
-		{
+		// const_iterator upper_bound(const key_type& k) const
+		// {
 
-		}
+		// }
 
-		ft::pair<iterator, iterator> equal_range(const key_type& k)
-		{
+		// ft::pair<iterator, iterator> equal_range(const key_type& k)
+		// {
 
-		}
+		// }
 
-		ft::pair<const_iterator, const_iterator> equal_range(const key_type& k) const
-		{
+		// ft::pair<const_iterator, const_iterator> equal_range(const key_type& k) const
+		// {
 
-		}
+		// }
 
 	}; /* end of map */
 
