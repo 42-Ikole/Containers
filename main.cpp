@@ -5,6 +5,7 @@
 #include <iterator>
 #include <vector>
 #include <map>
+#include <map.hpp>
 
 struct test {
 	test() {std::cerr << "constructor" << std::endl;}
@@ -131,16 +132,49 @@ static void	extremely_cool_vector_tests()
 // 	std::cout << vint.size() << std::endl;
 }
 
+enum colors {
+		red,
+		black
+	};
+
 int main(void)
 {
 	extremely_cool_vector_tests();
+
+
+	ft::map<int, std::string> sick;
+
+	sick.insert(ft::make_pair(21, std::string("twenty one")));
+	sick.insert(ft::make_pair(18, std::string("eighteen")));
+	sick.insert(ft::make_pair(20, std::string("twenty")));
+	sick.insert(ft::make_pair(19, std::string("nineteen")));
+	sick.insert(ft::make_pair(42, std::string("fourty two")));
+	sick.insert(ft::make_pair(35, std::string("thirty five")));
+	sick.insert(ft::make_pair(30, std::string("thirty")));
+	sick.insert(ft::make_pair(40, std::string("fourty")));
+	sick.insert(ft::make_pair(41, std::string("fourty one")));
+	sick.insert(ft::make_pair(69, std::string("sex number hihi")));
+	sick.insert(ft::make_pair(420, std::string("u know whats up")));
+	sick.insert(ft::make_pair(1337, std::string("leet")));
+	sick.insert(ft::make_pair(90, std::string("ninety")));
+	sick.insert(ft::make_pair(-1, std::string("minus one")));
+	sick.insert(ft::make_pair(12, std::string("twelve")));
+
 	// extremely_cool_vector_iterator_tests();
 
-	ft::vector<test> vec(4);
-	vec.reserve(20);
+	// ft::vector<test> vec(4);
+	// vec.reserve(20);
 
-	std::cerr << "-------------------------" << std::endl;
-	vec.insert(vec.begin() + 2, 2, test());
+	// std::cerr << "-------------------------" << std::endl;
+	// vec.insert(vec.begin() + 2, 2, test());
+
+	// colors c1 = red;
+	// colors c2 = black;
+
+	// std::cout << (!c1) << " | " << (!c2) << std::endl;
+	// std::cout << c1 << " | " << c2 << std::endl;
+
+
 	// std::vector<std::string> brr;
 	// brr.push_back("wadup");
 	// brr.push_back("skrt");
