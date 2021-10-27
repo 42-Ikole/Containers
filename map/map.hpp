@@ -137,9 +137,22 @@ namespace ft
 			return (ret);
 		}
 
+		void	_destroy_node(node* x)
+		{
+			_node_alloc.destroy(x);
+			_node_alloc.deallocate(x, 1);
+		}
+
 		void	_flip_color(node* x)
 		{
-			x->color = (colors)!x->color;
+			x->color = (e_color)!x->color;
+		}
+
+		node*	_find_largest_in_subtree(node* x)
+		{
+			while (x->right != NULL)
+				x = x->right;
+			return (x);
 		}
 
 	///////////////
@@ -312,7 +325,7 @@ namespace ft
 
 				/* case 4 */
 				else
-					x = this->_delete_case_four()
+					x = this->_delete_case_four();
 			}
 			x->color = black;
 		}
@@ -416,6 +429,35 @@ namespace ft
 			return (x->parent);
 		}
 
+	////////////////////
+	// Erase routines //
+	////////////////////
+	private:
+
+		void	_swap_largest_left_subtree(node* x)
+		{
+			node* y = _find_largest_in_subtree(x->left);
+
+			/* is a left child */
+			if (x->parent->left == x)
+				x->parent->left = y;
+			
+			/* is a right child */
+			else
+				x->parent->right = y;
+
+			/* assign left subtree to its parent */
+			y->parent->right = y->left;
+
+			/* reassign links */
+			y->parent	= x->parent;
+			y->left		= x->left;
+			y->right	= x->right;
+
+			/* recolor */
+			y->color = x->color;
+		}
+
 
 	//////////////////
 	// Iterators 🤮 //
@@ -499,7 +541,7 @@ namespace ft
 
 		/* single element */
 		// ft::pair<iterator, bool> insert(const value_type& val)
-		void	insert(const value_type& val)
+		node*	insert(const value_type& val)
 		{
 			std::cerr << "\n---inserting: " << val.first << "---\n\n";
 			node* new_node	= this->_new_node(val);
@@ -528,6 +570,7 @@ namespace ft
 	
 			_size++;
 			this->_print_tree("", _root, false);
+			return (new_node);
 			// return (ft::makepair())
 		}
 
@@ -545,9 +588,18 @@ namespace ft
 		// }
 
 		// void erase(iterator position)
-		// {
+		void	erase(node* x)
+		{
+			node* tmp = x;
 
-		// }
+			if (x->left != NULL)
+				this->_swap_largest_left_subtree(x);
+			// else
+				
+			
+			this->_destroy_node(tmp);
+			this->_print_tree("", _root, false);
+		}
 
 		// size_type erase(const key_type& k)
 		// {
