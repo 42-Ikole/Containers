@@ -23,7 +23,7 @@ namespace ft
 // COLOR ENUM //
 ////////////////
 
-	enum colors {
+	enum e_color {
 		red,
 		black
 	};
@@ -56,14 +56,14 @@ namespace ft
 		node*		parent;
 		node*		left;
 		node*		right;
-		colors		color;
+		e_color		color;
 
 	/////////////////
 	// constructor //
 	/////////////////
 	public:
 
-		map_node(const value_type& val, node* p = NULL, node* l = NULL, node* r = NULL, colors c = red)
+		map_node(const value_type& val, node* p = NULL, node* l = NULL, node* r = NULL, e_color c = red)
 			: value(val), parent(p), left(l), right(r), color(c)
 		{}
 
@@ -98,11 +98,11 @@ namespace ft
 
 
 	//////////////////////////
-	// Node relation colors //
+	// Node relation e_color //
 	//////////////////////////
 	public:
 
-		colors		uncle_color()
+		e_color		uncle_color()
 		{
 			/* uncle is on left side */
 			if (parent == parent->parent->right) {
@@ -117,7 +117,7 @@ namespace ft
 			return (parent->parent->right->color);
 		}
 
-		colors		sibling_color()
+		e_color		sibling_color()
 		{
 			/* sibling is on left side */
 			if (this == parent->right) {
@@ -132,7 +132,7 @@ namespace ft
 			return (parent->right->color);
 		}
 
-		colors		nephew_color()
+		e_color		nephew_color()
 		{
 			/* nephew is on left side */
 			if (this == parent->right) {
@@ -147,7 +147,7 @@ namespace ft
 			return (parent->right->right);
 		}
 		
-		colors		niece_color()
+		e_color		niece_color()
 		{
 			/* niece is on left side */
 			if (this == parent->right) {
