@@ -312,7 +312,7 @@ namespace ft
 
 				/* case 4 */
 				else
-					this->_delete_case_four()
+					x = this->_delete_case_four()
 			}
 			x->color = black;
 		}
@@ -405,7 +405,15 @@ namespace ft
 		*/
 		void	_delete_case_four(node* x)
 		{
+			/* sibling is a left child */
+			if (x == x->parent->right)
+				x->parent->left->color = red;
 			
+			/* sibling is a right child */
+			else
+				x->parent->right->color = red;
+
+			return (x->parent);
 		}
 
 
