@@ -295,12 +295,27 @@ namespace ft
 				/* base case, no violation */
 				if (x == _root || x->color == red)
 					break ;
+
+				/* case 1 */
 				else if (x->sibling_color() == red)
 					this->_red_sibling(x);
+
+				/* case 2, always instantly fixed */
+				else if (x->nephew_color() == red) {
+					x = this->_red_nephew(x);
+					break ;
+				}
 			}
 			x->color = black;
 		}
 
+		/*
+		** Violation case one:
+		** -------------------
+		** x has a red sibling
+		** color parent red and sibling black
+		** rotate sibling to parent
+		*/
 		void	_red_sibling(node* x)
 		{
 			x->parent->color = red;
@@ -316,7 +331,38 @@ namespace ft
 				x->parent->right->color = black;
 				this->_left_rotate(x->parent->right);
 			}
+		}
 
+		/*
+		** Violation case two:
+		** -------------------
+		** Color sibling same color as parent
+		** Color nephew and parent black
+		** rotate sibling to parent
+		*/
+		void	_red_nephew(node* x)
+		{
+			x = x->get_nephew();
+	
+			/* color sibling same color as parent (of old x) */
+			x->parent->color = x->grandparent->color;
+
+			x->grandparent->color = black;
+			x->color = black;
+		
+			/* set x to sibling */
+			x = x->parent;
+
+			/* sibling is right child */
+			if (x == x->parent->right)
+				this->_left_rotate(x);
+
+			/* sibling is left child */
+			else
+				this->_right_rotate(x);
+			
+			/* return root because case 1 is final */
+			return (_root);
 		}
 
 
