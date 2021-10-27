@@ -209,11 +209,11 @@ namespace ft
 		{
 			while (x->parent && x->parent->color == red) {
 				if (x->uncle_color() == red) {
-					x = this->_red_uncle(x);
+					x = this->_insert_case_one(x);
 				}
 				else {
-					x = this->_black_diamond(x);
-					this->_black_line(x);
+					x = this->_insert_case_two(x);
+					this->_insert_case_three(x);
 				}
 			}
 			_root->color = black;
@@ -225,7 +225,7 @@ namespace ft
 		** violator has a red uncle.
 		** recolor parent, grandparent and uncle
 		*/
-		node*	_red_uncle(node* x)
+		node*	_insert_case_one(node* x)
 		{
 			this->_flip_color(x->parent);
 			this->_flip_color(x->grandparent);
@@ -242,7 +242,7 @@ namespace ft
 		** Diamond with a black uncle.
 		** rotate parent of violator in oposite direction
 		*/
-		node*	_black_diamond(node* x)
+		node*	_insert_case_two(node* x)
 		{
 			node*	y = x->parent;
 
@@ -269,7 +269,7 @@ namespace ft
 		** flip color of parent and grandparent.
 		** then rotate in opposite direction of the line
 		*/
-		void	_black_line(node* x)
+		void	_insert_case_three(node* x)
 		{
 			this->_flip_color(x->parent);
 			this->_flip_color(x->grandparent);
@@ -298,17 +298,21 @@ namespace ft
 
 				/* case 1 */
 				else if (x->sibling_color() == red)
-					this->_red_sibling(x);
+					this->_delete_case_one(x);
 
 				/* case 2, always instantly fixed */
 				else if (x->nephew_color() == red) {
-					x = this->_red_nephew(x);
+					x = this->_delete_case_two(x);
 					break ;
 				}
 
 				/* case 3 */
 				else if (x->niece_color() == red)
-					this->_red_niece(x);
+					this->_delete_case_three(x);
+
+				/* case 4 */
+				else
+					this->_delete_case_four()
 			}
 			x->color = black;
 		}
@@ -320,7 +324,7 @@ namespace ft
 		** color parent red and sibling black
 		** rotate sibling to parent
 		*/
-		void	_red_sibling(node* x)
+		void	_delete_case_one(node* x)
 		{
 			x->parent->color = red;
 
@@ -344,7 +348,7 @@ namespace ft
 		** Color nephew and parent black
 		** rotate sibling to parent
 		*/
-		node*	_red_nephew(node* x)
+		node*	_delete_case_two(node* x)
 		{
 			x = x->get_nephew();
 	
@@ -377,7 +381,7 @@ namespace ft
 		** rotate niece to sibling
 		** results in violation case 2
 		*/
-		void	_red_niece(node* x)
+		void	_delete_case_three(node* x)
 		{
 			x = x->get_niece();
 
@@ -391,6 +395,17 @@ namespace ft
 			/* niece is left child */
 			else
 				this->_right_rotate(x);
+		}
+
+		/*
+		** Violation case four:
+		** --------------------
+		** color sibling red
+		** violation moves to parent :/
+		*/
+		void	_delete_case_four(node* x)
+		{
+			
 		}
 
 
