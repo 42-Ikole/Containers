@@ -145,7 +145,26 @@ namespace ft
 			if (parent->right->right == NULL)
 				return (black);
 			return (parent->right->right);
-		}	
+		}
+
+	//////////////////
+	// get relation //
+	//////////////////
+	public:
+
+		node*	get_nephew(void)
+		{
+			if (this == parent->right)
+				return (parent->left->left);
+			return (parent->right->right);
+		}
+
+		node*	get_niece(void)
+		{
+			if (this == parent->right)
+				return (parent->left->right);
+			return (parent->right->left);
+		}
 
 		
 	}; /* end of map_node */
