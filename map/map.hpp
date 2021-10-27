@@ -208,12 +208,12 @@ namespace ft
 		void	_insert_violation_justifier(node* x)
 		{
 			while (x->parent && x->parent->color == red) {
-				if (x->get_uncle_color() == red) {
-					x = this->_insert_red_uncle(x);
+				if (x->uncle_color() == red) {
+					x = this->_red_uncle(x);
 				}
 				else {
-					x = this->_insert_black_diamond(x);
-					this->_insert_black_line(x);
+					x = this->_black_diamond(x);
+					this->_black_line(x);
 				}
 			}
 			_root->color = black;
@@ -225,7 +225,7 @@ namespace ft
 		** violator has a red uncle.
 		** recolor parent, grandparent and uncle
 		*/
-		node*	_insert_red_uncle(node* x)
+		node*	_red_uncle(node* x)
 		{
 			this->_flip_color(x->parent);
 			this->_flip_color(x->grandparent);
@@ -242,7 +242,7 @@ namespace ft
 		** Diamond with a black uncle.
 		** rotate parent of violator in oposite direction
 		*/
-		node*	_insert_black_diamond(node* x)
+		node*	_black_diamond(node* x)
 		{
 			node*	y = x->parent;
 
@@ -269,7 +269,7 @@ namespace ft
 		** flip color of parent and grandparent.
 		** then rotate in opposite direction of the line
 		*/
-		void	_insert_black_line(node* x)
+		void	_black_line(node* x)
 		{
 			this->_flip_color(x->parent);
 			this->_flip_color(x->grandparent);
@@ -282,6 +282,27 @@ namespace ft
 			else
 				this->_right_rotate(x->grandparent);
 		}
+
+	//////////////////////////
+	// Delete violation fix //
+	//////////////////////////
+	private:
+
+		void	_delete_violation_justifier(node* x)
+		{
+			while (x != NULL) {
+
+				/* base case, no violation */
+				if (x == _root || x->color == red)
+					break ;
+				else if (x->sibling_color() == red) {
+					x->parent->color = red;
+				}
+			}
+			x->color = black;
+		}
+
+		void	_red_sibling()
 
 
 	//////////////////
@@ -375,7 +396,7 @@ namespace ft
 			// find node to go to
 			for (node* x = _root; x != NULL;) {
 				parent = x;
-				if (_comp(new_node->get_key(), x->get_key()) == true)
+				if (_comp(new_node->key(), x->key()) == true)
 					x = x->left;
 				else
 					x = x->right;
@@ -385,7 +406,7 @@ namespace ft
 			new_node->parent = parent;
 			if (_root == NULL)
 				_root = new_node;
-			else if (_comp(new_node->get_key(), parent->get_key()) == true)
+			else if (_comp(new_node->key(), parent->key()) == true)
 				parent->left = new_node;
 			else
 				parent->right = new_node;

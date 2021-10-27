@@ -91,12 +91,12 @@ namespace ft
 	/////////////////////////////
 	public:
 
-		key_type&	get_key(void)
+		key_type&	key(void)
 		{
 			return (value.first);
 		}
 
-		colors		get_uncle_color()
+		colors		uncle_color()
 		{
 			if (parent == parent->parent->right) {
 				if (parent->parent->left == NULL)
@@ -106,6 +106,18 @@ namespace ft
 			if (parent->parent->right == NULL)
 				return (black);
 			return (parent->parent->right->color);
+		}
+
+		colors		sibling_color()
+		{
+			if (this == parent->right) {
+				if (parent->left == NULL)
+					return (black);
+				return (parent->left->color);
+			}
+			if (parent->right == NULL)
+				return (black);
+			return (parent->right->color);
 		}
 		
 	}; /* end of map_node */
