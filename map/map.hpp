@@ -305,6 +305,10 @@ namespace ft
 					x = this->_red_nephew(x);
 					break ;
 				}
+
+				/* case 3 */
+				else if (x->niece_color() == red)
+					this->_red_niece(x);
 			}
 			x->color = black;
 		}
@@ -340,7 +344,7 @@ namespace ft
 		** Color nephew and parent black
 		** rotate sibling to parent
 		*/
-		void	_red_nephew(node* x)
+		node*	_red_nephew(node* x)
 		{
 			x = x->get_nephew();
 	
@@ -363,6 +367,30 @@ namespace ft
 			
 			/* return root because case 1 is final */
 			return (_root);
+		}
+
+
+		/*
+		** Violation case three:
+		** ---------------------
+		** color niece black and sibling red
+		** rotate niece to sibling
+		** results in violation case 2
+		*/
+		void	_red_niece(node* x)
+		{
+			x = x->get_niece();
+
+			x->color = black;
+			x->parent->color = red;
+
+			/* niece is right child */
+			if (x == x->parent->right)
+				this->_left_rotate(x);
+			
+			/* niece is left child */
+			else
+				this->_right_rotate(x);
 		}
 
 
