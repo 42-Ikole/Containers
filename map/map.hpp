@@ -295,14 +295,29 @@ namespace ft
 				/* base case, no violation */
 				if (x == _root || x->color == red)
 					break ;
-				else if (x->sibling_color() == red) {
-					x->parent->color = red;
-				}
+				else if (x->sibling_color() == red)
+					this->_red_sibling(x);
 			}
 			x->color = black;
 		}
 
-		void	_red_sibling()
+		void	_red_sibling(node* x)
+		{
+			x->parent->color = red;
+
+			/* sibling is left child */
+			if (x == x->parent->right) {
+				x->parent->left->color = black;
+				this->_right_rotate(x->parent->left);
+			}
+
+			/* sibling is right child */
+			else {
+				x->parent->right->color = black;
+				this->_left_rotate(x->parent->right);
+			}
+
+		}
 
 
 	//////////////////
