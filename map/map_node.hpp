@@ -146,6 +146,21 @@ namespace ft
 				return (black);
 			return (parent->right->right);
 		}
+		
+		colors		niece_color()
+		{
+			/* niece is on left side */
+			if (this == parent->right) {
+				if (parent->left->right == NULL)
+					return (black);
+				return (parent->left->right->color);
+			}
+
+			/* niece is on right side */
+			if (parent->right->left == NULL)
+				return (black);
+			return (parent->right->left->color);
+		}
 
 	//////////////////
 	// get relation //
