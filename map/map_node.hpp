@@ -96,13 +96,22 @@ namespace ft
 			return (value.first);
 		}
 
+
+	//////////////////////////
+	// Node relation colors //
+	//////////////////////////
+	public:
+
 		colors		uncle_color()
 		{
+			/* uncle is on left side */
 			if (parent == parent->parent->right) {
 				if (parent->parent->left == NULL)
 					return (black);
 				return (parent->parent->left->color);
 			}
+
+			/* uncle is on right side */
 			if (parent->parent->right == NULL)
 				return (black);
 			return (parent->parent->right->color);
@@ -110,15 +119,34 @@ namespace ft
 
 		colors		sibling_color()
 		{
+			/* sibling is on left side */
 			if (this == parent->right) {
 				if (parent->left == NULL)
 					return (black);
 				return (parent->left->color);
 			}
+
+			/* sibling is on right side */
 			if (parent->right == NULL)
 				return (black);
 			return (parent->right->color);
 		}
+
+		colors		nephew_color()
+		{
+			/* nephew is on left side */
+			if (this == parent->right) {
+				if (parent->left->left == NULL)
+					return (black);
+				return (parent->left->left->color);
+			}
+
+			/* nephew is on right side */
+			if (parent->right->right == NULL)
+				return (black);
+			return (parent->right->right);
+		}	
+
 		
 	}; /* end of map_node */
 
