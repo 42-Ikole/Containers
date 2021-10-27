@@ -199,21 +199,21 @@ namespace ft
 			x->parent = y;
 		}
 
-	///////////////////
-	// Violation fix //
-	///////////////////
+	//////////////////////////
+	// Insert violation fix //
+	//////////////////////////
 	private:
 
 		/* violation routine */
-		void	_violation_justifier(node* x)
+		void	_insert_violation_justifier(node* x)
 		{
 			while (x->parent && x->parent->color == red) {
 				if (x->get_uncle_color() == red) {
-					x = this->_red_uncle(x);
+					x = this->_insert_red_uncle(x);
 				}
 				else {
-					x = this->_black_diamond(x);
-					this->_black_line(x);
+					x = this->_insert_black_diamond(x);
+					this->_insert_black_line(x);
 				}
 			}
 			_root->color = black;
@@ -225,7 +225,7 @@ namespace ft
 		** violator has a red uncle.
 		** recolor parent, grandparent and uncle
 		*/
-		node*	_red_uncle(node* x)
+		node*	_insert_red_uncle(node* x)
 		{
 			this->_flip_color(x->parent);
 			this->_flip_color(x->grandparent);
@@ -242,7 +242,7 @@ namespace ft
 		** Diamond with a black uncle.
 		** rotate parent of violator in oposite direction
 		*/
-		node*	_black_diamond(node* x)
+		node*	_insert_black_diamond(node* x)
 		{
 			node*	y = x->parent;
 
@@ -269,7 +269,7 @@ namespace ft
 		** flip color of parent and grandparent.
 		** then rotate in opposite direction of the line
 		*/
-		void	_black_line(node* x)
+		void	_insert_black_line(node* x)
 		{
 			this->_flip_color(x->parent);
 			this->_flip_color(x->grandparent);
@@ -391,7 +391,7 @@ namespace ft
 				parent->right = new_node;
 
 			/* fix all the violations */
-			this->_violation_justifier(new_node);
+			this->_insert_violation_justifier(new_node);
 	
 			_size++;
 			this->_print_tree("", _root, false);
