@@ -144,7 +144,7 @@ namespace ft
 			/* nephew is on right side */
 			if (parent->right->right == NULL)
 				return (black);
-			return (parent->right->right);
+			return (parent->right->right->color);
 		}
 		
 		e_color		niece_color()
