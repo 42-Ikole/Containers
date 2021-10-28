@@ -113,7 +113,7 @@ namespace ft
 
 		void	_print_tree(const std::string& prefix, node* x, bool isLeft)
 		{
-			if( x != NULL )
+			if(x != NULL)
 			{
 				std::cout << prefix;
 
@@ -126,6 +126,14 @@ namespace ft
 				this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->left, true);
 				this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->right, false);
 			}
+			// if (x == NULL)
+			// 	return ;
+			// this->_print_tree("", x->left, 0);
+			// std::cout << ((x->color == red) ? "\033[31;01m" : "") << "[" << x->value.first << "]\033[0m" << (void*)x;
+			// std::cout << " parent: " << (void*)x->parent \
+			// 		  << " left:   " << (void*)x->left \
+			// 		  << " right:  " << (void*)x->right << std::endl;
+			// this->_print_tree("", x->right, 0);
 		}
 
 		node*	_new_node(const value_type& val)
@@ -325,7 +333,7 @@ namespace ft
 
 				/* case 4 */
 				else
-					x = this->_delete_case_four();
+					x = this->_delete_case_four(x);
 			}
 			x->color = black;
 		}
@@ -416,7 +424,7 @@ namespace ft
 		** color sibling red
 		** violation moves to parent :/
 		*/
-		void	_delete_case_four(node* x)
+		node*	_delete_case_four(node* x)
 		{
 			/* sibling is a left child */
 			if (x == x->parent->right)
@@ -434,9 +442,10 @@ namespace ft
 	////////////////////
 	private:
 
-		void	_swap_largest_left_subtree(node* x)
+		node*	_swap_largest_left_subtree(node* x)
 		{
 			node* y = _find_largest_in_subtree(x->left);
+			node* ret;
 
 			/* is a left child */
 			if (x->parent->left == x)
@@ -446,8 +455,17 @@ namespace ft
 			else
 				x->parent->right = y;
 
-			/* assign left subtree to its parent */
+			/* assign y's left subtree to its parent */
 			y->parent->right = y->left;
+			if (y->left)
+				y->left->parent = y->parent;
+
+			/* Potential violator */
+			ret = y->left;
+	
+			/* reassign child links */
+			x->left->parent		= y;
+			x->right->parent	= y;
 
 			/* reassign links */
 			y->parent	= x->parent;
@@ -456,6 +474,9 @@ namespace ft
 
 			/* recolor */
 			y->color = x->color;
+
+			/* return potential violator */
+			return (ret);
 		}
 
 
@@ -593,12 +614,14 @@ namespace ft
 			node* tmp = x;
 
 			if (x->left != NULL)
-				this->_swap_largest_left_subtree(x);
+				x = this->_swap_largest_left_subtree(x);
 			// else
 				
-			
-			this->_destroy_node(tmp);
+			this->_delete_violation_justifier(x);
+
+			std::cout << "\n---deleting: " << tmp->value.first << "---\n\n";
 			this->_print_tree("", _root, false);
+			this->_destroy_node(tmp);
 		}
 
 		// size_type erase(const key_type& k)
