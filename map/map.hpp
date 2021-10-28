@@ -311,7 +311,9 @@ namespace ft
 
 		void	_delete_violation_justifier(node* x)
 		{
-			while (x != NULL) {
+			if (x == NULL)
+				return ;
+			while (1) {
 
 				/* base case, no violation */
 				if (x == _root || x->color == red)
@@ -447,8 +449,12 @@ namespace ft
 			node* y = _find_largest_in_subtree(x->left);
 			node* ret;
 
+			/* x is root */
+			if (x == _root)
+				_root = y;
+			
 			/* is a left child */
-			if (x->parent->left == x)
+			else if (x->parent->left == x)
 				x->parent->left = y;
 			
 			/* is a right child */
