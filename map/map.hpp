@@ -349,6 +349,7 @@ namespace ft
 		*/
 		void	_delete_case_one(node* x)
 		{
+			std::cout << "\ndelete case one\n";
 			x->parent->color = red;
 
 			/* sibling is left child */
@@ -373,6 +374,7 @@ namespace ft
 		*/
 		node*	_delete_case_two(node* x)
 		{
+			std::cout << "\ndelete case two\n";
 			x = x->get_nephew();
 	
 			/* color sibling same color as parent (of old x) */
@@ -406,6 +408,7 @@ namespace ft
 		*/
 		void	_delete_case_three(node* x)
 		{
+			std::cout << "\ndelete case three\n";
 			x = x->get_niece();
 
 			x->color = black;
@@ -428,6 +431,7 @@ namespace ft
 		*/
 		node*	_delete_case_four(node* x)
 		{
+			std::cout << "\ndelete case four\n";
 			/* sibling is a left child */
 			if (x == x->parent->right)
 				x->parent->left->color = red;
@@ -483,6 +487,25 @@ namespace ft
 
 			/* return potential violator */
 			return (ret);
+		}
+
+		node*	_reassign_right_subtree(node* x)
+		{
+			x->right->parent = x->parent;
+
+			/* x was root */
+			if (x == _root)
+				_root = x->left;
+
+			/* reassign parent->child link */
+			else {
+				if (x->parent->left == x)
+					x->parent->left = x->right;
+				else
+					x->parent->right = x->right;
+			}
+			x->right->color = black;
+			return (x->right);
 		}
 
 
@@ -619,13 +642,19 @@ namespace ft
 		{
 			node* tmp = x;
 
+			std::cout << "\n---deleting: " << x->value.first << "---\n\n";
+
+			/* x has a left subtree */
 			if (x->left != NULL)
 				x = this->_swap_largest_left_subtree(x);
-			// else
+
+			/* x has a right subtree */
+			else if (x->right != NULL)
+				x = this->_reassign_right_subtree(x);
+
 				
 			this->_delete_violation_justifier(x);
 
-			std::cout << "\n---deleting: " << tmp->value.first << "---\n\n";
 			this->_print_tree("", _root, false);
 			this->_destroy_node(tmp);
 		}
