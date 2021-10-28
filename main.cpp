@@ -142,23 +142,67 @@ int main(void)
 	extremely_cool_vector_tests();
 
 
-	ft::map<int, std::string> sick;
+	ft::map<int, std::string>			sick;
+	ft::map<int, std::string>::node*	nd;
+	ft::map<int, std::string>::node*	nd1;
+	ft::map<int, std::string>::node*	nd2;
 
-	sick.insert(ft::make_pair(21, std::string("twenty one")));
-	sick.insert(ft::make_pair(18, std::string("eighteen")));
-	sick.insert(ft::make_pair(20, std::string("twenty")));
-	sick.insert(ft::make_pair(19, std::string("nineteen")));
-	sick.insert(ft::make_pair(42, std::string("fourty two")));
-	sick.insert(ft::make_pair(35, std::string("thirty five")));
-	sick.insert(ft::make_pair(30, std::string("thirty")));
-	sick.insert(ft::make_pair(40, std::string("fourty")));
-	sick.insert(ft::make_pair(41, std::string("fourty one")));
-	sick.insert(ft::make_pair(69, std::string("sex number hihi")));
-	sick.insert(ft::make_pair(420, std::string("u know whats up")));
-	sick.insert(ft::make_pair(1337, std::string("leet")));
-	sick.insert(ft::make_pair(90, std::string("ninety")));
-	sick.insert(ft::make_pair(-1, std::string("minus one")));
-	sick.insert(ft::make_pair(12, std::string("twelve")));
+	// sick.insert(ft::make_pair(21, std::string("twenty one")));
+	// sick.insert(ft::make_pair(18, std::string("eighteen")));
+	// nd = sick.insert(ft::make_pair(20, std::string("twenty")));
+	// sick.insert(ft::make_pair(19, std::string("nineteen")));
+	// sick.insert(ft::make_pair(42, std::string("fourty two")));
+	// sick.insert(ft::make_pair(35, std::string("thirty five")));
+	// sick.insert(ft::make_pair(30, std::string("thirty")));
+	// sick.insert(ft::make_pair(40, std::string("fourty")));
+	// sick.insert(ft::make_pair(41, std::string("fourty one")));
+	// sick.insert(ft::make_pair(69, std::string("sex number hihi")));
+	// sick.insert(ft::make_pair(420, std::string("u know whats up")));
+	// sick.insert(ft::make_pair(1337, std::string("leet")));
+	// sick.insert(ft::make_pair(90, std::string("ninety")));
+	// sick.insert(ft::make_pair(-1, std::string("minus one")));
+	// sick.insert(ft::make_pair(12, std::string("twelve")));
+
+	// sick.erase(nd);
+
+	// sick.insert(ft::make_pair(17, std::string("seventeen")));
+
+	nd2 = sick.insert(ft::make_pair(500, std::string("fifty")));
+	sick.insert(ft::make_pair(300, std::string("thirty")));
+	sick.insert(ft::make_pair(400, std::string("fourty")));
+	sick.insert(ft::make_pair(450, std::string("fourty five")));
+	sick.insert(ft::make_pair(460, std::string("fourty six")));
+	nd = sick.insert(ft::make_pair(440, std::string("fourty four")));
+	nd1 = sick.insert(ft::make_pair(430, std::string("fourty three")));
+	sick.insert(ft::make_pair(420, std::string("fourty two")));
+
+	sick.erase(nd);
+
+	sick.insert(ft::make_pair(410, std::string("410")));
+	sick.insert(ft::make_pair(409, std::string("409")));
+	nd = sick.insert(ft::make_pair(408, std::string("408")));
+	sick.insert(ft::make_pair(407, std::string("407")));
+	sick.insert(ft::make_pair(406, std::string("406")));
+
+	sick.erase(nd);
+
+	sick.insert(ft::make_pair(405, std::string("")));
+	sick.insert(ft::make_pair(404, std::string("")));
+	sick.insert(ft::make_pair(403, std::string("")));
+	sick.insert(ft::make_pair(402, std::string("")));
+	sick.insert(ft::make_pair(401, std::string("")));
+	sick.insert(ft::make_pair(390, std::string("")));
+
+	sick.insert(ft::make_pair(391, std::string("")));
+	sick.insert(ft::make_pair(392, std::string("")));
+	sick.insert(ft::make_pair(393, std::string("")));
+	sick.insert(ft::make_pair(394, std::string("")));
+	sick.insert(ft::make_pair(395, std::string("")));
+	sick.insert(ft::make_pair(396, std::string("")));
+
+
+	sick.erase(nd1);
+	// sick.erase(nd2);
 
 	// extremely_cool_vector_iterator_tests();
 
