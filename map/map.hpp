@@ -479,6 +479,8 @@ namespace ft
 		void	_swap_predecessor(node* x)
 		{
 			node* y = _find_largest_in_subtree(x->left);
+			if (x->left == y)
+				return this->_swap_left_child(x);
 
 			/* x is root */
 			if (x == _root)
@@ -493,25 +495,20 @@ namespace ft
 				x->parent->right = y;
 
 			/* set child parent links */
-			if (x->left == y)
-				this->_swap_left_child(x);
+			if (x->right)
+				x->right->parent = y;
+			if (x->left)
+				x->left->parent = y;
+			
+			if (y->parent->right == y)
+				y->parent->right = x;
 			else
-			{
-				if (x->right)
-					x->right->parent = y;
-				if (x->left)
-					x->left->parent = y;
-				
-				if (y->parent->right == y)
-					y->parent->right = x;
-				else
-					y->parent->left = x;
+				y->parent->left = x;
 
-				if (y->left)
-					y->left->parent = x;
-				x->swap(y);
-			}
-		}
+			if (y->left)
+				y->left->parent = x;
+			x->swap(y);
+	}
 
 		void	_swap_right_child(node* x)
 		{
