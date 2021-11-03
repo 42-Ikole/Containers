@@ -132,11 +132,6 @@ static void	extremely_cool_vector_tests()
 // 	std::cout << vint.size() << std::endl;
 }
 
-enum colors {
-		red,
-		black
-	};
-
 int main(void)
 {
 	extremely_cool_vector_tests();
@@ -146,6 +141,7 @@ int main(void)
 	ft::map<int, std::string>::node*	nd;
 	ft::map<int, std::string>::node*	nd1;
 	ft::map<int, std::string>::node*	nd2;
+	ft::map<int, std::string>::node*	nd3;
 
 	// sick.insert(ft::make_pair(21, std::string("twenty one")));
 	// sick.insert(ft::make_pair(18, std::string("eighteen")));
@@ -171,7 +167,7 @@ int main(void)
 	sick.insert(ft::make_pair(300, std::string("thirty")));
 	sick.insert(ft::make_pair(400, std::string("fourty")));
 	sick.insert(ft::make_pair(450, std::string("fourty five")));
-	sick.insert(ft::make_pair(460, std::string("fourty six")));
+	nd2 = sick.insert(ft::make_pair(460, std::string("fourty six")));
 	nd = sick.insert(ft::make_pair(440, std::string("fourty four")));
 	nd1 = sick.insert(ft::make_pair(430, std::string("fourty three")));
 	sick.insert(ft::make_pair(420, std::string("fourty two")));
@@ -184,14 +180,14 @@ int main(void)
 	sick.insert(ft::make_pair(407, std::string("407")));
 	sick.insert(ft::make_pair(406, std::string("406")));
 
-	sick.erase(nd);
+	// sick.erase(nd2);
 
 	sick.insert(ft::make_pair(405, std::string("")));
-	sick.insert(ft::make_pair(404, std::string("")));
+	nd = sick.insert(ft::make_pair(404, std::string("")));
 	sick.insert(ft::make_pair(403, std::string("")));
 	sick.insert(ft::make_pair(402, std::string("")));
 	sick.insert(ft::make_pair(401, std::string("")));
-	sick.insert(ft::make_pair(390, std::string("")));
+	nd3 = sick.insert(ft::make_pair(390, std::string("")));
 
 	sick.insert(ft::make_pair(391, std::string("")));
 	sick.insert(ft::make_pair(392, std::string("")));
@@ -202,7 +198,9 @@ int main(void)
 
 
 	sick.erase(nd1);
-	// sick.erase(nd2);
+	sick.erase(nd);
+	sick.erase(nd2);
+	sick.erase(nd3);
 
 	// extremely_cool_vector_iterator_tests();
 
