@@ -138,14 +138,6 @@ namespace ft
 				this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->left, true);
 				this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->right, false);
 			}
-			// if (x == NULL)
-			// 	return ;
-			// this->_print_tree("", x->left, 0);
-			// std::cout << ((x->color == red) ? "\033[31;01m" : "") << "[" << x->value.first << "]\033[0m" << (void*)x;
-			// std::cout << " parent: " << (void*)x->parent \
-			// 		  << " left:   " << (void*)x->left \
-			// 		  << " right:  " << (void*)x->right << std::endl;
-			// this->_print_tree("", x->right, 0);
 		}
 
 		node*	_new_node(const value_type& val)
@@ -175,6 +167,7 @@ namespace ft
 					x->parent->left = NULL;
 			}
 			this->_destroy_node(x);
+			_size--;
 		}
 
 		void	_flip_color(node* x)
@@ -362,8 +355,6 @@ namespace ft
 				/* case 4 */
 				else
 					x = this->_delete_case_four(x);
-
-				this->_print_tree("", _root, false);
 			}
 			x->color = black;
 		}
@@ -377,7 +368,6 @@ namespace ft
 		*/
 		void	_delete_case_one(node* x)
 		{
-			std::cout << "\ndelete case one\n";
 			x->parent->color = red;
 
 			/* sibling is left child */
@@ -402,7 +392,6 @@ namespace ft
 		*/
 		node*	_delete_case_two(node* x)
 		{
-			std::cout << "\ndelete case two\n";
 			x = x->get_nephew();
 	
 			/* color sibling same color as parent (of old x) */
@@ -436,7 +425,6 @@ namespace ft
 		*/
 		void	_delete_case_three(node* x)
 		{
-			std::cout << "\ndelete case three\n";
 			x = x->get_niece();
 
 			x->color = black;
@@ -459,7 +447,6 @@ namespace ft
 		*/
 		node*	_delete_case_four(node* x)
 		{
-			std::cout << "\ndelete case four\n";
 			/* sibling is a left child */
 			if (x == x->parent->right)
 				x->parent->left->color = red;
