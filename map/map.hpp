@@ -111,10 +111,22 @@ namespace ft
 	/////////////
 	private:
 
+		void	_print_node_address(node* x)
+		{
+			std::cout << ((x->color == red) ? "\033[31;01m" : "") << "[" << x->value.first << "]\033[0m" << (void*)x;
+			std::cout << " parent: " << (void*)x->parent \
+					<< " left:   " << (void*)x->left \
+					<< " right:  " << (void*)x->right << std::endl;
+		}
+
 		void	_print_tree(const std::string& prefix, node* x, bool isLeft)
 		{
 			if(x != NULL)
 			{
+				if (x == x->left || x == x->right) {
+					this->_print_node_address(x);
+					exit(1);
+				}
 				std::cout << prefix;
 
 				std::cout << (isLeft ? "\033[33m├──\033[0m" : "└──" );
@@ -149,6 +161,20 @@ namespace ft
 		{
 			_node_alloc.destroy(x);
 			_node_alloc.deallocate(x, 1);
+		}
+
+		void	_remove_node(node* x)
+		{
+			if (x == _root)
+				_root = NULL;
+			else
+			{
+				if (x->parent->right == x)
+					x->parent->right = NULL;
+				else
+					x->parent->left = NULL;
+			}
+			this->_destroy_node(x);
 		}
 
 		void	_flip_color(node* x)
@@ -336,6 +362,8 @@ namespace ft
 				/* case 4 */
 				else
 					x = this->_delete_case_four(x);
+
+				this->_print_tree("", _root, false);
 			}
 			x->color = black;
 		}
@@ -388,11 +416,11 @@ namespace ft
 
 			/* sibling is right child */
 			if (x == x->parent->right)
-				this->_left_rotate(x);
+				this->_left_rotate(x->parent);
 
 			/* sibling is left child */
 			else
-				this->_right_rotate(x);
+				this->_right_rotate(x->parent);
 			
 			/* return root because case 1 is final */
 			return (_root);
@@ -416,11 +444,11 @@ namespace ft
 
 			/* niece is right child */
 			if (x == x->parent->right)
-				this->_left_rotate(x);
+				this->_left_rotate(x->parent);
 			
 			/* niece is left child */
 			else
-				this->_right_rotate(x);
+				this->_right_rotate(x->parent);
 		}
 
 		/*
@@ -448,66 +476,109 @@ namespace ft
 	////////////////////
 	private:
 
-		node*	_swap_largest_left_subtree(node* x)
+		void	_move_node_to_leaf(node* x)
+		{
+			while (x->is_leaf() == false)
+			{
+				if (x->left != NULL && x->right == NULL)
+					this->_swap_left_child(x);
+				else if (x->right != NULL && x->left == NULL)
+					this->_swap_right_child(x);
+				else
+					this->_swap_predecessor(x);
+			}
+		}
+
+		void	_swap_predecessor(node* x)
 		{
 			node* y = _find_largest_in_subtree(x->left);
-			node* ret;
 
 			/* x is root */
 			if (x == _root)
 				_root = y;
 			
-			/* is a left child */
+			/* x is a left child */
 			else if (x->parent->left == x)
 				x->parent->left = y;
 			
-			/* is a right child */
+			/* x is a right child */
 			else
 				x->parent->right = y;
 
-			/* assign y's left subtree to its parent */
-			y->parent->right = y->left;
-			if (y->left)
-				y->left->parent = y->parent;
+			/* set child parent links */
+			if (x->left == y)
+				this->_swap_left_child(x);
+			else
+			{
+				if (x->right)
+					x->right->parent = y;
+				if (x->left)
+					x->left->parent = y;
+				
+				if (y->parent->right == y)
+					y->parent->right = x;
+				else
+					y->parent->left = x;
 
-			/* Potential violator */
-			ret = y->left;
-	
-			/* reassign child links */
-			x->left->parent		= y;
-			x->right->parent	= y;
-
-			/* reassign links */
-			y->parent	= x->parent;
-			y->left		= x->left;
-			y->right	= x->right;
-
-			/* recolor */
-			y->color = x->color;
-
-			/* return potential violator */
-			return (ret);
+				if (y->left)
+					y->left->parent = x;
+				x->swap(y);
+			}
 		}
 
-		node*	_reassign_right_subtree(node* x)
+		void	_swap_right_child(node* x)
 		{
-			x->right->parent = x->parent;
+			node* y = x->right;
+			y->parent = x->parent;
 
-			/* x was root */
 			if (x == _root)
 				_root = x->left;
-
-			/* reassign parent->child link */
 			else {
 				if (x->parent->left == x)
-					x->parent->left = x->right;
+					x->parent->left = y;
 				else
-					x->parent->right = x->right;
+					x->parent->right = y;
 			}
-			x->right->color = black;
-			return (x->right);
+			if (y->right)
+				y->right->parent = x;
+			if (y->left)
+				y->left->parent = x;
+
+			node* tmp = x->left;
+			x->left = y->left;
+			x->right = y->right;
+			x->parent = y;
+			y->left = tmp;
+			y->right = x;
+			ft::value_swap(x->color, y->color);
 		}
 
+		void	_swap_left_child(node* x)
+		{
+			node* y = x->left;
+			y->parent = x->parent;
+
+			if (x == _root)
+				_root = x->right;
+			else {
+				if (x->parent->left == x)
+					x->parent->left = y;
+				else
+					x->parent->right = y;
+			}
+			if (y->right)
+				y->right->parent = x;
+			if (y->left)
+				y->left->parent = x;
+			
+			node* tmp = x->right;
+			x->left = y->left;
+			x->right = y->right;
+			x->parent = y;
+			y->left = x;
+			y->right = tmp;
+			ft::value_swap(x->color, y->color);
+		}
 
 	//////////////////
 	// Iterators 🤮 //
@@ -640,23 +711,14 @@ namespace ft
 		// void erase(iterator position)
 		void	erase(node* x)
 		{
-			node* tmp = x;
-
 			std::cout << "\n---deleting: " << x->value.first << "---\n\n";
 
-			/* x has a left subtree */
-			if (x->left != NULL)
-				x = this->_swap_largest_left_subtree(x);
-
-			/* x has a right subtree */
-			else if (x->right != NULL)
-				x = this->_reassign_right_subtree(x);
-
+			this->_move_node_to_leaf(x);
 				
 			this->_delete_violation_justifier(x);
 
+			this->_remove_node(x);
 			this->_print_tree("", _root, false);
-			this->_destroy_node(tmp);
 		}
 
 		// size_type erase(const key_type& k)

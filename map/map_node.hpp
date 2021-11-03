@@ -96,6 +96,20 @@ namespace ft
 			return (value.first);
 		}
 
+		void		swap(node* x)
+		{
+			ft::value_swap(this->parent,	x->parent);
+			ft::value_swap(this->left,		x->left);
+			ft::value_swap(this->right,		x->right);
+			ft::value_swap(this->color,		x->color);
+		}
+
+		bool		is_leaf()
+		{
+			if (this->left == NULL && this->right == NULL)
+				return (true);
+			return (false);
+		}
 
 	//////////////////////////
 	// Node relation e_color //
@@ -136,13 +150,13 @@ namespace ft
 		{
 			/* nephew is on left side */
 			if (this == parent->right) {
-				if (parent->left->left == NULL)
+				if (parent->left == NULL || parent->left->left == NULL)
 					return (black);
 				return (parent->left->left->color);
 			}
 
 			/* nephew is on right side */
-			if (parent->right->right == NULL)
+			if (parent->right == NULL || parent->right->right == NULL)
 				return (black);
 			return (parent->right->right->color);
 		}
@@ -151,13 +165,13 @@ namespace ft
 		{
 			/* niece is on left side */
 			if (this == parent->right) {
-				if (parent->left->right == NULL)
+				if (parent->left == NULL || parent->left->right == NULL)
 					return (black);
 				return (parent->left->right->color);
 			}
 
 			/* niece is on right side */
-			if (parent->right->left == NULL)
+			if (parent->right == NULL || parent->right->left == NULL)
 				return (black);
 			return (parent->right->left->color);
 		}
