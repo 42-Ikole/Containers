@@ -209,6 +209,31 @@ namespace ft
 			return (parent->right->left);
 		}
 
+	////////////
+	// Limits //
+	////////////
+	public: 
+
+		node*	get_biggest()
+		{
+			
+		}
+
+	///////////////
+	// Successor //
+	///////////////
+	public:
+
+		node*	get_predecessor()
+		{
+			node* ret = this;
+
+			while (1)
+			{
+				if ()
+			}
+		}
+
 		
 	}; /* end of rnb_node */
 
