@@ -120,6 +120,11 @@ namespace ft
 			return (false);
 		}
 
+		void	flip_color(void)
+		{
+			this->color = (e_color)!this->color;
+		}
+
 	//////////////////////////
 	// Node relation e_color //
 	//////////////////////////

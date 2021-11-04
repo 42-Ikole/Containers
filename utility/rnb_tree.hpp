@@ -109,8 +109,8 @@ namespace ft
 		{
 			std::cout << ((x->color == red) ? "\033[31;01m" : "") << "[" << x->value.first << "]\033[0m" << (void*)x;
 			std::cout << " parent: " << (void*)x->parent \
-					<< " left:   " << (void*)x->left \
-					<< " right:  " << (void*)x->right << std::endl;
+					  << " left:   " << (void*)x->left \
+					  << " right:  " << (void*)x->right << std::endl;
 		}
 
 		void	_print_tree(const std::string& prefix, node* x, bool isLeft)
@@ -159,11 +159,6 @@ namespace ft
 			}
 			this->_destroy_node(x);
 			_size--;
-		}
-
-		void	_flip_color(node* x)
-		{
-			x->color = (e_color)!x->color;
 		}
 
 		node*	_find_largest_in_subtree(node* x)
@@ -258,12 +253,12 @@ namespace ft
 		*/
 		node*	_insert_case_one(node* x)
 		{
-			this->_flip_color(x->parent);
-			this->_flip_color(x->grandparent);
+			x->parent->flip_color();
+			x->grandparent->flip_color();
 			if (x->parent == x->right_uncle)
-				this->_flip_color(x->left_uncle);
+				x->left_uncle->flip_color();
 			else
-				this->_flip_color(x->right_uncle);
+				x->right_uncle->flip_color();
 			return (x->grandparent);
 		}
 
@@ -302,8 +297,8 @@ namespace ft
 		*/
 		void	_insert_case_three(node* x)
 		{
-			this->_flip_color(x->parent);
-			this->_flip_color(x->grandparent);
+			x->parent->flip_color();
+			x->grandparent->flip_color();
 
 			/* line on right side of grandparent */
 			if (x->parent == x->right_uncle)
