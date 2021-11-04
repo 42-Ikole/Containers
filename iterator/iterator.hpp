@@ -15,8 +15,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ITERATOR_HPP
-# define ITERATOR_HPP
+#ifndef I_DONT_LIKE_ITERATOR_HPP
+# define I_DONT_LIKE_ITERATOR_HPP
 
 namespace ft {
 

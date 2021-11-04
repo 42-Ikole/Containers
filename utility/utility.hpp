@@ -13,8 +13,8 @@
 /*																			  */
 /* ************************************************************************** */
 
-#ifndef UTILITY_HPP
-# define UTILITY_HPP
+#ifndef VERY_USEFUL_UTILITY_HPP
+# define VERY_USEFUL_UTILITY_HPP
 
 # include <pair.hpp>
 

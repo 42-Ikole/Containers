@@ -10,8 +10,8 @@
 /*																			  */
 /* ************************************************************************** */
 
-#ifndef SFINAE_HPP
-# define SFINAE_HPP
+#ifndef I_HATE_ENABLE_IF_HPP
+# define I_HATE_ENABLE_IF_HPP
 
 namespace ft
 {

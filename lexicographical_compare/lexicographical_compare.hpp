@@ -7,8 +7,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXICOGRAPHICAL_COMPARE_HPP
-# define LEXICOGRAPHICAL_COMPARE_HPP
+#ifndef REAL_COOL_LEXICOGRAPHICAL_COMPARE_HPP
+# define REAL_COOL_LEXICOGRAPHICAL_COMPARE_HPP
 
 namespace ft
 {

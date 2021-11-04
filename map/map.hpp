@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAP_HPP
-# define MAP_HPP
+#ifndef MY_SUPER_EPIC_MAP_HPP
+# define MY_SUPER_EPIC_MAP_HPP
 
 # include <memory>
 # include <pair.hpp>

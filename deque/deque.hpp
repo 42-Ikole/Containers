@@ -12,8 +12,8 @@
 /*																			  */
 /* ************************************************************************** */
 
-#ifndef DEQUE_HPP
-# define DEQUE_HPP
+#ifndef SUPER_EPIC_DEQUE_HPP
+# define SUPER_EPIC_DEQUE_HPP
 
 # include <memory>
 # include <array_iterator.hpp> //

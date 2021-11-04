@@ -9,8 +9,8 @@
 /*																			  */
 /* ************************************************************************** */
 
-#ifndef VECTOR_HPP
-# define VECTOR_HPP
+#ifndef SO_TO_VICTOR_HPP
+# define SO_TO_VICTOR_HPP
 
 # include <memory>
 # include <string>

@@ -14,8 +14,8 @@
 /*																			  */
 /* ************************************************************************** */
 
-#ifndef TESTS_HPP
-# define TESTS_HPP
+#ifndef VERY_GOOD_TESTS_HPP
+# define VERY_GOOD_TESTS_HPP
 
 # include <exception>
 # include <string>

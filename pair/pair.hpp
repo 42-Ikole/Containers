@@ -12,8 +12,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PAIR_HPP
-# define PAIR_HPP
+#ifndef PAIR_PAIR_HPP
+# define PAIR_PAIR_HPP
 
 # include <memory>
 
