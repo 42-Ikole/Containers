@@ -241,12 +241,22 @@ namespace ft
 		{
 			node* ret = this;
 
-			while (1)
-			{
-				if ()
+			/* if it has a left subtree */
+			if (ret->left != NULL) {
+				/* go left once then go right as far as possible */
+				ret = ret->left;
+				while (ret->right)
+					ret = ret->right;
 			}
-		}
 
+			/* go up while its a left child, then go up once more */
+			else {
+				while (ret->parent && ret == ret->parent->left)
+					ret = ret->parent;
+				ret = ret->parent;
+			}
+			return (ret);
+		}
 		
 	}; /* end of rnb_node */
 
