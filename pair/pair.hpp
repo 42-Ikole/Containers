@@ -78,7 +78,7 @@ namespace ft
 	//////////////////////////
 	public:
 
-		friend	bool operator == (const pair<T1, T2>& lhs, const pair<T1, T2>& rhs);
+		friend bool operator == (const pair<T1, T2>& lhs, const pair<T1, T2>& rhs);
 
 		friend bool operator != (const pair<T1, T2>& lhs, const pair<T1, T2>& rhs);
 
