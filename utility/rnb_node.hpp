@@ -237,24 +237,45 @@ namespace ft
 	///////////////
 	public:
 
+		node*	traverse_up_until_no_longer_left_child()
+		{
+			node* ret = this;
+
+			while (ret->parent && ret == ret->parent->left)
+				ret = ret->parent;
+			ret = ret->parent;
+			return (ret);
+		}
+
 		node*	get_predecessor()
 		{
 			node* ret = this;
 
-			/* if it has a left subtree */
+			/* has a left subtree */
 			if (ret->left != NULL) {
-				/* go left once then go right as far as possible */
+				/* go left once, then go as far as possible */
 				ret = ret->left;
 				while (ret->right)
 					ret = ret->right;
 			}
+			else
+				ret = this->traverse_up_until_no_longer_left_child();
+			return (ret);
+		}
 
-			/* go up while its a left child, then go up once more */
-			else {
-				while (ret->parent && ret == ret->parent->left)
-					ret = ret->parent;
-				ret = ret->parent;
+		node*	get_successor()
+		{
+			node* ret = this;
+
+			/* has a right subtree */
+			if (ret->right != NULL) {
+				/* go right once, then go left as far as possible */
+				ret = ret->right;
+				while (ret->left)
+					ret = ret->left;
 			}
+			else
+				ret = this->traverse_up_until_no_longer_left_child();
 			return (ret);
 		}
 		
