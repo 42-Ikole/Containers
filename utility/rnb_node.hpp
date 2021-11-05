@@ -214,9 +214,22 @@ namespace ft
 	////////////
 	public: 
 
-		node*	get_biggest()
+		node*	find_biggest()
 		{
-			
+			node* tmp = this;
+
+			while (tmp->right != NULL)
+				tmp = tmp->right;
+			return (tmp);
+		}
+
+		node*	find_smallest()
+		{
+			node* tmp = this;
+
+			while (tmp->left != NULL)
+				tmp = tmp->left;
+			return (tmp);
 		}
 
 	///////////////
