@@ -17,6 +17,7 @@
 # include <pair.hpp>
 # include <rnb_tree.hpp>
 # include <utility.hpp>
+# include <map_iterator.hpp>
 
 namespace ft
 {
@@ -49,6 +50,9 @@ namespace ft
 		typedef typename tree_type::size_type										size_type;
 
 		/* iterators fkdjfkjdskfjdksjf */
+
+		typedef ft::map_iterator< value_type, difference_type, ft::bidirectional_iterator_tag, node* >						iterator;
+		typedef ft::map_iterator< value_type, difference_type, ft::bidirectional_iterator_tag, node*, const value_type& >	const_iterator; // kan nu geen const pointer
 
 	//////////////////////
 	// Member variables //
@@ -174,11 +178,10 @@ namespace ft
 	public:
 
 		/* single element */
-		// ft::pair<iterator, bool> insert(const value_type& val)
-		node*	insert(const value_type& val)
+		// node*	insert(const value_type& val)
+		ft::pair<iterator, bool> insert(const value_type& val)
 		{
-			return (_tree.insert(val));
-			// return (ft::makepair())
+			return (ft::make_pair(iterator(_tree.insert(val)), true));
 		}
 
 		/* with hint */
@@ -194,10 +197,9 @@ namespace ft
 			
 		// }
 
-		// void erase(iterator position)
-		void	erase(node* x)
+		void erase(iterator position)
 		{
-			_tree.erase(x);
+			_tree.erase(position._ptr);
 		}
 
 		// size_type erase(const key_type& k)

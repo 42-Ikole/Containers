@@ -138,10 +138,10 @@ int main(void)
 
 
 	ft::map<int, std::string>			sick;
-	ft::map<int, std::string>::node*	nd;
-	ft::map<int, std::string>::node*	nd1;
-	ft::map<int, std::string>::node*	nd2;
-	ft::map<int, std::string>::node*	nd3;
+	ft::map<int, std::string>::iterator	nd;
+	ft::map<int, std::string>::iterator	nd1;
+	ft::map<int, std::string>::iterator	nd2;
+	ft::map<int, std::string>::iterator	nd3;
 
 	// sick.insert(ft::make_pair(21, std::string("twenty one")));
 	// sick.insert(ft::make_pair(18, std::string("eighteen")));
@@ -163,31 +163,31 @@ int main(void)
 
 	// sick.insert(ft::make_pair(17, std::string("seventeen")));
 
-	nd2 = sick.insert(ft::make_pair(500, std::string("fifty")));
+	nd2 = sick.insert(ft::make_pair(500, std::string("fifty"))).first;
 	sick.insert(ft::make_pair(300, std::string("thirty")));
 	sick.insert(ft::make_pair(400, std::string("fourty")));
 	sick.insert(ft::make_pair(450, std::string("fourty five")));
-	nd2 = sick.insert(ft::make_pair(460, std::string("fourty six")));
-	nd = sick.insert(ft::make_pair(440, std::string("fourty four")));
-	nd1 = sick.insert(ft::make_pair(430, std::string("fourty three")));
+	nd2 = sick.insert(ft::make_pair(460, std::string("fourty six"))).first;
+	nd = sick.insert(ft::make_pair(440, std::string("fourty four"))).first;
+	nd1 = sick.insert(ft::make_pair(430, std::string("fourty three"))).first;
 	sick.insert(ft::make_pair(420, std::string("fourty two")));
 
 	sick.erase(nd);
 
 	sick.insert(ft::make_pair(410, std::string("410")));
 	sick.insert(ft::make_pair(409, std::string("409")));
-	nd = sick.insert(ft::make_pair(408, std::string("408")));
+	nd = sick.insert(ft::make_pair(408, std::string("408"))).first;
 	sick.insert(ft::make_pair(407, std::string("407")));
 	sick.insert(ft::make_pair(406, std::string("406")));
 
 	// sick.erase(nd2);
 
 	sick.insert(ft::make_pair(405, std::string("")));
-	nd = sick.insert(ft::make_pair(404, std::string("")));
+	nd = sick.insert(ft::make_pair(404, std::string(""))).first;
 	sick.insert(ft::make_pair(403, std::string("")));
 	sick.insert(ft::make_pair(402, std::string("")));
 	sick.insert(ft::make_pair(401, std::string("")));
-	nd3 = sick.insert(ft::make_pair(390, std::string("")));
+	nd3 = sick.insert(ft::make_pair(390, std::string(""))).first;
 
 	sick.insert(ft::make_pair(391, std::string("")));
 	sick.insert(ft::make_pair(392, std::string("")));
@@ -197,10 +197,10 @@ int main(void)
 	sick.insert(ft::make_pair(396, std::string("")));
 
 
-	sick.erase(nd1);
-	sick.erase(nd);
-	sick.erase(nd2);
-	sick.erase(nd3);
+	// sick.erase(nd1);
+	// sick.erase(nd);
+	// sick.erase(nd2);
+	// sick.erase(nd3);
 
 	// extremely_cool_vector_iterator_tests();
 

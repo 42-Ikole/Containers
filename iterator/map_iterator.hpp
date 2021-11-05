@@ -48,7 +48,8 @@ namespace ft
 
 		typedef typename itr::value_type		value_type;
 		typedef typename itr::difference_type	difference_type;
-		typedef typename itr::pointer			pointer;
+		typedef Pointer							node_pointer;
+		typedef value_type*						pointer;
 		typedef typename itr::reference			reference;
 		typedef typename itr::iterator_category	iterator_category;
 
@@ -56,15 +57,16 @@ namespace ft
 	//////////////////////
 	// Member variables //
 	//////////////////////
-	protected:
-		pointer	_ptr;
+	public:
+
+		node_pointer	_ptr; //  ga dit niet public maken maar dat komt goed als je vette iterator heb
 
 	/////////////////
 	// constructor //
 	/////////////////
 	public:
 
-		map_iterator(Pointer ptr = NULL) : _ptr(ptr) {}
+		map_iterator(node_pointer ptr = NULL) : _ptr(ptr) {}
 
 		map_iterator(const map_iterator& x) {
 			*this = x;
