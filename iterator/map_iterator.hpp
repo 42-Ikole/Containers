@@ -57,9 +57,9 @@ namespace ft
 	//////////////////////
 	// Member variables //
 	//////////////////////
-	public:
+	private:
 
-		node_pointer	_ptr; //  ga dit niet public maken maar dat komt goed als je vette iterator heb
+		node_pointer	_ptr;
 
 	/////////////////
 	// constructor //
@@ -73,6 +73,16 @@ namespace ft
 		}
 
 		virtual ~map_iterator() {}
+
+	/////////////////
+	// Get pointer //
+	/////////////////
+	public:
+
+		node_pointer	get_ptr(void)
+		{
+			return (_ptr);
+		}
 
 	//////////////////////
 	// Common operators //

@@ -59,7 +59,7 @@ namespace ft
 	//////////////////////
 	private:
 
-		tree_type			_tree;
+		tree_type	_tree;
 
 	/////////////
 	// CoPlIeN //
@@ -199,7 +199,7 @@ namespace ft
 
 		void erase(iterator position)
 		{
-			_tree.erase(position._ptr);
+			_tree.erase(position.get_ptr());
 		}
 
 		// size_type erase(const key_type& k)
