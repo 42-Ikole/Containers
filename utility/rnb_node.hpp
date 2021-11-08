@@ -72,8 +72,8 @@ namespace ft
 	/////////////////
 	public:
 
-		rnb_node(const value_type& val, node* p = NULL, node* l = NULL, node* r = NULL, e_color c = red)
-			: value(val), parent(p), left(l), right(r), color(c)
+		rnb_node(const value_type& val)
+			: value(val), parent(NULL), left(NULL), right(NULL), color(red)
 		{}
 
 		~rnb_node()
