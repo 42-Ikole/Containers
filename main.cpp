@@ -171,6 +171,7 @@ int main(void)
 	nd = sick.insert(ft::make_pair(440, std::string("fourty four"))).first;
 	nd1 = sick.insert(ft::make_pair(430, std::string("fourty three"))).first;
 	sick.insert(ft::make_pair(420, std::string("fourty two")));
+	sick.insert(ft::make_pair(-1, std::string("fourty two")));
 
 	sick.erase(nd);
 
@@ -180,7 +181,7 @@ int main(void)
 	sick.insert(ft::make_pair(407, std::string("407")));
 	sick.insert(ft::make_pair(406, std::string("406")));
 
-	// sick.erase(nd2);
+	sick.erase(nd2);
 
 	sick.insert(ft::make_pair(405, std::string("")));
 	nd = sick.insert(ft::make_pair(404, std::string(""))).first;
@@ -196,6 +197,12 @@ int main(void)
 	sick.insert(ft::make_pair(395, std::string("")));
 	sick.insert(ft::make_pair(396, std::string("")));
 
+	sick.insert(ft::make_pair(700, std::string("")));
+	sick.insert(ft::make_pair(800, std::string("")));
+	sick.insert(ft::make_pair(900, std::string("")));
+	sick.insert(ft::make_pair(1000, std::string("")));
+
+	// sick.begin();
 
 	// sick.erase(nd1);
 	// sick.erase(nd);
