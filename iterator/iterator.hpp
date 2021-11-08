@@ -25,12 +25,15 @@ namespace ft {
 /////////////////////////
 
 	template <class Category, class T, class Distance = std::ptrdiff_t,
-          class Pointer = T*, class Reference = T&>
-	struct iterator {
+        class Pointer = T*, class Reference = T&>
+	struct iterator
+	{
+
 	//////////////
 	// Typedefs //
 	//////////////
-	
+	public:
+
 		typedef T         value_type;
 		typedef Distance  difference_type;
 		typedef Pointer   pointer;

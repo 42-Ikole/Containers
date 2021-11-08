@@ -33,7 +33,7 @@ namespace ft
 
 	template < class T, class Category = ft::bidirectional_iterator_tag,
 		class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
-	class map_iterator : public ft::iterator < Category, T, Distance, Pointer, Reference >
+	class map_iterator : public ft::iterator < Category, T, Distance, T*, Reference >
 	{
 
 	//////////////
