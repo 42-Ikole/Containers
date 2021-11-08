@@ -102,25 +102,26 @@ namespace ft
 	//////////////////
 	public:
 
-		// iterator begin()
-		// {
+		iterator begin()
+		{
+			std::cout << "smallest = " << _tree._root->find_smallest()->value.first << std::endl;
+			return (iterator(_tree._root->find_smallest()));
+		}
 
-		// }
+		const_iterator begin() const
+		{
+			return (iterator(_tree._root->find_smallest()));
+		}
 
-		// const_iterator begin() const
-		// {
+		iterator end()
+		{
+			return (iterator(_tree._root->find_biggest()));
+		}
 
-		// }
-
-		// iterator end()
-		// {
-
-		// }
-
-		// const_iterator end() const
-		// {
-
-		// }
+		const_iterator end() const
+		{
+			return (iterator(_tree._root->find_biggest()));
+		}
 
 		// reverse_iterator rbegin()
 		// {

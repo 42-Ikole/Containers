@@ -218,7 +218,7 @@ namespace ft
 		{
 			node* tmp = this;
 
-			while (tmp->right != NULL)
+			while (tmp->right != tmp->right->right)
 				tmp = tmp->right;
 			return (tmp);
 		}
@@ -227,7 +227,7 @@ namespace ft
 		{
 			node* tmp = this;
 
-			while (tmp->left != NULL)
+			while (tmp->left != tmp->left->left)
 				tmp = tmp->left;
 			return (tmp);
 		}

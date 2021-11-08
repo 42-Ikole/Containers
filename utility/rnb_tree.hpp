@@ -64,9 +64,11 @@ namespace ft
 	//////////////////////
 	// Member variables //
 	//////////////////////
-	private:
+	public:
 
 		node*				_root;
+		node*				_begin; // sentinel for (begin -1)
+		node*				_end;  // sentinel for (end)
 		key_compare			_comp;
 		size_type			_size;
 		allocator_type		_alloc;
@@ -81,7 +83,12 @@ namespace ft
 			const allocator_type& alloc = allocator_type())
 				: _root(NULL), _comp(comp), _size(0), _alloc(alloc), _node_alloc(node_allocator_type())
 		{
-		
+			_begin = _new_node(value_type());
+			_begin->color = black;
+			_begin->left = _begin;
+			_end = _new_node(value_type());
+			_end->right = _end;
+			_end->color = black;
 		}
 
 		~rnb_tree()
@@ -117,18 +124,25 @@ namespace ft
 		{
 			if(x != NULL)
 			{
-				if (x == x->left || x == x->right) {
-					this->_print_node_address(x);
-					exit(1);
-				}
 				std::cout << prefix;
 				std::cout << (isLeft ? "\033[33m├──\033[0m" : "└──" );
 				// print the value of the node
+				if (x == x->left || x == x->right) {
+					std::cout << ((x->color == red) ? "\033[31;01m" : "") << "[sen]\033[0m" << std::endl;
+					return ;
+				}
 				std::cout << ((x->color == red) ? "\033[31;01m" : "") << "[" << x->value.first << "]\033[0m" << std::endl;
 				// enter the next tree level - left and right branch
 				this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->left, true);
 				this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->right, false);
 			}
+		}
+
+		bool	_is_not_null(node* x)
+		{
+			if (x == NULL || x == _begin || x == _end)
+				return (false);
+			return (true);
 		}
 
 		node*	_new_node(const value_type& val)
@@ -163,7 +177,7 @@ namespace ft
 
 		node*	_find_largest_in_subtree(node* x)
 		{
-			while (x->right != NULL)
+			while (_is_not_null(x->right))
 				x = x->right;
 			return (x);
 		}
@@ -179,7 +193,7 @@ namespace ft
 
 			/* assign y's left subtree to x */
 			x->right = y->left;
-			if (y->left != NULL)
+			if (_is_not_null(y->left))
 				y->left->parent = x;
 			y->parent = x->parent;
 			
@@ -205,7 +219,7 @@ namespace ft
 
 			/* assign y's right subtree to x */
 			x->left = y->right;
-			if (y->right != NULL)
+			if (_is_not_null(y->right))
 				y->right->parent = x;
 			y->parent = x->parent;
 
@@ -453,9 +467,9 @@ namespace ft
 		{
 			while (x->is_leaf() == false)
 			{
-				if (x->left != NULL && x->right == NULL)
+				if (_is_not_null(x->left) && x->right == NULL)
 					this->_swap_left_child(x);
-				else if (x->right != NULL && x->left == NULL)
+				else if (_is_not_null(x->right) && x->left == NULL)
 					this->_swap_right_child(x);
 				else
 					this->_swap_predecessor(x);
@@ -584,7 +598,7 @@ namespace ft
 			node* parent	= NULL;
 
 			// find node to go to
-			for (node* x = _root; x != NULL;) {
+			for (node* x = _root; _is_not_null(x);) {
 				parent = x;
 				if (_comp(new_node->key(), x->key()) == true)
 					x = x->left;
@@ -594,18 +608,28 @@ namespace ft
 
 			// set parents
 			new_node->parent = parent;
-			if (_root == NULL)
+			if (_root == NULL) {
 				_root = new_node;
-			else if (_comp(new_node->key(), parent->key()) == true)
+				new_node->left = _begin;
+				new_node->right = _end;
+			}
+			else if (_comp(new_node->key(), parent->key()) == true) {
+				if (parent->left == _begin)
+					new_node->left = _begin;
 				parent->left = new_node;
-			else
+			}
+			else {
+				if (parent->right == _end)
+					new_node->right = _end;
 				parent->right = new_node;
+			}
 
 			/* fix all the violations */
 			this->_insert_violation_justifier(new_node);
 	
 			_size++;
 			this->_print_tree("", _root, false);
+			// std::cout << "begin->parent: " << _begin->parent->value.first;
 			return (new_node);
 			// return (ft::makepair())
 		}
