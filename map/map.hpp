@@ -86,7 +86,7 @@ namespace ft
 
 		~map()
 		{
-			// this->clear();
+			this->clear();
 			// this->_remove_sentinels();
 		}
 
@@ -201,30 +201,34 @@ namespace ft
 			
 		// }
 
+		/* itr erase */
 		void erase(iterator position)
 		{
 			_tree.erase(position.get_ptr());
 		}
 
+		/* value erase */
 		// size_type erase(const key_type& k)
 		// {
 
 		// }
 
-		// void erase(iterator first, iterator last)
-		// {
+		/* range erase */
+		void erase(iterator first, iterator last)
+		{
+			for (; first != last; first++)
+				this->_tree.erase(first.get_ptr());
+		}
 
-		// }
+		void swap(map& x)
+		{
+			ft::value_swap(this->_tree, x._tree);
+		}
 
-		// void swap(map& x)
-		// {
-
-		// }
-
-		// void clear()
-		// {
-
-		// }
+		void clear()
+		{
+			this->_tree.clear();
+		}
 	
 	///////////////
 	// Observers //
