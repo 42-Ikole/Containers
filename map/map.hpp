@@ -87,7 +87,6 @@ namespace ft
 		~map()
 		{
 			this->clear();
-			// this->_remove_sentinels();
 		}
 
 		map (const map& x)

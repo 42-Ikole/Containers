@@ -18,6 +18,8 @@
 #ifndef I_DONT_LIKE_ITERATOR_HPP
 # define I_DONT_LIKE_ITERATOR_HPP
 
+# include <traits.hpp>
+
 namespace ft {
 
 /////////////////////////
@@ -59,7 +61,7 @@ namespace ft {
 	// }
 
 	template<class Iter>
-		typename iterator_traits<Iter>::difference_type
+		typename ft::iterator_traits<Iter>::difference_type
 			distance (Iter first, Iter last)
 	{
 		return (last - first);
