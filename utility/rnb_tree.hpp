@@ -644,17 +644,13 @@ namespace ft
 				this->_set_sentinels();
 			}
 			else if (_comp(new_node->key(), parent->key()) == true) {
-				if (parent->left == _begin) {
-					new_node->left = _begin;
-					_begin->parent = new_node;
-				}
+				if (parent->left == _begin)
+					this->_set_sentinel_begin(new_node);
 				parent->left = new_node;
 			}
 			else {
-				if (parent->right == _end) {
-					new_node->right = _end;
-					_end->parent = new_node;
-				}
+				if (parent->right == _end)
+					this->_set_sentinel_end(new_node);
 				parent->right = new_node;
 			}
 
