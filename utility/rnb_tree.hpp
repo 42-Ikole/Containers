@@ -83,12 +83,7 @@ namespace ft
 			const allocator_type& alloc = allocator_type())
 				: _root(NULL), _comp(comp), _size(0), _alloc(alloc), _node_alloc(node_allocator_type())
 		{
-			_begin = _new_node(value_type());
-			_begin->color = black;
-			_begin->left = _begin;
-			_end = _new_node(value_type());
-			_end->right = _end;
-			_end->color = black;
+			this->_init_sentinels();
 		}
 
 		~rnb_tree()
@@ -182,6 +177,23 @@ namespace ft
 			while (_is_not_null(x->right))
 				x = x->right;
 			return (x);
+		}
+
+
+	//////////////////////
+	// Sentinel helpers //
+	//////////////////////
+	private:
+
+		void	_init_sentinels()
+		{
+			_begin = _new_node(value_type());
+			_begin->color = black;
+			_begin->left = _begin;
+			_end = _new_node(value_type());
+			_end->right = _end;
+			_end->color = black;
+			_begin->parent = _end;
 		}
 
 		void	_set_sentinel_begin(node* hint = NULL)
