@@ -136,7 +136,6 @@ int main(void)
 {
 	extremely_cool_vector_tests();
 
-
 	ft::map<int, std::string>			sick;
 	ft::map<int, std::string>::iterator	nd;
 	ft::map<int, std::string>::iterator	nd1;
@@ -249,5 +248,5 @@ int main(void)
 	// // itr = brr.begin();
 	// itr++;
 	// itr--;
-	// system("leaks containers | grep 'total leaked'");
+	// system("leaks containers | grep -o 'leaks for 0'");
 }

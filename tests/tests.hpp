@@ -40,6 +40,8 @@ void	vector_iterator_test();
 
 void	deque_test();
 
+void	map_test();
+
 /////////////
 // HELPERS //
 /////////////
@@ -52,6 +54,16 @@ template < class Con >
 	std::cout << "\nsize = " << con.size() << std::endl;
 	for (size_t i = 0; i < con.size(); i++)
 		std::cout << con[i] << " ";
+}
+
+template < class Con, class Itr >
+	static void whats_in_this_map_yo(Con &con, Itr i, std::string test)
+{
+	std::cout << "\n--[ " << test << " ]--" << std::endl;
+	std::cout << "\nsize = " << con.size() << std::endl;
+	std::cout << (int)(con.begin() == con.end()) << std::endl;
+	for (; i != con.end(); i++)
+		std::cout << "[" << (*i).first << "]-[" << (*i).second << "] ";
 }
 
 /////////////////////

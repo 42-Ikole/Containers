@@ -74,6 +74,9 @@ int	main(int argc, char **argv)
 
 	print_type_header("deque");
 	time_function(deque_test, "deque");
+
+	print_type_header("map");
+	time_function(map_test, "map");
 	// vector_iterator_test();
-	// system("leaks containers | grep 'total leaked'");
+	system("leaks containers | grep -o 'leaks for 0'");
 }
