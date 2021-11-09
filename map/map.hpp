@@ -66,20 +66,21 @@ namespace ft
 	/////////////
 	public:
 	
+		/* default constructor */
 		explicit map (const key_compare& comp = key_compare(),
             const allocator_type& alloc = allocator_type())
 				: _tree(tree_type(comp, alloc))
 		{
-		
 		}
 
+		/* range constructor */
 		template <class InputIterator>
 			map (InputIterator first, InputIterator last,
 				const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type())
-					: _tree(tree_type(comp, alloc)))
+					: _tree(tree_type(comp, alloc))
 		{
-			while (first != last)
+			for (; first != last; first++)
 				_tree.insert(*first);
 		}
 
