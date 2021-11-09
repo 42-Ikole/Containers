@@ -73,17 +73,20 @@ namespace ft
 		
 		}
 
-		// template <class InputIterator>
-		// 	map (InputIterator first, InputIterator last,
-		// 		const key_compare& comp = key_compare(),
-		// 		const allocator_type& alloc = allocator_type())
-		// 			: _root(NULL), _comp(comp), _size(0), _alloc(alloc), _node_alloc(node_allocator_type())
-		// {
-
-		// }
+		template <class InputIterator>
+			map (InputIterator first, InputIterator last,
+				const key_compare& comp = key_compare(),
+				const allocator_type& alloc = allocator_type())
+					: _tree(tree_type(comp, alloc)))
+		{
+			while (first != last)
+				_tree.insert(*first);
+		}
 
 		~map()
 		{
+			// this->clear();
+			// this->_remove_sentinels();
 		}
 
 		map (const map& x)
