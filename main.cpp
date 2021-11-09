@@ -202,13 +202,25 @@ int main(void)
 	sick.insert(ft::make_pair(900, std::string("")));
 	sick.insert(ft::make_pair(1000, std::string("")));
 
-	// sick.begin();
-
-	// sick.erase(nd1);
-	// sick.erase(nd);
+	sick.erase(sick.begin());
+	sick.erase(nd);
 	// sick.erase(nd2);
-	// sick.erase(nd3);
+	sick.erase(nd3);
 
+	sick.erase(sick.begin());
+
+	for (nd = sick.begin(); nd != sick.end(); nd++)
+		std::cout << (*nd).first << ", ";
+	
+	nd++;
+	nd--;
+	std::cout << (*nd).first << ", ";
+
+
+	ft::map<int, std::string> empty;
+	
+	if (empty.begin() == empty.end())
+		std::cout << "yes" << std::endl;
 	// extremely_cool_vector_iterator_tests();
 
 	// ft::vector<test> vec(4);
