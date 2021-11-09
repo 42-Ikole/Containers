@@ -104,23 +104,22 @@ namespace ft
 
 		iterator begin()
 		{
-			std::cout << "smallest = " << _tree._root->find_smallest()->value.first << std::endl;
-			return (iterator(_tree._root->find_smallest()));
+			return (iterator(_tree._begin->parent));
 		}
 
 		const_iterator begin() const
 		{
-			return (iterator(_tree._root->find_smallest()));
+			return (iterator(_tree._begin->parent));
 		}
 
 		iterator end()
 		{
-			return (iterator(_tree._root->find_biggest()));
+			return (iterator(_tree._end));
 		}
 
 		const_iterator end() const
 		{
-			return (iterator(_tree._root->find_biggest()));
+			return (iterator(_tree._end));
 		}
 
 		// reverse_iterator rbegin()
