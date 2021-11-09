@@ -179,6 +179,39 @@ namespace ft
 			return (x);
 		}
 
+		node*	_insert_find_new_parent(node* new_node)
+		{
+			node* parent = NULL;
+	
+			for (node* x = _root; _is_not_null(x);) {
+				parent = x;
+				if (_comp(new_node->key(), x->key()) == true)
+					x = x->left;
+				else
+					x = x->right;
+			}
+			return (parent);
+		}
+
+		void	_insert_set_parents(node* new_node, node* parent)
+		{
+			new_node->parent = parent;
+			if (_root == NULL) {
+				_root = new_node;
+				this->_set_sentinels();
+			}
+			else if (_comp(new_node->key(), parent->key()) == true) {
+				if (parent->left == _begin)
+					this->_set_sentinel_begin(new_node);
+				parent->left = new_node;
+			}
+			else {
+				if (parent->right == _end)
+					this->_set_sentinel_end(new_node);
+				parent->right = new_node;
+			}
+		}
+
 
 	//////////////////////
 	// Sentinel helpers //
@@ -632,60 +665,30 @@ namespace ft
 	///////////////
 	public:
 
-		/* single element */
 		node*	insert(const value_type& val)
 		{
-			std::cerr << "\n---inserting: " << val.first << "---\n\n";
-
 			node* new_node	= this->_new_node(val);
-			node* parent	= NULL;
+			node* parent;
 
-			// find node to go to
-			for (node* x = _root; _is_not_null(x);) {
-				parent = x;
-				if (_comp(new_node->key(), x->key()) == true)
-					x = x->left;
-				else
-					x = x->right;
-			}
-
-			// set parents
-			new_node->parent = parent;
-			if (_root == NULL) {
-				_root = new_node;
-				this->_set_sentinels();
-			}
-			else if (_comp(new_node->key(), parent->key()) == true) {
-				if (parent->left == _begin)
-					this->_set_sentinel_begin(new_node);
-				parent->left = new_node;
-			}
-			else {
-				if (parent->right == _end)
-					this->_set_sentinel_end(new_node);
-				parent->right = new_node;
-			}
-
-			/* fix all the violations */
+			parent = this->_insert_find_new_parent(new_node);
+			this->_insert_set_parents(new_node, parent);
 			this->_insert_violation_justifier(new_node);
 	
-			_size++;
-			this->_print_tree("", _root, false);
+			++_size;
 			return (new_node);
 		}
 
 		void	erase(node* x)
 		{
-			std::cout << "\n---deleting: " << x->value.first << "---\n\n";
-
 			bool reset_sentinel = this->_move_node_to_leaf(x);
 			this->_delete_violation_justifier(x);
 			this->_remove_node(x);
+
 			if (reset_sentinel == true)
 				this->_set_sentinels();
+		
 			if (_size == 0)
 				_begin->parent = _end;
-			this->_print_tree("", _root, false);
 		}
 
 	///////////////
