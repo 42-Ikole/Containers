@@ -712,6 +712,7 @@ namespace ft
 			this->_remove_all_nodes(_root);
 			_root = NULL;
 			_begin->parent = _end;
+			_size = 0;
 		}
 
 	///////////////
