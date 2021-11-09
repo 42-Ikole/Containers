@@ -68,7 +68,7 @@ namespace ft
 
 		node*				_root;
 		node*				_begin; // sentinel for (begin -1)
-		node*				_end;  // sentinel for (end)
+		node*				_end;   // sentinel for (end)
 		key_compare			_comp;
 		size_type			_size;
 		allocator_type		_alloc;
@@ -132,6 +132,8 @@ namespace ft
 					return ;
 				}
 				std::cout << ((x->color == red) ? "\033[31;01m" : "") << "[" << x->value.first << "]\033[0m" << std::endl;
+				if ((x->left && x->left->parent != x) || (x->right && x->right->parent != x))
+					exit(69);
 				// enter the next tree level - left and right branch
 				this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->left, true);
 				this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->right, false);
@@ -214,7 +216,7 @@ namespace ft
 		}
 
 		void	_right_rotate(node* x)
-		{
+		{	
 			node* y = x->left;
 
 			/* assign y's right subtree to x */
@@ -516,7 +518,7 @@ namespace ft
 			y->parent = x->parent;
 
 			if (x == _root)
-				_root = x->left;
+				_root = y;
 			else {
 				if (x->parent->left == x)
 					x->parent->left = y;
@@ -528,12 +530,15 @@ namespace ft
 			if (y->left)
 				y->left->parent = x;
 
-			node* tmp = x->left;
-			x->left = y->left;
-			x->right = y->right;
+			if (x->left)
+				x->left->parent = y;
+
 			x->parent = y;
-			y->left = tmp;
+			ft::value_swap(x->left, y->left);
+			x->right = y->right;
 			y->right = x;
+			if (x->right)
+				x->right->parent = x;
 			ft::value_swap(x->color, y->color);
 		}
 
@@ -543,7 +548,7 @@ namespace ft
 			y->parent = x->parent;
 
 			if (x == _root)
-				_root = x->right;
+				_root = y;
 			else {
 				if (x->parent->left == x)
 					x->parent->left = y;
@@ -554,13 +559,14 @@ namespace ft
 				y->right->parent = x;
 			if (y->left)
 				y->left->parent = x;
-			
-			node* tmp = x->right;
-			x->left = y->left;
-			x->right = y->right;
+			if (x->right)
+				x->right->parent = y;
 			x->parent = y;
+			ft::value_swap(x->right, y->right);
+			x->left = y->left;
 			y->left = x;
-			y->right = tmp;
+			if (x->left)
+				x->left->parent = x;
 			ft::value_swap(x->color, y->color);
 		}
 
@@ -590,10 +596,10 @@ namespace ft
 	public:
 
 		/* single element */
-		// ft::pair<iterator, bool> insert(const value_type& val)
 		node*	insert(const value_type& val)
 		{
 			std::cerr << "\n---inserting: " << val.first << "---\n\n";
+
 			node* new_node	= this->_new_node(val);
 			node* parent	= NULL;
 
@@ -612,15 +618,21 @@ namespace ft
 				_root = new_node;
 				new_node->left = _begin;
 				new_node->right = _end;
+				_begin->parent = _root;
+				_end->parent = _root;
 			}
 			else if (_comp(new_node->key(), parent->key()) == true) {
-				if (parent->left == _begin)
+				if (parent->left == _begin) {
 					new_node->left = _begin;
+					_begin->parent = new_node;
+				}
 				parent->left = new_node;
 			}
 			else {
-				if (parent->right == _end)
+				if (parent->right == _end) {
 					new_node->right = _end;
+					_end->parent = new_node;
+				}
 				parent->right = new_node;
 			}
 
@@ -629,9 +641,7 @@ namespace ft
 	
 			_size++;
 			this->_print_tree("", _root, false);
-			// std::cout << "begin->parent: " << _begin->parent->value.first;
 			return (new_node);
-			// return (ft::makepair())
 		}
 
 		void	erase(node* x)
