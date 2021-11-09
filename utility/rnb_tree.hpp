@@ -89,6 +89,7 @@ namespace ft
 		~rnb_tree()
 		{
 			this->clear();
+			this->_remove_sentinels();
 		}
 
 		rnb_tree (const rnb_tree& x)
@@ -258,6 +259,12 @@ namespace ft
 		{
 			this->_set_sentinel_begin();
 			this->_set_sentinel_end();
+		}
+
+		void	_remove_sentinels()
+		{
+			this->_destroy_node(_begin);
+			this->_destroy_node(_end);
 		}
 
 	///////////////
