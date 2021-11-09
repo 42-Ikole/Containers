@@ -88,7 +88,7 @@ namespace ft
 
 		~rnb_tree()
 		{
-			this->_clear();
+			this->clear();
 		}
 
 		rnb_tree (const rnb_tree& x)
@@ -159,7 +159,7 @@ namespace ft
 
 		void	_remove_all_nodes(node* x)
 		{
-			if (x == NULL)
+			if (this->_is_not_null(x) == false)
 				return ;
 			this->_remove_all_nodes(x->left);
 			this->_remove_all_nodes(x->right);
@@ -702,7 +702,7 @@ namespace ft
 
 		void	clear()
 		{
-			this->_remove_all_nodes();
+			this->_remove_all_nodes(_root);
 			_root = NULL;
 			_begin->parent = _end;
 		}
