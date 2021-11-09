@@ -247,6 +247,16 @@ namespace ft
 			return (ret);
 		}
 
+		node*	traverse_up_until_no_longer_right_child()
+		{
+			node* ret = this;
+
+			while (ret->parent && ret == ret->parent->right)
+				ret = ret->parent;
+			ret = ret->parent;
+			return (ret);
+		}
+
 		node*	get_predecessor()
 		{
 			node* ret = this;
@@ -275,7 +285,7 @@ namespace ft
 					ret = ret->left;
 			}
 			else
-				ret = this->traverse_up_until_no_longer_left_child();
+				ret = this->traverse_up_until_no_longer_right_child();
 			return (ret);
 		}
 		
