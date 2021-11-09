@@ -498,7 +498,7 @@ namespace ft
 				else
 					this->_swap_predecessor(x);
 			}
-			if (x->right == _end || x->right == _end)
+			if (x->right == _end || x->left == _begin)
 				return (true);
 			return (false);
 		}
