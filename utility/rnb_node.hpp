@@ -113,9 +113,9 @@ namespace ft
 			ft::value_swap(this->color,		x->color);
 		}
 
-		bool		is_leaf()
+		bool		is_leaf(node* begin, node* end)
 		{
-			if (this->left == NULL && this->right == NULL)
+			if ((this->left == NULL && this->right == NULL) || this->left == begin || this->right == end)
 				return (true);
 			return (false);
 		}
@@ -218,7 +218,7 @@ namespace ft
 		{
 			node* tmp = this;
 
-			while (tmp->right != tmp->right->right)
+			while (tmp->right != NULL && tmp->right != tmp->right->right)
 				tmp = tmp->right;
 			return (tmp);
 		}
@@ -227,7 +227,7 @@ namespace ft
 		{
 			node* tmp = this;
 
-			while (tmp->left != tmp->left->left)
+			while (tmp->left != NULL && tmp->left != tmp->left->left)
 				tmp = tmp->left;
 			return (tmp);
 		}
