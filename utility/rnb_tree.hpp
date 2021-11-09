@@ -88,7 +88,7 @@ namespace ft
 
 		~rnb_tree()
 		{
-
+			this->_clear();
 		}
 
 		rnb_tree (const rnb_tree& x)
@@ -155,6 +155,15 @@ namespace ft
 		{
 			_node_alloc.destroy(x);
 			_node_alloc.deallocate(x, 1);
+		}
+
+		void	_remove_all_nodes(node* x)
+		{
+			if (x == NULL)
+				return ;
+			this->_remove_all_nodes(x->left);
+			this->_remove_all_nodes(x->right);
+			this->_destroy_node(x);
 		}
 
 		void	_remove_node(node* x)
@@ -689,6 +698,13 @@ namespace ft
 		
 			if (_size == 0)
 				_begin->parent = _end;
+		}
+
+		void	clear()
+		{
+			this->_remove_all_nodes();
+			_root = NULL;
+			_begin->parent = _end;
 		}
 
 	///////////////
