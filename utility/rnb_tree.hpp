@@ -683,6 +683,8 @@ namespace ft
 			this->_remove_node(x);
 			if (reset_sentinel == true)
 				this->_set_sentinels();
+			if (_size == 0)
+				_begin->parent = _end;
 			this->_print_tree("", _root, false);
 		}
 
