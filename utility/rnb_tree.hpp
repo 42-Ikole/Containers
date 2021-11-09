@@ -184,6 +184,28 @@ namespace ft
 			return (x);
 		}
 
+		void	_set_sentinel_begin(node* hint = NULL)
+		{
+			if (hint == NULL)
+				hint = _root->find_smallest();
+			hint->left = _begin;
+			_begin->parent = hint;
+		}
+
+		void	_set_sentinel_end(node* hint = NULL)
+		{
+			if (hint == NULL)
+				hint = _root->find_biggest();
+			hint->right = _end;
+			_end->parent = hint;
+		}
+
+		void	_set_sentinels()
+		{
+			this->_set_sentinel_begin();
+			this->_set_sentinel_end();
+		}
+
 	///////////////
 	// Rotations //
 	///////////////
@@ -465,9 +487,9 @@ namespace ft
 	////////////////////
 	private:
 
-		void	_move_node_to_leaf(node* x)
+		bool	_move_node_to_leaf(node* x)
 		{
-			while (x->is_leaf() == false)
+			while (x->is_leaf(_begin, _end) == false)
 			{
 				if (_is_not_null(x->left) && x->right == NULL)
 					this->_swap_left_child(x);
@@ -476,6 +498,9 @@ namespace ft
 				else
 					this->_swap_predecessor(x);
 			}
+			if (x->right == _end || x->right == _end)
+				return (true);
+			return (false);
 		}
 
 		void	_swap_predecessor(node* x)
@@ -616,10 +641,7 @@ namespace ft
 			new_node->parent = parent;
 			if (_root == NULL) {
 				_root = new_node;
-				new_node->left = _begin;
-				new_node->right = _end;
-				_begin->parent = _root;
-				_end->parent = _root;
+				this->_set_sentinels();
 			}
 			else if (_comp(new_node->key(), parent->key()) == true) {
 				if (parent->left == _begin) {
@@ -648,9 +670,11 @@ namespace ft
 		{
 			std::cout << "\n---deleting: " << x->value.first << "---\n\n";
 
-			this->_move_node_to_leaf(x);
+			bool reset_sentinel = this->_move_node_to_leaf(x);
 			this->_delete_violation_justifier(x);
 			this->_remove_node(x);
+			if (reset_sentinel == true)
+				this->_set_sentinels();
 			this->_print_tree("", _root, false);
 		}
 
