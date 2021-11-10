@@ -38,3 +38,4 @@ containers
 *.dSYM/
 .idea/
 .vscode/
+Container-Tester/
