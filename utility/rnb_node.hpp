@@ -24,6 +24,7 @@
 
 # include <memory>
 # include <pair.hpp>
+# include <utility.hpp>
 
 namespace ft
 {
@@ -72,8 +73,8 @@ namespace ft
 	/////////////////
 	public:
 
-		rnb_node(const value_type& val, node* p = NULL, node* l = NULL, node* r = NULL, e_color c = red)
-			: value(val), parent(p), left(l), right(r), color(c)
+		rnb_node(const value_type& val)
+			: value(val), parent(NULL), left(NULL), right(NULL), color(red)
 		{}
 
 		~rnb_node()
@@ -113,9 +114,9 @@ namespace ft
 			ft::value_swap(this->color,		x->color);
 		}
 
-		bool		is_leaf()
+		bool		is_leaf(node* begin, node* end)
 		{
-			if (this->left == NULL && this->right == NULL)
+			if ((this->left == NULL && this->right == NULL) || this->left == begin || this->right == end)
 				return (true);
 			return (false);
 		}
@@ -218,7 +219,7 @@ namespace ft
 		{
 			node* tmp = this;
 
-			while (tmp->right != NULL)
+			while (tmp->right != NULL && tmp->right != tmp->right->right)
 				tmp = tmp->right;
 			return (tmp);
 		}
@@ -227,7 +228,7 @@ namespace ft
 		{
 			node* tmp = this;
 
-			while (tmp->left != NULL)
+			while (tmp->left != NULL && tmp->left != tmp->left->left)
 				tmp = tmp->left;
 			return (tmp);
 		}
@@ -242,6 +243,16 @@ namespace ft
 			node* ret = this;
 
 			while (ret->parent && ret == ret->parent->left)
+				ret = ret->parent;
+			ret = ret->parent;
+			return (ret);
+		}
+
+		node*	traverse_up_until_no_longer_right_child()
+		{
+			node* ret = this;
+
+			while (ret->parent && ret == ret->parent->right)
 				ret = ret->parent;
 			ret = ret->parent;
 			return (ret);
@@ -275,7 +286,7 @@ namespace ft
 					ret = ret->left;
 			}
 			else
-				ret = this->traverse_up_until_no_longer_left_child();
+				ret = this->traverse_up_until_no_longer_right_child();
 			return (ret);
 		}
 		

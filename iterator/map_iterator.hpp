@@ -33,7 +33,7 @@ namespace ft
 
 	template < class T, class Category = ft::bidirectional_iterator_tag,
 		class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
-	class map_iterator : public ft::iterator < Category, T, Distance, Pointer, Reference >
+	class map_iterator : public ft::iterator < Category, T, Distance, T*, Reference >
 	{
 
 	//////////////
@@ -57,9 +57,9 @@ namespace ft
 	//////////////////////
 	// Member variables //
 	//////////////////////
-	public:
+	private:
 
-		node_pointer	_ptr; //  ga dit niet public maken maar dat komt goed als je vette iterator heb
+		node_pointer	_ptr;
 
 	/////////////////
 	// constructor //
@@ -73,6 +73,16 @@ namespace ft
 		}
 
 		virtual ~map_iterator() {}
+
+	/////////////////
+	// Get pointer //
+	/////////////////
+	public:
+
+		node_pointer	get_ptr(void)
+		{
+			return (_ptr);
+		}
 
 	//////////////////////
 	// Common operators //

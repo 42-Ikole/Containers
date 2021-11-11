@@ -59,31 +59,34 @@ namespace ft
 	//////////////////////
 	private:
 
-		tree_type			_tree;
+		tree_type	_tree;
 
 	/////////////
 	// CoPlIeN //
 	/////////////
 	public:
 	
+		/* default constructor */
 		explicit map (const key_compare& comp = key_compare(),
             const allocator_type& alloc = allocator_type())
 				: _tree(tree_type(comp, alloc))
 		{
-		
 		}
 
-		// template <class InputIterator>
-		// 	map (InputIterator first, InputIterator last,
-		// 		const key_compare& comp = key_compare(),
-		// 		const allocator_type& alloc = allocator_type())
-		// 			: _root(NULL), _comp(comp), _size(0), _alloc(alloc), _node_alloc(node_allocator_type())
-		// {
-
-		// }
+		/* range constructor */
+		template <class InputIterator>
+			map (InputIterator first, InputIterator last,
+				const key_compare& comp = key_compare(),
+				const allocator_type& alloc = allocator_type())
+					: _tree(tree_type(comp, alloc))
+		{
+			for (; first != last; first++)
+				_tree.insert(*first);
+		}
 
 		~map()
 		{
+			this->clear();
 		}
 
 		map (const map& x)
@@ -102,25 +105,25 @@ namespace ft
 	//////////////////
 	public:
 
-		// iterator begin()
-		// {
+		iterator begin()
+		{
+			return (iterator(_tree._begin->parent));
+		}
 
-		// }
+		const_iterator begin() const
+		{
+			return (iterator(_tree._begin->parent));
+		}
 
-		// const_iterator begin() const
-		// {
+		iterator end()
+		{
+			return (iterator(_tree._end));
+		}
 
-		// }
-
-		// iterator end()
-		// {
-
-		// }
-
-		// const_iterator end() const
-		// {
-
-		// }
+		const_iterator end() const
+		{
+			return (iterator(_tree._end));
+		}
 
 		// reverse_iterator rbegin()
 		// {
@@ -197,30 +200,34 @@ namespace ft
 			
 		// }
 
+		/* itr erase */
 		void erase(iterator position)
 		{
-			_tree.erase(position._ptr);
+			_tree.erase(position.get_ptr());
 		}
 
+		/* value erase */
 		// size_type erase(const key_type& k)
 		// {
 
 		// }
 
-		// void erase(iterator first, iterator last)
-		// {
+		/* range erase */
+		void erase(iterator first, iterator last)
+		{
+			for (; first != last; first++)
+				this->_tree.erase(first.get_ptr());
+		}
 
-		// }
+		void swap(map& x)
+		{
+			ft::value_swap(this->_tree, x._tree);
+		}
 
-		// void swap(map& x)
-		// {
-
-		// }
-
-		// void clear()
-		// {
-
-		// }
+		void clear()
+		{
+			this->_tree.clear();
+		}
 	
 	///////////////
 	// Observers //

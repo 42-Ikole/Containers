@@ -18,6 +18,8 @@
 #ifndef I_DONT_LIKE_ITERATOR_HPP
 # define I_DONT_LIKE_ITERATOR_HPP
 
+# include <traits.hpp>
+
 namespace ft {
 
 /////////////////////////
@@ -25,12 +27,15 @@ namespace ft {
 /////////////////////////
 
 	template <class Category, class T, class Distance = std::ptrdiff_t,
-          class Pointer = T*, class Reference = T&>
-	struct iterator {
+        class Pointer = T*, class Reference = T&>
+	struct iterator
+	{
+
 	//////////////
 	// Typedefs //
 	//////////////
-	
+	public:
+
 		typedef T         value_type;
 		typedef Distance  difference_type;
 		typedef Pointer   pointer;
@@ -56,7 +61,7 @@ namespace ft {
 	// }
 
 	template<class Iter>
-		typename iterator_traits<Iter>::difference_type
+		typename ft::iterator_traits<Iter>::difference_type
 			distance (Iter first, Iter last)
 	{
 		return (last - first);
