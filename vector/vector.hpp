@@ -229,15 +229,9 @@ namespace ft {
 
 			void		resize(size_type n, value_type val = value_type())
 			{
-				if (n <= _capacity) {
-					for (size_type i = _size; i > n; i--)
-						this->pop_back();
-				}
-				else {
-					this->_resize(n);
+					this->_realloc(n);
 					for (size_type i = _size; i < _capacity; i++)
 						this->push_back(val);
-				}
 			}
 
 			size_type	capacity() const
