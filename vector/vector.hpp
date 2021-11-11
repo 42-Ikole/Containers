@@ -247,7 +247,7 @@ namespace ft {
 			void		reserve(size_type n)
 			{
 				if (_capacity < n)
-					this->_realloc(n);
+					this->_resize(n);
 			}
 
 	////////////////////
