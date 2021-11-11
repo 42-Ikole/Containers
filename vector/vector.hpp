@@ -320,6 +320,8 @@ namespace ft {
 				size_type i = 0;
 				while (first != last)
 				{
+					if (i < _size)
+						_alloc.destroy(&_arr[i]);
 					_alloc.construct(&_arr[i], *first);
 					first++;
 					i++;
@@ -333,8 +335,11 @@ namespace ft {
 				if (n > _capacity)
 					this->_resize(n);
 				size_type i = 0;
-				for (; i < n; i++)
+				for (; i < n; i++) {
+					if (i < _size)
+						_alloc.destroy(&_arr[i]);
 					_alloc.construct(&_arr[i], val);
+				}
 				_size = i;
 			}
 
