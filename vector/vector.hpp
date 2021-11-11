@@ -313,14 +313,14 @@ namespace ft {
 		/* iterator range assign */
 		template	<class InputIterator>
 			void		assign(InputIterator first, InputIterator last,
-				typename ft::iterator_traits<InputIterator>::iterator_category* = 0) /* fix deze */
+				typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
 			{
 				if (static_cast<size_type>(ft::distance(first, last)) > _capacity)
-					this->_resize(ft::distance(first, last) + _capacity);
+					this->_resize(ft::distance(first, last));
 				size_type i = 0;
-				while (first != last && i < _capacity)
+				while (first != last)
 				{
-					_arr[i] = *first;
+					_alloc.construct(&_arr[i], *first);
 					first++;
 					i++;
 				}
