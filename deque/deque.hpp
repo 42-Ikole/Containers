@@ -257,13 +257,12 @@ namespace ft
 
 		void		resize(size_type n, value_type val = value_type())
 		{
-			if (n <= _capacity) {
-				for (size_type i = _size; i > n; i--)
+			if (n <= _size) {
+				for (size_type i = _size; i > n; --i)
 					this->pop_back();
 			}
 			else {
-				this->_resize(n);
-				for (size_type i = _size; i < _capacity; i++)
+				for (size_type i = _size; i < n; ++i)
 					this->push_back(val);
 			}
 		}
@@ -304,12 +303,12 @@ namespace ft
 
 		reference		front()
 		{
-			return (_arr[_head][0]);
+			return (get_val(0));
 		}
 
 		const_reference	front() const
 		{
-			return (_arr[_head][0]);
+			return (get_val(0));
 		}
 
 		reference		back()
