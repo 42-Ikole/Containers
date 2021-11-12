@@ -389,6 +389,8 @@ namespace ft
 			{
 				if (_tail != _head) {
 					this->_destroy_element(_tail);
+					if (_tail == 0)
+						_tail = _capacity;
 					_tail--;
 				}
 			}
@@ -405,6 +407,8 @@ namespace ft
 				if (_head != _tail) {
 					this->_destroy_element(_head);
 					_head++;
+					if (_head == _capacity)
+						_head = 0;
 				}
 			}
 			_size--;
