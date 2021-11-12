@@ -187,6 +187,16 @@ namespace ft
 			size_type i = 1 + (idx / _cb_cap);
 			return (_arr[(_head + i) % _capacity][0][idx]);
 		}
+		
+		reference	get_val(size_type idx) const
+		{
+			if (idx < _arr[_head]->_size)
+				return (_arr[_head][0][idx]);
+			else
+				idx -= _arr[_head]->_size;
+			size_type i = 1 + (idx / _cb_cap);
+			return (_arr[(_head + i) % _capacity][0][idx]);
+		}
 
 		bool	_is_full()
 		{
