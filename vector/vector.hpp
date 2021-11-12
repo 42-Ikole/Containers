@@ -123,8 +123,8 @@ namespace ft {
 			{
 				if (n <= 0)
 					n = 1;
-				else if (n < (_capacity + (_capacity >> 1)))
-					n = (_capacity + (_capacity >> 1));
+				else if (n < _capacity * 2)
+					n = _capacity * 2;
 				this->_realloc(n);
 			}
 
@@ -155,12 +155,10 @@ namespace ft {
 				}
 				iterator tmp = this->end();
 				_size += range;
-				iterator itr = this->end();
 				while (tmp != pos)
 				{
-					itr--;
-					tmp--;
-					_alloc.construct(&(*itr), *tmp);
+					--tmp;
+					_alloc.construct(&(*(tmp + range)), *tmp);
 					_alloc.destroy(&(*tmp));
 				}
 			}
@@ -310,7 +308,7 @@ namespace ft {
 				typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
 			{
 				if (static_cast<size_type>(ft::distance(first, last)) > _capacity)
-					this->_resize(ft::distance(first, last));
+					this->_resize(_capacity + ft::distance(first, last));
 				size_type i = 0;
 				while (first != last)
 				{
