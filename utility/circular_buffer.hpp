@@ -186,7 +186,7 @@ namespace ft {
 			return (_arr[(_head + n) % _capacity]);
 		}
 
-		reference operator [] (const size_type& n) const
+		const_reference operator [] (const size_type& n) const
 		{
 			return (_arr[(_head + n) % _capacity]);
 		}
