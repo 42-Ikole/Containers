@@ -109,9 +109,9 @@ static void	stress()
 
 	ft::map<size_t, test> m;
 
-	for (size_t i = 0; i < 50000000; i++)
+	for (size_t i = 0; i < 50000; i++)
 		m.insert(ft::make_pair(i, test()));
-	whats_in_this_map_yo(m, m.begin(), "stress 1");
+	// whats_in_this_map_yo(m, m.begin(), "stress 1");
 }
 
 void	map_test()
