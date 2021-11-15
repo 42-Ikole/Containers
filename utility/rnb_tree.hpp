@@ -197,18 +197,25 @@ namespace ft
 			return (x);
 		}
 
-		node*	_insert_find_new_parent(node* new_node)
+		ft::pair<node*, bool>	_insert_find_new_parent(node* new_node)
 		{
 			node* parent = NULL;
 	
 			for (node* x = _root; _is_not_null(x);) {
 				parent = x;
-				if (_comp(new_node->key(), x->key()) == true)
-					x = x->left;
-				else
+
+				if (_comp(new_node->key(), x->key()) == false) {
+					
+					/* if this is true then parent has the same value as new node */
+					if (_comp(parent->key(), new_node->key()) == false)
+						return (ft::make_pair(parent, false));
+
 					x = x->right;
+				}
+				else
+					x = x->left;
 			}
-			return (parent);
+			return (ft::make_pair(parent, true));
 		}
 
 		void	_insert_set_parents(node* new_node, node* parent)
@@ -691,17 +698,20 @@ namespace ft
 	///////////////
 	public:
 
-		node*	insert(const value_type& val)
+		ft::pair<node*, bool>	insert(const value_type& val)
 		{
 			node* new_node	= this->_new_node(val);
-			node* parent;
+			ft::pair<node*, bool> parent;
 
 			parent = this->_insert_find_new_parent(new_node);
-			this->_insert_set_parents(new_node, parent);
+			if (parent.second == false)
+				return (parent); /* value already exists in map */
+		
+			this->_insert_set_parents(new_node, parent.first);
 			this->_insert_violation_justifier(new_node);
 	
 			++_size;
-			return (new_node);
+			return (ft::make_pair(new_node, true));
 		}
 
 		void	erase(node* x)

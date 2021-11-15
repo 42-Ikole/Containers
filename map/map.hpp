@@ -184,7 +184,8 @@ namespace ft
 		// node*	insert(const value_type& val)
 		ft::pair<iterator, bool> insert(const value_type& val)
 		{
-			return (ft::make_pair(iterator(_tree.insert(val)), true));
+			ft::pair<node*, bool> inserted = _tree.insert(val);
+			return (ft::make_pair(iterator(inserted.first), inserted.second));
 		}
 
 		/* with hint */
