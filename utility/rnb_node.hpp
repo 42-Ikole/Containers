@@ -116,7 +116,7 @@ namespace ft
 
 		bool		is_leaf(node* begin, node* end)
 		{
-			if ((this->left == NULL && this->right == NULL) || this->left == begin || this->right == end)
+			if ((this->left == NULL && this->right == NULL) || (this->left == begin && this->right == NULL) || (this->right == end && this->left == NULL))
 				return (true);
 			return (false);
 		}

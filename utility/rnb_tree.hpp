@@ -124,12 +124,15 @@ namespace ft
 				std::cout << (isLeft ? "\033[33m├──\033[0m" : "└──" );
 				// print the value of the node
 				if (x == x->left || x == x->right) {
-					std::cout << ((x->color == red) ? "\033[31;01m" : "") << "[sen]\033[0m" << std::endl;
+					std::cout << ((x->color == red) ? "\033[31;01m" : "") << ((x == x->left) ? "[beg]" : "[end]") << "\033[0m" << std::endl;
 					return ;
 				}
 				std::cout << ((x->color == red) ? "\033[31;01m" : "") << "[" << x->value.first << "]\033[0m" << std::endl;
-				if ((x->left && x->left->parent != x) || (x->right && x->right->parent != x))
+				if ((x->left && x->left->parent != x) || (x->right && x->right->parent != x)) {
+					std::cout << x->value.first << "->left = " << x->left->value.first << "->parent = " << x->left->parent->value.first << std::endl;
+					std::cout << x->value.first << "->right = " << x->right->value.first << "->parent = " << x->right->parent->value.first << std::endl;
 					exit(69);
+				}
 				// enter the next tree level - left and right branch
 				this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->left, true);
 				this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->right, false);
@@ -141,6 +144,11 @@ namespace ft
 			if (x == NULL || x == _begin || x == _end)
 				return (false);
 			return (true);
+		}
+		
+		bool	_is_null(node* x)
+		{
+			return (!_is_not_null(x));
 		}
 
 		node*	_new_node(const value_type& val)
@@ -241,17 +249,19 @@ namespace ft
 
 		void	_set_sentinel_begin(node* hint = NULL)
 		{
-			if (hint == NULL)
+			if (hint == NULL && _root != NULL)
 				hint = _root->find_smallest();
-			hint->left = _begin;
+			if (hint)
+				hint->left = _begin;
 			_begin->parent = hint;
 		}
 
 		void	_set_sentinel_end(node* hint = NULL)
 		{
-			if (hint == NULL)
+			if (hint == NULL && _root != NULL)
 				hint = _root->find_biggest();
-			hint->right = _end;
+			if (hint)
+				hint->right = _end;
 			_end->parent = hint;
 		}
 
@@ -299,7 +309,7 @@ namespace ft
 		}
 
 		void	_right_rotate(node* x)
-		{	
+		{
 			node* y = x->left;
 
 			/* assign y's right subtree to x */
@@ -458,13 +468,13 @@ namespace ft
 			/* sibling is left child */
 			if (x == x->parent->right) {
 				x->parent->left->color = black;
-				this->_right_rotate(x->parent->left);
+				this->_right_rotate(x->parent);
 			}
 
 			/* sibling is right child */
 			else {
 				x->parent->right->color = black;
-				this->_left_rotate(x->parent->right);
+				this->_left_rotate(x->parent);
 			}
 		}
 
@@ -552,9 +562,9 @@ namespace ft
 		{
 			while (x->is_leaf(_begin, _end) == false)
 			{
-				if (_is_not_null(x->left) && x->right == NULL)
+				if (_is_not_null(x->left) && _is_null(x->right))
 					this->_swap_left_child(x);
-				else if (_is_not_null(x->right) && x->left == NULL)
+				else if (_is_not_null(x->right) && _is_null(x->left))
 					this->_swap_right_child(x);
 				else
 					this->_swap_predecessor(x);
@@ -696,13 +706,16 @@ namespace ft
 
 		void	erase(node* x)
 		{
+			if (x == NULL)
+				return ;
+		
 			bool reset_sentinel = this->_move_node_to_leaf(x);
 			this->_delete_violation_justifier(x);
 			this->_remove_node(x);
 
 			if (reset_sentinel == true)
 				this->_set_sentinels();
-		
+	
 			if (_size == 0)
 				_begin->parent = _end;
 		}
