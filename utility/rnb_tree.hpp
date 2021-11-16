@@ -94,12 +94,19 @@ namespace ft
 
 		rnb_tree (const rnb_tree& x)
 		{
+			this->_init_sentinels();
 			*this = x;
 		}
 
 		rnb_tree& operator = (const rnb_tree &x)
 		{
-			this->_comp = x._comp;
+			this->clear();
+			this->_deep_copy_tree(x._root, NULL, false);
+			this->_size			= x._size;
+			this->_comp			= x._comp;
+			this->_alloc		= x._alloc;
+			this->_node_alloc	= x._node_alloc;
+			this->_set_sentinels();
 			return (*this);
 		}
 
@@ -138,6 +145,35 @@ namespace ft
 				this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->right, false);
 			}
 		}
+
+	////////////////////
+	// Deep copy tree //
+	////////////////////
+	private:
+
+		void	_deep_copy_tree(const node* x, node* parent, bool isleft)
+		{
+			if (x == NULL || x == x->left || x == x->right)
+				return ;
+			
+			node* new_node = this->_new_node(x->value);
+
+			new_node->parent = parent;
+			if (parent == NULL)
+				_root = new_node;
+			else if (isleft == false)
+				parent->right = new_node;
+			else
+				parent->left = new_node;
+			new_node->color = x->color;
+			this->_deep_copy_tree(x->left, new_node, true);
+			this->_deep_copy_tree(x->right, new_node, false);
+		}
+
+	//////////////////
+	// Node helpers //
+	//////////////////
+	private:
 
 		bool	_is_not_null(node* x)
 		{
