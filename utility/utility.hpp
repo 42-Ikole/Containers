@@ -27,9 +27,8 @@ namespace ft
 	template < class T >
 		void	value_swap(T &a, T &b)
 	{
-		T tmp;
+		T tmp = b;
 
-		tmp = b;
 		b = a;
 		a = tmp;
 	}

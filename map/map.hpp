@@ -222,7 +222,7 @@ namespace ft
 
 		void swap(map& x)
 		{
-			ft::value_swap(this->_tree, x._tree);
+			this->_tree.swap(x._tree);
 		}
 
 		void clear()

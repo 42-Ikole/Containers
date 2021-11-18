@@ -775,6 +775,15 @@ namespace ft
 			_size = 0;
 		}
 
+		void	swap(rnb_tree& x)
+		{
+			ft::value_swap(this->_root, x._root);
+			ft::value_swap(this->_begin, x._begin);
+			ft::value_swap(this->_end, x._end);
+			ft::value_swap(this->_comp, x._comp);
+			ft::value_swap(this->_size, x._size);
+		}
+
 	///////////////
 	// Observers //
 	///////////////
