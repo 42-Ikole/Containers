@@ -18,6 +18,7 @@
 # include <rnb_tree.hpp>
 # include <utility.hpp>
 # include <map_iterator.hpp>
+# include <rotareti.hpp>
 
 namespace ft
 {
@@ -51,8 +52,10 @@ namespace ft
 
 		/* iterators fkdjfkjdskfjdksjf */
 
-		typedef ft::map_iterator< value_type, difference_type, ft::bidirectional_iterator_tag, node* >						iterator;
-		typedef ft::map_iterator< value_type, difference_type, ft::bidirectional_iterator_tag, node*, const value_type& >	const_iterator; // kan nu geen const pointer
+		typedef ft::map_iterator< value_type, node, difference_type, ft::bidirectional_iterator_tag >										iterator;
+		typedef ft::map_iterator< value_type, node, difference_type, ft::bidirectional_iterator_tag, const value_type*, const value_type& >	const_iterator;
+		typedef ft::reverse_iterator< iterator >																							reverse_iterator;
+		typedef ft::reverse_iterator< const_iterator >																						const_reverse_iterator;
 
 	//////////////////////
 	// Member variables //
@@ -125,25 +128,25 @@ namespace ft
 			return (iterator(_tree._end));
 		}
 
-		// reverse_iterator rbegin()
-		// {
+		reverse_iterator rbegin()
+		{
+			return (reverse_iterator(_tree._end));
+		}
 
-		// }
+		const_reverse_iterator rbegin() const
+		{
+			return (const_reverse_iterator(_tree._end));
+		}
 
-		// const_reverse_iterator rbegin() const
-		// {
+		reverse_iterator rend()
+		{
+			return (reverse_iterator(_tree._begin));
+		}
 
-		// }
-
-		// reverse_iterator rend()
-		// {
-
-		// }
-
-		// const_reverse_iterator rend() const
-		// {
-
-		// }
+		const_reverse_iterator rend() const
+		{
+			return (const_reverse_iterator(_tree._begin));
+		}
 
 	//////////////
 	// Capacity //

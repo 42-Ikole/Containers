@@ -31,9 +31,9 @@ namespace ft
 ////////////////////////
 	# define itr	ft::iterator< Category, T, Distance, Pointer, Reference >
 
-	template < class T, class Category = ft::bidirectional_iterator_tag,
+	template < class T, class Node, class Category = ft::bidirectional_iterator_tag,
 		class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
-	class map_iterator : public ft::iterator < Category, T, Distance, T*, Reference >
+	class map_iterator : public ft::iterator < Category, T, Distance, Pointer, Reference >
 	{
 
 	//////////////
@@ -41,15 +41,15 @@ namespace ft
 	//////////////
 	private:
 
-		typedef ft::map_iterator< T, Category, Distance, T*, T& >				iter;
-		typedef ft::map_iterator< T, Category, Distance, const T*, const T& >	const_iter;
+		typedef ft::map_iterator< T, Node, Category, Distance, T*, T& >				iter;
+		typedef ft::map_iterator< T, Node, Category, Distance, const T*, const T& >	const_iter;
 	
 	public:
 
 		typedef typename itr::value_type		value_type;
 		typedef typename itr::difference_type	difference_type;
-		typedef Pointer							node_pointer;
-		typedef value_type*						pointer;
+		typedef Node*							node_pointer;
+		typedef Pointer							pointer;
 		typedef typename itr::reference			reference;
 		typedef typename itr::iterator_category	iterator_category;
 
@@ -141,6 +141,22 @@ namespace ft
 			--(*this);
 			return (tmp);
 		}
+
+	///////////////////////////////////
+	// implicit conversion operators //
+	///////////////////////////////////
+	public:
+	
+		operator const_iter() const
+		{
+			return (const_iter(this->_ptr));
+		}
+
+		operator iter() const
+		{
+			return (iter(this->_ptr));
+		}
+
 
 	}; /* end of map_iterator */
 
