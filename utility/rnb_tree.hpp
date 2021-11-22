@@ -175,14 +175,14 @@ namespace ft
 	//////////////////
 	private:
 
-		bool	_is_not_null(node* x)
+		bool	_is_not_null(node* x) const
 		{
 			if (x == NULL || x == _begin || x == _end)
 				return (false);
 			return (true);
 		}
 		
-		bool	_is_null(node* x)
+		bool	_is_null(node* x) const
 		{
 			return (!_is_not_null(x));
 		}
@@ -804,7 +804,7 @@ namespace ft
 	////////////////
 	public:
 
-		node*	find(const key_type& val)
+		node*	find(const key_type& val) const
 		{
 			node* x = _root;
 			while (_is_not_null(x))
