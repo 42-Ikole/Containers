@@ -799,6 +799,27 @@ namespace ft
 
 		// }
 
+	////////////////
+	// Operations //
+	////////////////
+	public:
+
+		node*	find(const key_type& val)
+		{
+			node* x = _root;
+			while (_is_not_null(x))
+			{
+				if (_comp(val, x->key()) == false) {
+					if (_comp(x->key(), val) == false)
+						return (x);
+					x = x->right;
+				}
+				else
+					x = x->left;
+			}
+			return (_end);
+		}
+
 	}; /* end of rnb_tree */
 
 } /* end of namespace */
