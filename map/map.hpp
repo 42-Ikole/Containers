@@ -102,6 +102,23 @@ namespace ft
 			this->_tree = x._tree;
 			return (*this);
 		}
+	
+	//////////////////////
+	// Helper functions //
+	//////////////////////
+	private:
+
+		iterator	_lower_bound(const key_type& k) const
+		{
+			iterator ret = this->find(k);
+
+			if (ret != this->end())
+				return (ret);
+			ret = this->begin();
+			while (ret != this->end() && _tree.comp(k, (*ret).first) == false)
+				++ret;
+			return (ret);
+		}
 
 	//////////////////
 	// Iterators 🤮 //
@@ -270,17 +287,15 @@ namespace ft
 			return (true);
 		}
 
-		// iterator lower_bound(const key_type& k)
-		// {
-		// 	node* tmp = _tree.find(k);
-	
-		// 	if (tmp == _tree.end)
-		// }
+		iterator lower_bound(const key_type& k)
+		{
+			return (this->_lower_bound(k));
+		}
 
-		// const_iterator lower_bound(const key_type& k) const
-		// {
-		// 	return (const_iterator(_tree.lower_bound(_tree.root, k)));
-		// }
+		const_iterator lower_bound(const key_type& k) const
+		{
+			return (this->lower_bound(k));
+		}
 
 		// iterator upper_bound(const key_type& k)
 		// {
