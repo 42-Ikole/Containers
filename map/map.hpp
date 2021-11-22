@@ -110,42 +110,42 @@ namespace ft
 
 		iterator begin()
 		{
-			return (iterator(_tree._begin->parent));
+			return (iterator(_tree.begin->parent));
 		}
 
 		const_iterator begin() const
 		{
-			return (iterator(_tree._begin->parent));
+			return (iterator(_tree.begin->parent));
 		}
 
 		iterator end()
 		{
-			return (iterator(_tree._end));
+			return (iterator(_tree.end));
 		}
 
 		const_iterator end() const
 		{
-			return (iterator(_tree._end));
+			return (iterator(_tree.end));
 		}
 
 		reverse_iterator rbegin()
 		{
-			return (reverse_iterator(_tree._end));
+			return (reverse_iterator(_tree.end));
 		}
 
 		const_reverse_iterator rbegin() const
 		{
-			return (const_reverse_iterator(_tree._end));
+			return (const_reverse_iterator(_tree.end));
 		}
 
 		reverse_iterator rend()
 		{
-			return (reverse_iterator(_tree._begin));
+			return (reverse_iterator(_tree.begin));
 		}
 
 		const_reverse_iterator rend() const
 		{
-			return (const_reverse_iterator(_tree._begin));
+			return (const_reverse_iterator(_tree.begin));
 		}
 
 	//////////////
@@ -160,7 +160,7 @@ namespace ft
 
 		size_type size() const
 		{
-			return (_tree.size());
+			return (_tree.size);
 		}
 
 		size_type max_size() const
@@ -265,19 +265,21 @@ namespace ft
 
 		size_type count(const key_type& k) const
 		{
-			if (_tree.find(k) == _tree._end)
+			if (_tree.find(k) == _tree.end)
 				return (false);
 			return (true);
 		}
 
 		// iterator lower_bound(const key_type& k)
 		// {
-
+		// 	node* tmp = _tree.find(k);
+	
+		// 	if (tmp == _tree.end)
 		// }
 
 		// const_iterator lower_bound(const key_type& k) const
 		// {
-
+		// 	return (const_iterator(_tree.lower_bound(_tree.root, k)));
 		// }
 
 		// iterator upper_bound(const key_type& k)
