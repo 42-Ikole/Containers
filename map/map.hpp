@@ -120,6 +120,19 @@ namespace ft
 			return (ret);
 		}
 
+		iterator	_upper_bound(const key_type& k) const
+		{
+			iterator ret;
+			for (ret = this->begin(); ret != this->end(); ++ret) {
+				if (_tree.comp(k, (*ret).first) == true) {
+					if (_tree.comp((*ret).first, k) == true)
+						continue ;
+					break ;
+				}
+			}
+			return (ret);
+		}
+
 	//////////////////
 	// Iterators 🤮 //
 	//////////////////
@@ -297,15 +310,15 @@ namespace ft
 			return (this->lower_bound(k));
 		}
 
-		// iterator upper_bound(const key_type& k)
-		// {
+		iterator upper_bound(const key_type& k)
+		{
+			return (_upper_bound(k));
+		}
 
-		// }
-
-		// const_iterator upper_bound(const key_type& k) const
-		// {
-
-		// }
+		const_iterator upper_bound(const key_type& k) const
+		{
+			return (_upper_bound(k));
+		}
 
 		// ft::pair<iterator, iterator> equal_range(const key_type& k)
 		// {
