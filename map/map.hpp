@@ -263,10 +263,12 @@ namespace ft
 			return (const_iterator(_tree.find(k)));
 		}
 
-		// size_type count(const key_type& k) const
-		// {
-
-		// }
+		size_type count(const key_type& k) const
+		{
+			if (_tree.find(k) == _tree._end)
+				return (false);
+			return (true);
+		}
 
 		// iterator lower_bound(const key_type& k)
 		// {
