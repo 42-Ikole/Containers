@@ -227,12 +227,13 @@ namespace ft
 
 		// }
 	
-		// /* range */
-		// template <class InputIterator>
-		// 	void insert(InputIterator first, InputIterator last)
-		// {
-			
-		// }
+		/* range */
+		template <class InputIterator>
+			void insert(InputIterator first, InputIterator last)
+		{
+			for (; first != last; ++first)
+				this->insert(first);
+		}
 
 		/* itr erase */
 		void erase(iterator position)
