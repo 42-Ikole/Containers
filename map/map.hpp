@@ -223,7 +223,16 @@ namespace ft
 		/* with hint */
 		// iterator insert(iterator position, const value_type& val)
 		// {
+		// 	node* x = this->lower_bound(val).get_ptr();
 
+		// 	/* key already exists */
+		// 	if (x->value.first == val.first)
+		// 		return (ft::make_pair(iterator(x.first), false));
+
+		// 	/* faulty hint */
+		// 	if (x != position.get_ptr())
+		// 		return (this->insert(val));
+			
 		// }
 	
 		/* range */
