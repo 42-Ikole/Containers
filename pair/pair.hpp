@@ -66,7 +66,8 @@ namespace ft
 			: first(a), second(b)
 		{}
 
-		pair& operator= (const pair& pr)
+		template <class U, class V>
+			pair& operator = (const pair<U, V>& pr)
 		{
 			this->first		= pr.first;
 			this->second	= pr.second;
