@@ -214,7 +214,6 @@ namespace ft
 	public:
 
 		/* single element */
-		// node*	insert(const value_type& val)
 		ft::pair<iterator, bool> insert(const value_type& val)
 		{
 			ft::pair<node*, bool> inserted = _tree.insert(val);
@@ -242,10 +241,15 @@ namespace ft
 		}
 
 		/* value erase */
-		// size_type erase(const key_type& k)
-		// {
+		size_type erase(const key_type& k)
+		{
+			node* x = _tree.find(k);
 
-		// }
+			if (x == _tree.end())
+				return (0);
+			this->_tree.erase(x);
+			return (1);
+		}
 
 		/* range erase */
 		void erase(iterator first, iterator last)
