@@ -221,19 +221,11 @@ namespace ft
 		}
 
 		/* with hint */
-		// iterator insert(iterator position, const value_type& val)
-		// {
-		// 	node* x = this->lower_bound(val).get_ptr();
-
-		// 	/* key already exists */
-		// 	if (x->value.first == val.first)
-		// 		return (ft::make_pair(iterator(x.first), false));
-
-		// 	/* faulty hint */
-		// 	if (x != position.get_ptr())
-		// 		return (this->insert(val));
-			
-		// }
+		iterator insert(iterator position, const value_type& val)
+		{
+			(void)position;
+			return (this->insert(val).first);
+		}
 	
 		/* range */
 		template <class InputIterator>
@@ -254,17 +246,17 @@ namespace ft
 		{
 			node* x = _tree.find(k);
 
-			if (x == _tree.end())
+			if (x == _tree.end)
 				return (0);
-			this->_tree.erase(x);
+			_tree.erase(x);
 			return (1);
 		}
 
 		/* range erase */
 		void erase(iterator first, iterator last)
 		{
-			for (; first != last; first++)
-				this->_tree.erase(first.get_ptr());
+			while (first != last)
+				this->erase(first++);
 		}
 
 		void swap(map& x)
