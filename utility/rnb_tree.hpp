@@ -59,7 +59,7 @@ namespace ft
 		typedef	std::ptrdiff_t								difference_type;
 		typedef	std::size_t									size_type;
 		typedef ft::rnb_node<key_type, mapped_type>			node;
-		typedef std::allocator<node>						nde_allocator_type;
+		typedef std::allocator<node>						node_allocator_type;
 
 	//////////////////////
 	// Member variables //
@@ -72,7 +72,7 @@ namespace ft
 		key_compare			comp;
 		size_type			size;
 		allocator_type		alloc;
-		nde_allocator_type	node_alloc;
+		node_allocator_type	node_alloc;
 
 	/////////////
 	// CoPlIeN //
@@ -81,7 +81,7 @@ namespace ft
 	
 		explicit rnb_tree (const key_compare& comp = key_compare(),
 			const allocator_type& alloc = allocator_type())
-				: root(NULL), comp(comp), size(0), alloc(alloc), node_alloc(nde_allocator_type())
+				: root(NULL), comp(comp), size(0), alloc(alloc), node_alloc(node_allocator_type())
 		{
 			this->_init_sentinels();
 		}
