@@ -356,6 +356,16 @@ namespace ft
 			return (ft::make_pair(lower_bound(k), upper_bound(k)));
 		}
 
+	///////////////
+	// ALLOCATOR //
+	///////////////
+	public:
+
+		allocator_type	get_allocator() const
+		{
+			return (_tree.alloc);
+		}
+
 	}; /* end of map */
 
 } /* end of namespace */
