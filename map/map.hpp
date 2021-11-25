@@ -57,6 +57,26 @@ namespace ft
 		typedef ft::reverse_iterator< iterator >																							reverse_iterator;
 		typedef ft::reverse_iterator< const_iterator >																						const_reverse_iterator;
 
+
+	////////////////
+	// ?????????? //
+	////////////////
+	private:
+
+		class value_compare
+		{   
+			public:
+
+				Compare comp;
+
+				value_compare(Compare c = Compare()) : comp(c) {}
+
+				bool operator() (const value_type& x, const value_type& y) const
+				{
+					return comp(x.first, y.first);
+				}
+		}; /* end of ?????? */
+
 	//////////////////////
 	// Member variables //
 	//////////////////////
@@ -279,10 +299,10 @@ namespace ft
 			return (_tree.key_comp());
 		}
 
-		// value_compare value_comp() const
-		// {
-
-		// }
+		value_compare value_comp() const
+		{
+			return (value_compare());
+		}
 	
 	////////////////
 	// Operations //
