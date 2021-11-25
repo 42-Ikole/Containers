@@ -782,15 +782,10 @@ namespace ft
 	///////////////
 	public:
 
-		key_compare keycomp() const
+		key_compare key_comp() const
 		{
 			return (comp);
 		}
-
-		// valuecompare valuecomp() const
-		// {
-
-		// }
 
 	////////////////
 	// Operations //
