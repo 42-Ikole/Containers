@@ -47,22 +47,29 @@ namespace ft {
 // Non member iterator functions //
 ///////////////////////////////////
 
-	// template<class Iter>
-	// 	typename iterator_traits<Iter>::difference_type
-	// 		distance (Iter first, Iter last)
-	// {
-	// 	typename iterator_traits<Iter>::difference_type dist = 0;
-
-	// 	while (first != last) {
-	// 		first++;
-	// 		dist++;
-	// 	}
-	// 	return (dist);
-	// }
+	template<class Iter>
+		typename ft::iterator_traits<Iter>::difference_type
+			distance(Iter first, Iter last)
+	{
+		return (distance(first, last, typename ft::iterator_traits<Iter>::iterator_category()));
+	}
 
 	template<class Iter>
 		typename ft::iterator_traits<Iter>::difference_type
-			distance (Iter first, Iter last)
+			distance (Iter& first, Iter& last, ft::forward_iterator_tag)
+	{
+		typename iterator_traits<Iter>::difference_type dist = 0;
+
+		while (first != last) {
+			first++;
+			dist++;
+		}
+		return (dist);
+	}
+
+	template<class Iter>
+		typename ft::iterator_traits<Iter>::difference_type
+			distance (Iter& first, Iter& last, ft::random_access_iterator_tag)
 	{
 		return (last - first);
 	}

@@ -130,7 +130,7 @@ namespace ft
 			static char test(typename U::iterator_category*);
 
 	public:
-		static const bool value = sizeof(test<T>(0)) == 1;
+		static const bool value = sizeof(test<T>(0)) == sizeof(char);
 	};
 
 	template < class T, class U, bool = ft::has_iterator_category< ft::iterator_traits<T> >::value>
