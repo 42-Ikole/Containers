@@ -24,9 +24,9 @@
 
 namespace ft {
 
-/////////////////////////
-// Iterator base class //
-/////////////////////////
+/////////////////////////////
+// Uniform iterator  class //
+/////////////////////////////
 
 	template < class Category, class T, class Base = T,
 		class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T& >
@@ -39,7 +39,8 @@ namespace ft {
 	private:
 
 		/* yuck */
-		typedef ft::uniform_iterator< Category, T, Base, Distance, const Pointer, const Reference >	const_iter;
+		typedef ft::uniform_iterator< Category, T, Base, Distance, T*, T& >	iter;
+		typedef ft::uniform_iterator< Category, T, Base, Distance, const T*, const T& >	const_iter;
 
 	public:
 
@@ -105,19 +106,26 @@ namespace ft {
 	//////////////////////////////
 	public:
 
-		bool		operator == (const uniform_iterator& x) {
+		typename ft::enable_if< ft::is_input_iterator<uniform_iterator>::value,
+			bool>::type operator == (const uniform_iterator& x)
+		{
 			return (this->_ptr == x._ptr);			
 		}
 
-		bool		operator != (const uniform_iterator& x) {
+		typename ft::enable_if< ft::is_input_iterator<uniform_iterator>::value,
+			bool>::type operator != (const uniform_iterator& x)
+		{
 			return (this->_ptr != x._ptr);
 		}
 	
-		reference	operator * () {
+		typename ft::enable_if<ft::is_input_iterator<uniform_iterator>::value,
+			reference>::type operator * ()
+		{
 			return (**_ptr);
 		}
 
-		pointer		operator -> () {
+		typename ft::enable_if<ft::is_input_iterator<uniform_iterator>::value,
+			pointer>::type operator -> () {
 			return (_ptr);
 		}
 
@@ -125,13 +133,17 @@ namespace ft {
 	// Bidirectional iterator operators //
 	//////////////////////////////////////
 	public:
-	
-		uniform_iterator&	operator -- (/* prefix */) {
+
+		typename ft::enable_if< ft::is_bidirectional_iterator<uniform_iterator>::value,
+			uniform_iterator&>::type operator -- (/* prefix */)
+		{
 			_ptr = _ptr->get_predecessor();
 			return (*this);
 		}
 
-		uniform_iterator	operator -- (int /* postfix */) {
+		typename ft::enable_if< ft::is_bidirectional_iterator<uniform_iterator>::value,
+			uniform_iterator>::type	operator -- (int /* postfix */)
+		{
 			uniform_iterator tmp = *this;
 			--(*this);
 			return (tmp);
@@ -193,9 +205,15 @@ namespace ft {
 	///////////////////////////////////
 	public:
 	
-		operator const_iter() const
+		operator const_iter () const
 		{
 			return (const_iter(_ptr));
+		}
+
+		/* deze moet optiefen want het is niet de bedoeling */
+		operator iter () const
+		{
+			return (iter(_ptr));
 		}
 
 	}; /* end of uniform iterator */

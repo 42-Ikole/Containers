@@ -27,7 +27,7 @@ namespace ft
 // MAPPIE //
 ////////////
 
-	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T> > >
+	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<Key, T> > >
 		class map
 	{
 
@@ -52,10 +52,10 @@ namespace ft
 
 		/* iterators fkdjfkjdskfjdksjf */
 
-		typedef ft::uniform_iterator< ft::bidirectional_iterator_tag, value_type, node, difference_type >										iterator;
-		typedef ft::uniform_iterator< ft::bidirectional_iterator_tag, value_type, node, difference_type, const value_type*, const value_type& >	const_iterator;
-		typedef ft::reverse_iterator< iterator >																								reverse_iterator;
-		typedef ft::reverse_iterator< const_iterator >																							const_reverse_iterator;
+		typedef ft::uniform_iterator< ft::bidirectional_iterator_tag, value_type, node >													iterator;
+		typedef ft::uniform_iterator< ft::bidirectional_iterator_tag, value_type, node, difference_type, const_pointer, const_reference >	const_iterator;
+		typedef ft::reverse_iterator< iterator >																							reverse_iterator;
+		typedef ft::reverse_iterator< const_iterator >																						const_reverse_iterator;
 
 
 	////////////////

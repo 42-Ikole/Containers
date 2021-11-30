@@ -19,7 +19,9 @@ static void	extremely_cool_vector_tests()
 // 	std::cout << "______Extremely_COOL_Vector_tests______\n" << std::endl;
 
 // /* constructor test */
-// 	ft::vector<int> vecint(10, 42);
+	ft::vector<int> vecint(10, 42);
+
+	ft::distance(vecint.begin(), vecint.end());
 // 	ft::vector<int> cpint(vecint);
 
 // /* push back stest */
@@ -137,9 +139,19 @@ int main(void)
 	extremely_cool_vector_tests();
 
 	ft::map<int, std::string>			sick;
-	// ft::map<int, std::string>::iterator	nd;
+
+	// std::cout << "ft:is_iterator<rando>::value (" << ft::has_iterator_category<ft::vector<int>::iterator>::value << ")\n";
+    // std::cout << "ft:has_iterator_category<int>::value (" << ft::has_iterator_category<int>::value << ")\n";
+
+	ft::vector<int> veccie(21, 42);
+
+	for (ft::vector<int>::iterator itr = veccie.begin(); itr != veccie.end(); itr++)
+		std::cout << *itr << std::endl;
+
+	ft::map<int, std::string>::iterator	nd;
+	ft::map<int, std::string>::const_iterator	cnd;
 	// ft::map<int, std::string>::iterator	nd1;
-	// ft::map<int, std::string>::iterator	nd2;
+	ft::map<int, std::string>::iterator	nd2;
 	// ft::map<int, std::string>::iterator	nd3;
 
 	// sick.insert(ft::make_pair(21, std::string("twenty one")));
@@ -167,10 +179,10 @@ int main(void)
 	sick.insert(ft::make_pair(300, std::string("thirty")));
 	sick.insert(ft::make_pair(200, std::string("thirty")));
 	sick.insert(ft::make_pair(200, std::string("thirty")));
-	// sick.insert(ft::make_pair(400, std::string("fourty")));
-	// sick.insert(ft::make_pair(450, std::string("fourty five")));
-	// nd2 = sick.insert(ft::make_pair(460, std::string("fourty six"))).first;
-	// nd = sick.insert(ft::make_pair(440, std::string("fourty four"))).first;
+	sick.insert(ft::make_pair(400, std::string("fourty")));
+	sick.insert(ft::make_pair(450, std::string("fourty five")));
+	nd2 = sick.insert(ft::make_pair(460, std::string("fourty six"))).first;
+	cnd = sick.insert(ft::make_pair(440, std::string("fourty four"))).first;
 	// nd1 = sick.insert(ft::make_pair(430, std::string("fourty three"))).first;
 	// sick.insert(ft::make_pair(420, std::string("fourty two")));
 	// sick.insert(ft::make_pair(-1, std::string("fourty two")));
@@ -211,9 +223,10 @@ int main(void)
 
 	// sick.erase(sick.begin());
 
-	// for (nd = sick.begin(); nd != sick.end(); nd++)
-	// 	std::cout << (*nd).first << ", ";
+	for (nd = sick.begin(); nd != sick.end(); nd++)
+		std::cout << (*nd).first << ", ";
 	
+	nd--;
 	// nd++;
 	// nd--;
 	// std::cout << (*nd).first << ", ";
