@@ -16,9 +16,9 @@
 # define SUPER_EPIC_DEQUE_HPP
 
 # include <memory>
-# include <array_iterator.hpp> //
 # include <utility.hpp>
 # include <circular_buffer.hpp>
+# include <traits.hpp>
 
 namespace ft
 {
@@ -50,10 +50,10 @@ namespace ft
 		typedef std::allocator<cbuf*>																		ptr_alloc;
 
 		/* GA EEN NODE ITERATOR SCHRIJVEN */
-		typedef ft::array_iterator<T, ft::random_access_iterator_tag>										iterator;
-		typedef ft::array_iterator<T, ft::random_access_iterator_tag, std::ptrdiff_t, const T*, const T&>	const_iterator;
-		typedef ft::reverse_iterator< iterator >															reverse_iterator;
-		typedef ft::reverse_iterator< const_iterator >														const_reverse_iterator;
+		// typedef ft::array_iterator<T, ft::random_access_iterator_tag>										iterator;
+		// typedef ft::array_iterator<T, ft::random_access_iterator_tag, std::ptrdiff_t, const T*, const T&>	const_iterator;
+		// typedef ft::reverse_iterator< iterator >															reverse_iterator;
+		// typedef ft::reverse_iterator< const_iterator >														const_reverse_iterator;
 
 	//////////////////////
 	// Member variables //
