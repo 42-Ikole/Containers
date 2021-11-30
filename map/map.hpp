@@ -17,7 +17,7 @@
 # include <pair.hpp>
 # include <rnb_tree.hpp>
 # include <utility.hpp>
-# include <map_iterator.hpp>
+# include <uniform_iterator.hpp>
 # include <rotareti.hpp>
 
 namespace ft
@@ -52,10 +52,10 @@ namespace ft
 
 		/* iterators fkdjfkjdskfjdksjf */
 
-		typedef ft::map_iterator< value_type, node, difference_type, ft::bidirectional_iterator_tag >										iterator;
-		typedef ft::map_iterator< value_type, node, difference_type, ft::bidirectional_iterator_tag, const value_type*, const value_type& >	const_iterator;
-		typedef ft::reverse_iterator< iterator >																							reverse_iterator;
-		typedef ft::reverse_iterator< const_iterator >																						const_reverse_iterator;
+		typedef ft::uniform_iterator< ft::bidirectional_iterator_tag, value_type, node, difference_type >										iterator;
+		typedef ft::uniform_iterator< ft::bidirectional_iterator_tag, value_type, node, difference_type, const value_type*, const value_type& >	const_iterator;
+		typedef ft::reverse_iterator< iterator >																								reverse_iterator;
+		typedef ft::reverse_iterator< const_iterator >																							const_reverse_iterator;
 
 
 	////////////////

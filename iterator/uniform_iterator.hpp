@@ -20,6 +20,7 @@
 
 # include <traits.hpp>
 # include <rotareti.hpp>
+# include <sfinae.hpp>
 
 namespace ft {
 
@@ -27,7 +28,7 @@ namespace ft {
 // Iterator base class //
 /////////////////////////
 
-	template < class Category, class T, class Base = T*,
+	template < class Category, class T, class Base = T,
 		class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T& >
 			struct uniform_iterator
 	{
@@ -38,14 +39,13 @@ namespace ft {
 	private:
 
 		/* yuck */
-		typedef	ft::uniform_iterator< Category, T, Base, Distance, Pointer, Reference >				iter;
 		typedef ft::uniform_iterator< Category, T, Base, Distance, const Pointer, const Reference >	const_iter;
 
 	public:
 
 		typedef Category	iterator_category;
 		typedef T			value_type;
-		typedef Base		base_ptr;
+		typedef Base*		base_ptr;
 		typedef Distance	difference_type;
 		typedef Pointer		pointer;
 		typedef Reference	reference;
@@ -69,13 +69,23 @@ namespace ft {
 
 		virtual ~uniform_iterator() {}
 
+	/////////////////
+	// Get pointer //
+	/////////////////
+	public:
+
+		base_ptr	get_ptr(void)
+		{
+			return (_ptr);
+		}
+
 	//////////////////////
 	// Common operators //
 	//////////////////////
 	public:
 
 		uniform_iterator&	operator ++ (/* prefix */) {
-			++_ptr;
+			_ptr = _ptr->get_successor();
 			return (*this);
 		}
 
@@ -104,11 +114,11 @@ namespace ft {
 		}
 	
 		reference	operator * () {
-			return *(this->_ptr);
+			return (**_ptr);
 		}
 
 		pointer		operator -> () {
-			return (this->_ptr);
+			return (_ptr);
 		}
 
 	//////////////////////////////////////
@@ -117,7 +127,7 @@ namespace ft {
 	public:
 	
 		uniform_iterator&	operator -- (/* prefix */) {
-			--_ptr;
+			_ptr = _ptr->get_predecessor();
 			return (*this);
 		}
 
