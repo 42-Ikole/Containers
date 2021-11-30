@@ -289,6 +289,16 @@ namespace ft
 				ret = this->traverse_up_until_no_longer_right_child();
 			return (ret);
 		}
+
+	////////////////////////
+	// operator overloads //
+	////////////////////////
+	public:
+
+		value_type&	operator * () {
+			return (value);
+		}
+
 		
 	}; /* end of rnb_node */
 
