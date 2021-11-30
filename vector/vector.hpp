@@ -14,7 +14,7 @@
 
 # include <memory>
 # include <string>
-# include <array_iterator.hpp>
+# include <uniform_iterator.hpp>
 # include <iostream>
 # include <stdexcept>
 # include <utility.hpp>
@@ -35,18 +35,18 @@ namespace ft {
 	///////////////
 		public:
 
-			typedef T																							value_type;
-			typedef Alloc																						allocator_type;
-			typedef std::size_t																					size_type;
-			typedef std::ptrdiff_t																				difference_type;
-			typedef value_type&																					reference;
-			typedef const value_type&																			const_reference;
-			typedef value_type*																					pointer;
-			typedef const value_type*																			const_pointer;
-			typedef ft::array_iterator<T, ft::random_access_iterator_tag>										iterator;
-			typedef ft::array_iterator<T, ft::random_access_iterator_tag, std::ptrdiff_t, const T*, const T&>	const_iterator;
-			typedef ft::reverse_iterator< iterator >															reverse_iterator;
-			typedef ft::reverse_iterator< const_iterator >														const_reverse_iterator;
+			typedef T																								value_type;
+			typedef Alloc																							allocator_type;
+			typedef std::size_t																						size_type;
+			typedef std::ptrdiff_t																					difference_type;
+			typedef value_type&																						reference;
+			typedef const value_type&																				const_reference;
+			typedef value_type*																						pointer;
+			typedef const value_type*																				const_pointer;
+			typedef ft::uniform_iterator<ft::random_access_iterator_tag, T>											iterator;
+			typedef ft::uniform_iterator<ft::random_access_iterator_tag, T, T*, std::ptrdiff_t, const T*, const T&>	const_iterator;
+			typedef ft::reverse_iterator< iterator >																reverse_iterator;
+			typedef ft::reverse_iterator< const_iterator >															const_reverse_iterator;
 
 	//////////////////////
 	// Member variables //
