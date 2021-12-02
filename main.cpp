@@ -183,6 +183,12 @@ int main(void)
 	sick.insert(ft::make_pair(450, std::string("fourty five")));
 	nd2 = sick.insert(ft::make_pair(460, std::string("fourty six"))).first;
 	cnd = sick.insert(ft::make_pair(440, std::string("fourty four"))).first;
+
+
+	const ft::map<int, std::string> fuck(sick);
+	std::cout << "hier gaat alles naar de getver\n";
+	cnd = fuck.lower_bound(10);
+	std::cout << "fuck" << std::endl;
 	// nd1 = sick.insert(ft::make_pair(430, std::string("fourty three"))).first;
 	// sick.insert(ft::make_pair(420, std::string("fourty two")));
 	// sick.insert(ft::make_pair(-1, std::string("fourty two")));
