@@ -168,12 +168,6 @@ namespace ft {
 			return (const_iter(_ptr));
 		}
 
-		/* deze moet optiefen want het is niet de bedoeling */
-		operator iter () const
-		{
-			return (iter(_ptr));
-		}
-
 	}; /* end of uniform iterator */
 
 } /* end of namespace */
