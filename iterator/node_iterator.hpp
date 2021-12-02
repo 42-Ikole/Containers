@@ -30,7 +30,7 @@ namespace ft {
 
 	template < class Category, class T, class Base = T,
 		class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T& >
-			struct node_iterator
+			struct node_iterator : ft::iterator<Category, T, Distance, Pointer, Reference>
 	{
 
 	//////////////

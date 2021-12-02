@@ -14,9 +14,9 @@
 
 # include <memory>
 # include <string>
-# include <uniform_iterator.hpp>
 # include <iostream>
 # include <stdexcept>
+# include <iterator.hpp>
 # include <utility.hpp>
 
 # define LENGTH_ERROR "allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size"

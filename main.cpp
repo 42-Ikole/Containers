@@ -226,7 +226,9 @@ int main(void)
 	for (nd = sick.begin(); nd != sick.end(); nd++)
 		std::cout << (*nd).first << ", ";
 	
-	nd--;
+	// nd--;
+	// if (nd == nd)
+	// 	nd++;
 	// nd++;
 	// nd--;
 	// std::cout << (*nd).first << ", ";
