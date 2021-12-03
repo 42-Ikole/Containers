@@ -15,8 +15,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef I_HOPE_THIS_IS_GOING_TO_WORK_HPP
-# define I_HOPE_THIS_IS_GOING_TO_WORK_HPP
+#ifndef INTERATOR_HPP
+# define INTERATOR_HPP
 
 # include <traits.hpp>
 # include <iterator.hpp>
@@ -28,9 +28,9 @@ namespace ft {
 // Uniform iterator  class //
 /////////////////////////////
 
-	template < class Category, class T, class Base = T,
+	template < class T, class Container, class Category = ft::random_access_iterator_tag, 
 		class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T& >
-			struct node_iterator : ft::iterator<Category, T, Distance, Pointer, Reference>
+			struct interator : ft::iterator<Category, T, Distance, Pointer, Reference>
 	{
 
 	//////////////
@@ -38,14 +38,14 @@ namespace ft {
 	//////////////
 	private:
 
-		typedef ft::node_iterator< Category, T, Base, Distance, const T*, const T& >	const_iter;
+		typedef ft::interator< Category, T, Distance, const T*, const T& >	const_iter;
 
 	public:
 
 		typedef Category	iterator_category;
 		typedef T			value_type;
-		typedef Base*		base_ptr;
 		typedef Distance	difference_type;
+		typedef Container	container_type;
 		typedef Pointer		pointer;
 		typedef Reference	reference;
 
@@ -53,29 +53,32 @@ namespace ft {
 	// Member variables //
 	//////////////////////
 	protected:
-		base_ptr	_ptr;
+
+		difference_type	_idx;
+		container_type*	_con;	
 
 	/////////////////
 	// constructor //
 	/////////////////
 	public:
 
-		node_iterator(base_ptr ptr = NULL) : _ptr(ptr) {}
+		interator(difference_type idx = 0, container_type* con = NULL)
+			: _idx(idx), _con(con) {}
 
-		node_iterator(const node_iterator& x) {
+		interator(const interator& x) {
 			*this = x;
 		}
 
-		virtual ~node_iterator() {}
+		virtual ~interator() {}
 
 	/////////////////
 	// Get pointer //
 	/////////////////
 	public:
 
-		base_ptr	get_ptr(void)
+		pointer	get_ptr(void)
 		{
-			return (_ptr);
+			return (&((*_con)[_idx]));
 		}
 
 	//////////////////////
@@ -83,77 +86,110 @@ namespace ft {
 	//////////////////////
 	public:
 
-		node_iterator&	operator ++ (/* prefix */) {
-			_ptr = _ptr->get_successor();
+		interator&	operator ++ (/* prefix */) {
+			_idx++;
 			return (*this);
 		}
 
-		node_iterator	operator ++ (int /* postfix */) {
-			node_iterator tmp = *this;
+		interator	operator ++ (int /* postfix */) {
+			interator tmp = *this;
 			++(*this);
 			return (tmp);
 		}
 
-		node_iterator&	operator  = (const node_iterator& x) {
-			this->_ptr = x._ptr;
+		interator&	operator  = (const interator& x) {
+			this->_idx = x._idx;
+			this->_con = x._con;
 			return (*this);
 		}
 
 	//////////////////////////////
 	// Input iterator operators //
 	//////////////////////////////
-	private:
-
-		void is_input_iterator(typename ft::input_iterator_tag const &) {}
 
 	public:
 
-		bool operator == (const node_iterator& x)
-		{
-			this->is_input_iterator(typename ft::iterator_traits<node_iterator>::iterator_category());
-			return (this->_ptr == x._ptr);			
+		bool 		operator == (const interator& x) {
+			return (this->_idx == x._idx && this->_con == x._con);			
 		}
 
-		bool operator != (const node_iterator& x)
-		{
-			this->is_input_iterator(typename ft::iterator_traits<node_iterator>::iterator_category());
-			return (this->_ptr != x._ptr);
+		bool		operator != (const interator& x) {
+			return (!(*this == x));
 		}
 	
-		reference operator * ()
-		{
-			this->is_input_iterator(typename ft::iterator_traits<node_iterator>::iterator_category());
-			return (**_ptr);
+		reference	operator * () {
+			return ((*_con)[_idx]);
 		}
 
-		pointer operator -> () 
-		{
-			this->is_input_iterator(typename ft::iterator_traits<node_iterator>::iterator_category());
-			return (_ptr);
+		pointer		operator -> () {
+			return (this->get_ptr());
 		}
 
 	//////////////////////////////////////
 	// Bidirectional iterator operators //
 	//////////////////////////////////////
-	private:
-
-		void is_bidirectional_iterator(ft::bidirectional_iterator_tag const &) {}
-
 	public:
 
-		node_iterator& operator -- (/* prefix */)
-		{
-			this->is_bidirectional_iterator(typename ft::iterator_traits<node_iterator>::iterator_category());
-			_ptr = _ptr->get_predecessor();
+		interator& operator -- (/* prefix */)  {
+			_idx--;
 			return (*this);
 		}
 
-		node_iterator operator -- (int /* postfix */)
-		{
-			this->is_bidirectional_iterator(typename ft::iterator_traits<node_iterator>::iterator_category());
-			node_iterator tmp = *this;
+		interator operator -- (int /* postfix */) {
+			interator tmp = *this;
 			--(*this);
 			return (tmp);
+		}
+
+	//////////////////////////////////////
+	// Random access iterator operators //
+	//////////////////////////////////////
+	public:
+
+		interator			operator  + (difference_type val) {
+			return (interator(_idx + val, _con));
+		}
+
+		interator			operator  + (const interator& x) {
+			return (interator(this->_idx + x->_idx, _con));
+		}
+
+		interator			operator  - (difference_type val) {
+			return (interator(_idx - val, _con));
+		}
+
+		difference_type		operator  - (const interator& x) {
+			return (this->_idx - x._idx);
+		}
+
+		bool				operator  < (const interator& x) {
+			return (this->_idx < x._idx);
+		}
+
+		bool				operator  > (const interator& x) {
+			return (this->_idx > x->_idx);
+		}
+
+		bool				operator <= (const interator& x) {
+			return (this->_idx <= x._idx);
+		}
+
+		bool				operator >= (const interator& x) {
+			return (this->_idx >= x._idx);
+		}
+
+		interator&			operator += (difference_type val) {
+			_idx += val;
+			return (*this);
+		}
+
+		interator&			operator -= (difference_type val) {
+			_idx -= val;
+			return (*this);
+		}
+
+		reference			operator [] (difference_type n) {
+			return ((*_con)[_idx + n]);
 		}
 
 	///////////////////////////////////
@@ -163,7 +199,7 @@ namespace ft {
 	
 		operator const_iter () const
 		{
-			return (const_iter(_ptr));
+			return (const_iter(_idx, _con));
 		}
 
 	}; /* end of uniform iterator */

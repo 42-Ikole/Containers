@@ -19,6 +19,7 @@
 # include <utility.hpp>
 # include <circular_buffer.hpp>
 # include <traits.hpp>
+# include <interator.hpp>
 
 namespace ft
 {
@@ -50,10 +51,10 @@ namespace ft
 		typedef std::allocator<cbuf*>																		ptr_alloc;
 
 		/* GA EEN NODE ITERATOR SCHRIJVEN */
-		// typedef ft::array_iterator<T, ft::random_access_iterator_tag>										iterator;
-		// typedef ft::array_iterator<T, ft::random_access_iterator_tag, std::ptrdiff_t, const T*, const T&>	const_iterator;
-		// typedef ft::reverse_iterator< iterator >															reverse_iterator;
-		// typedef ft::reverse_iterator< const_iterator >														const_reverse_iterator;
+		typedef ft::interator<T, deque, ft::random_access_iterator_tag>										iterator;
+		typedef ft::interator<T, deque, ft::random_access_iterator_tag, std::ptrdiff_t, const T*, const T&>	const_iterator;
+		typedef ft::reverse_iterator< iterator >															reverse_iterator;
+		typedef ft::reverse_iterator< const_iterator >														const_reverse_iterator;
 
 	//////////////////////
 	// Member variables //
@@ -208,21 +209,21 @@ namespace ft
 	///////////////
 	public:
 
-	// iterator				begin() {
-	// 	return (iterator(this->_arr));
-	// }
+	iterator				begin() {
+		return (iterator(0, this));
+	}
 
-	// const_iterator			begin() const {
-	// 	return (const_iterator(this->_arr));
-	// }
+	const_iterator			begin() const {
+		return (const_iterator(0, this));
+	}
 
-	// iterator				end() {
-	// 	return (iterator(&this->_arr[this->_size]));
-	// }
+	iterator				end() {
+		return (iterator(_size, this));
+	}
 
-	// const_iterator			end() const {
-	// 	return (const_iterator(&this->_arr[this->_size]));
-	// }
+	const_iterator			end() const {
+		return (const_iterator(_size, this));
+	}
 
 	// reverse_iterator		rbegin() {
 	// 	return (reverse_iterator(&this->_arr[this->_size]));

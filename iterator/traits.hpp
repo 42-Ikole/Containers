@@ -170,6 +170,7 @@ namespace ft
 		struct is_random_access_iterator
 			: public ft::has_iterator_category_convertible_to<T, ft::random_access_iterator_tag>
 		{};
-}
+
+} /* end of namespace */
 
 #endif

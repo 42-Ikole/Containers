@@ -5,6 +5,8 @@
 #include <iterator>
 #include <vector>
 #include <map>
+#include <deque.hpp>
+#include <deque>
 #include <map.hpp>
 
 struct test {
@@ -139,6 +141,17 @@ int main(void)
 	extremely_cool_vector_tests();
 
 	ft::map<int, std::string>			sick;
+
+
+	ft::deque<size_t> 			foek;
+	ft::deque<size_t>::iterator ditr;
+
+	ditr = foek.begin();
+	foek.push_back(12);
+	foek.push_back(10);
+	foek.push_back(19);
+	for (ditr = foek.begin(); ditr != foek.end(); ditr++)
+		std::cout << *ditr << " ";
 
 	// std::cout << "ft:is_iterator<rando>::value (" << ft::has_iterator_category<ft::vector<int>::iterator>::value << ")\n";
     // std::cout << "ft:has_iterator_category<int>::value (" << ft::has_iterator_category<int>::value << ")\n";
