@@ -39,7 +39,7 @@
 namespace ft
 {
 
-	template < class Key, class T, class Compare, class Alloc > >
+	template < class Key, class T, class Compare, class Alloc >
 		class rnb_tree
 	{
 
