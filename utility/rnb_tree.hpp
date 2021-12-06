@@ -712,12 +712,14 @@ namespace ft
 	//////////////
 	public:
 
-		bool empty() const
+		bool		empty() const
 		{
 			return (size == 0);
 		}
 
-		size_type max_size() const
+	
+
+		size_type	max_size() const
 		{
 			return (node_alloc.max_size());
 		}
@@ -813,6 +815,49 @@ namespace ft
 
 } /* end of namespace */
 
+///////////////
+// Swapfiets //
+///////////////
+
+	template< class Key, class T, class Compare, class Alloc >
+		void swap(ft::map<Key,T,Compare,Alloc>& lhs, ft::map<Key,T,Compare,Alloc>& rhs)
+	{
+		lhs.swap(rhs);
+	}
+
+//////////////////////////
+// CoMpArIsOn oPeRaToRs //
+//////////////////////////
+
+	template< class Key, class T, class Compare, class Alloc >
+		bool operator == (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+		return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+		bool operator != (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+		return !(lhs == rhs);
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+		bool operator  < (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+		bool operator <= ( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+			return !(rhs < lhs);
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+		bool operator  > (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+			return (rhs < lhs);
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+		bool operator >= (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+			return !(lhs < rhs);
+	}
 
 ///////////////////
 // unset defines //
