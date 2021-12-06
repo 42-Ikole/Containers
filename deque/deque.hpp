@@ -50,7 +50,7 @@ namespace ft
 		typedef	std::allocator<cbuf>																		cbuf_allocator_type;
 		typedef std::allocator<cbuf*>																		ptr_alloc;
 
-		/* GA EEN NODE ITERATOR SCHRIJVEN */
+		/* BLEH */
 		typedef ft::interator<T, deque, ft::random_access_iterator_tag>										iterator;
 		typedef ft::interator<T, deque, ft::random_access_iterator_tag, std::ptrdiff_t, const T*, const T&>	const_iterator;
 		typedef ft::reverse_iterator< iterator >															reverse_iterator;
