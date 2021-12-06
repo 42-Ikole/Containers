@@ -26,6 +26,7 @@
 # include <pair.hpp>
 # include <rnb_node.hpp>
 # include <utility.hpp>
+# include <lexicographical_compare.hpp>
 
 /////////////////////////////
 // defines for readability //
@@ -717,11 +718,6 @@ namespace ft
 			return (size == 0);
 		}
 
-		size_type	size() const
-		{
-			return (size);
-		}
-
 		size_type	max_size() const
 		{
 			return (node_alloc.max_size());
@@ -816,14 +812,12 @@ namespace ft
 
 	}; /* end of rnb_tree */
 
-} /* end of namespace */
-
 ///////////////
 // Swapfiets //
 ///////////////
 
 	template< class Key, class T, class Compare, class Alloc >
-		void swap(ft::map<Key,T,Compare,Alloc>& lhs, ft::map<Key,T,Compare,Alloc>& rhs)
+		void swap(ft::rnb_tree<Key,T,Compare,Alloc>& lhs, ft::rnb_tree<Key,T,Compare,Alloc>& rhs)
 	{
 		lhs.swap(rhs);
 	}
@@ -833,34 +827,36 @@ namespace ft
 //////////////////////////
 
 	template< class Key, class T, class Compare, class Alloc >
-		bool operator == (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
-		return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+		bool operator == (const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
+		return (lhs.size == rhs.size && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
-		bool operator != (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+		bool operator != (const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
 		return !(lhs == rhs);
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
-		bool operator  < (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+		bool operator  < (const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
 		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
-		bool operator <= ( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+		bool operator <= ( const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
 			return !(rhs < lhs);
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
-		bool operator  > (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+		bool operator  > (const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
 			return (rhs < lhs);
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
-		bool operator >= (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+		bool operator >= (const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
 			return !(lhs < rhs);
 	}
+
+} /* end of namespace */
 
 ///////////////////
 // unset defines //
