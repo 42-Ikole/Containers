@@ -20,6 +20,7 @@
 # include <circular_buffer.hpp>
 # include <traits.hpp>
 # include <interator.hpp>
+# include <lexicographical_compare.hpp>
 
 namespace ft
 {
@@ -438,6 +439,40 @@ namespace ft
 		}
 
 	}; /* end of deque */
+
+//////////////////////////////////////////
+// LeXiCoGrApHiCaL CoMpArIsOn oPeRaToRs //
+//////////////////////////////////////////
+
+	template< class T, class Alloc >
+		bool operator == (const ft::deque<T,Alloc>& lhs, const ft::deque<T,Alloc>& rhs) {
+		return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+	}
+
+	template< class T, class Alloc >
+		bool operator != (const ft::deque<T,Alloc>& lhs, const ft::deque<T,Alloc>& rhs) {
+		return !(lhs == rhs);
+	}
+
+	template< class T, class Alloc >
+		bool operator  < (const ft::deque<T,Alloc>& lhs, const ft::deque<T,Alloc>& rhs) {
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
+
+	template< class T, class Alloc >
+		bool operator <= ( const ft::deque<T,Alloc>& lhs, const ft::deque<T,Alloc>& rhs) {
+			return !(rhs < lhs);
+	}
+
+	template< class T, class Alloc >
+		bool operator  > (const ft::deque<T,Alloc>& lhs, const ft::deque<T,Alloc>& rhs) {
+			return (rhs < lhs);
+	}
+
+	template< class T, class Alloc >
+		bool operator >= (const ft::deque<T,Alloc>& lhs, const ft::deque<T,Alloc>& rhs) {
+			return !(lhs < rhs);
+	}
 
 	# undef DEQTOR_CAPACITY
 
