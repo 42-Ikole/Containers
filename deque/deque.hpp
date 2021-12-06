@@ -28,7 +28,7 @@ namespace ft
 // DEQUE CLASS //
 /////////////////
 
-	# define CAPACITY	128
+	# define DEQTOR_CAPACITY	128
 
 	template < class T, class Alloc = std::allocator<T> >
 		class deque {
@@ -336,7 +336,7 @@ namespace ft
 
 		template <class InputIterator>
  			void assign(InputIterator first, InputIterator last,
-				typename ft::iterator_traits<InputIterator>::iterator_category* = 0) /* pls fix */
+				typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
 		{
 			this->clear();
 			for (; first != last; first++)
@@ -439,7 +439,7 @@ namespace ft
 
 	}; /* end of deque */
 
-	# undef CAPACITY
+	# undef DEQTOR_CAPACITY
 
 } /* end of namespace */
 
