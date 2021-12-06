@@ -76,13 +76,13 @@ namespace ft
 	public:
 
 		explicit deque (const allocator_type& alloc = allocator_type())
-			: _alloc(alloc), _palloc(ptr_alloc()), _arr(NULL), _head(0), _tail(0), _capacity(CAPACITY), _size(0)
+			: _alloc(alloc), _palloc(ptr_alloc()), _arr(NULL), _head(0), _tail(0), _capacity(DEQTOR_CAPACITY), _size(0)
 		{
 			this->_initial_alloc();
 		}
 
 		explicit deque (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
-			: _alloc(alloc), _palloc(ptr_alloc()), _arr(NULL), _head(0), _tail(0), _capacity(CAPACITY), _size(0)
+			: _alloc(alloc), _palloc(ptr_alloc()), _arr(NULL), _head(0), _tail(0), _capacity(DEQTOR_CAPACITY), _size(0)
 		{
 			this->_initial_alloc();
 			this->assign(n, val);
@@ -90,7 +90,7 @@ namespace ft
 
 		template <class InputIterator>
 			deque (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
-				: _alloc(alloc), _palloc(ptr_alloc()), _arr(NULL), _head(0), _tail(0), _capacity(CAPACITY), _size(0)
+				: _alloc(alloc), _palloc(ptr_alloc()), _arr(NULL), _head(0), _tail(0), _capacity(DEQTOR_CAPACITY), _size(0)
 		{
 			this->_initial_alloc();
 			this->assign(first, last);
