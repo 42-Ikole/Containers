@@ -366,7 +366,63 @@ namespace ft
 			return (_tree.alloc);
 		}
 
+	////////////////
+	// Bleh frens //
+	////////////////
+	public:
+
+		friend bool operator == (const map& lhs, const map& rhs);
+		friend bool operator != (const map& lhs, const map& rhs);
+		friend bool operator  < (const map& lhs, const map& rhs);
+		friend bool operator <= (const map& lhs, const map& rhs);
+		friend bool operator  > (const map& lhs, const map& rhs);
+		friend bool operator >= (const map& lhs, const map& rhs);
+
 	}; /* end of map */
+
+///////////////
+// Swapfiets //
+///////////////
+
+	template< class Key, class T, class Compare, class Alloc >
+		void swap(ft::map<Key,T,Compare,Alloc>& lhs, ft::map<Key,T,Compare,Alloc>& rhs)
+	{
+		lhs.swap(rhs);
+	}
+
+//////////////////////////
+// CoMpArIsOn oPeRaToRs //
+//////////////////////////
+
+	template< class Key, class T, class Compare, class Alloc >
+		bool operator == (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+		return (lhs._tree == rhs._tree);
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+		bool operator != (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+		return (lhs._tree != rhs._tree);
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+		bool operator  < (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+		return (lhs._tree < rhs._tree);
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+		bool operator <= ( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+			return (lhs._tree <= rhs._tree);
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+		bool operator  > (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+			return (lhs._tree > rhs._tree);
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+		bool operator >= (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs) {
+			return (lhs._tree >= rhs._tree);
+	}
 
 } /* end of namespace */
 
