@@ -25,25 +25,26 @@ DEBUG_FLAGS	=	-g -fsanitize=address
 
 SRC			=	main.cpp
 
-TEST_SRC	=	tests/main.cpp \
-				tests/vector_test.cpp \
-				tests/vector_iterator_test.cpp \
-				tests/deque_test.cpp \
+TEST_SRC	=	tests/main.cpp					\
+				tests/vector_test.cpp			\
+				tests/vector_iterator_test.cpp	\
+				tests/deque_test.cpp			\
 				tests/map_test.cpp
 
-HEADER_LOC	=	-I deque/			\
-				-I utility/			\
-				-I iterator/		\
-				-I list/			\
-				-I map/				\
-				-I pair/			\
-				-I multimap/		\
-				-I priority_queue/	\
-				-I queue/			\
-				-I set/				\
-				-I sfinae/			\
-				-I stack/			\
-				-I unordered_map/	\
+HEADER_LOC	=	-I deque/					\
+				-I utility/					\
+				-I iterator/				\
+				-I lexicographical_compare	\
+				-I list/					\
+				-I map/						\
+				-I pair/					\
+				-I multimap/				\
+				-I priority_queue/			\
+				-I queue/					\
+				-I set/						\
+				-I sfinae/					\
+				-I stack/					\
+				-I unordered_map/			\
 				-I vector/
 
 TEST_HEADER =	-I tests/
