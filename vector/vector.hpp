@@ -18,6 +18,7 @@
 # include <stdexcept>
 # include <iterator.hpp>
 # include <utility.hpp>
+# include <lexicographical_compare.hpp>
 
 # define LENGTH_ERROR "allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size"
 
@@ -423,10 +424,48 @@ namespace ft {
 
 	}; /* end of vector class */
 
+///////////////
+// Swapfiets //
+///////////////
+
 	template< class T, class Alloc >
-		void swap( std::vector<T,Alloc>& lhs, std::vector<T,Alloc>& rhs )
+		void swap(ft::vector<T,Alloc>& lhs, ft::vector<T,Alloc>& rhs)
 	{
 		lhs.swap(rhs);
+	}
+
+//////////////////////////
+// CoMpArIsOn oPeRaToRs //
+//////////////////////////
+
+	template< class T, class Alloc >
+		bool operator == (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs) {
+		return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+	}
+
+	template< class T, class Alloc >
+		bool operator != (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs) {
+		return !(lhs == rhs);
+	}
+
+	template< class T, class Alloc >
+		bool operator  < (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs) {
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
+
+	template< class T, class Alloc >
+		bool operator <= ( const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs) {
+			return !(rhs < lhs);
+	}
+
+	template< class T, class Alloc >
+		bool operator  > (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs) {
+			return (rhs < lhs);
+	}
+
+	template< class T, class Alloc >
+		bool operator >= (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs) {
+			return !(lhs < rhs);
 	}
 
 } /* end of namespace */
