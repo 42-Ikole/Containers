@@ -439,12 +439,13 @@ namespace ft
 		}
 
 	}; /* end of deque */
+
 ///////////////
 // Swapfiets //
 ///////////////
 
 	template< class T, class Alloc >
-		void swap(std::deque<T,Alloc>& lhs, std::deque<T,Alloc>& rhs)
+		void swap(ft::deque<T,Alloc>& lhs, ft::deque<T,Alloc>& rhs)
 	{
 		lhs.swap(rhs);
 	}
