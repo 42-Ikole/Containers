@@ -39,7 +39,7 @@
 namespace ft
 {
 
-	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T> > >
+	template < class Key, class T, class Compare, class Alloc > >
 		class rnb_tree
 	{
 
