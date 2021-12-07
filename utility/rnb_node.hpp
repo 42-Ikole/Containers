@@ -23,7 +23,6 @@
 # define RNB_NODE_HPP
 
 # include <memory>
-# include <pair.hpp>
 # include <utility.hpp>
 
 namespace ft
@@ -41,7 +40,7 @@ namespace ft
 //////////////
 // MAP NODE //
 //////////////
-	template < class Key, class T >
+	template < class T>
 		struct rnb_node
 	{
 
@@ -50,12 +49,10 @@ namespace ft
 	///////////////
 	public:
 			
-		typedef Key										key_type;
-		typedef T										mapped_type;
-		typedef ft::pair<key_type, mapped_type>			value_type;
-		typedef	std::ptrdiff_t							difference_type;
-		typedef	std::size_t								size_type;
-		typedef rnb_node<key_type, mapped_type>			node;
+		typedef T								value_type;
+		typedef	std::ptrdiff_t					difference_type;
+		typedef	std::size_t						size_type;
+		typedef rnb_node<value_type>	node;
 	
 	//////////////////////
 	// Member variables //
@@ -100,11 +97,6 @@ namespace ft
 	// Public member functions //
 	/////////////////////////////
 	public:
-
-		key_type&	key(void)
-		{
-			return (value.first);
-		}
 
 		void		swap(node* x)
 		{

@@ -39,7 +39,7 @@
 namespace ft
 {
 
-	template < class Key, class T, class Compare, class Alloc >
+	template < class T, class Key, class Compare, class Alloc >
 		class rnb_tree
 	{
 
@@ -48,9 +48,8 @@ namespace ft
 	///////////////
 	public:
 			
+		typedef T											value_type;
 		typedef Key											key_type;
-		typedef T											mapped_type;
-		typedef ft::pair<key_type, mapped_type>				value_type;
 		typedef Compare										key_compare;
 		typedef Alloc										allocator_type;
 		typedef typename allocator_type::reference			reference;
@@ -59,7 +58,7 @@ namespace ft
 		typedef typename allocator_type::const_pointer		const_pointer;
 		typedef	std::ptrdiff_t								difference_type;
 		typedef	std::size_t									size_type;
-		typedef ft::rnb_node<key_type, mapped_type>			node;
+		typedef ft::rnb_node<value_type>					node;
 		typedef std::allocator<node>						node_allocator_type;
 
 	//////////////////////
@@ -174,6 +173,11 @@ namespace ft
 	//////////////////
 	private:
 
+		key_type& _get_key(node* x) const
+		{
+			return (x->value.first);
+		}
+
 		bool	_is_not_null(node* x) const
 		{
 			if (x == NULL || x == begin || x == end)
@@ -239,10 +243,10 @@ namespace ft
 			for (node* x = root; _is_not_null(x);) {
 				parent = x;
 
-				if (comp(val.first, x->key()) == false) {
+				if (comp(val.first, _get_key(x)) == false) {
 					
 					/* if this is true then parent has the same value as new node */
-					if (comp(parent->key(), val.first) == false)
+					if (comp(_get_key(parent), val.first) == false)
 						return (ft::make_pair(parent, false));
 
 					x = x->right;
@@ -260,7 +264,7 @@ namespace ft
 				root = new_node;
 				this->_set_sentinels();
 			}
-			else if (comp(new_node->key(), parent->key()) == true) {
+			else if (comp(_get_key(new_node), _get_key(parent)) == true) {
 				if (parent->left == begin)
 					this->_set_sentinelbegin(new_node);
 				parent->left = new_node;
@@ -799,8 +803,8 @@ namespace ft
 
 			while (_is_not_null(x))
 			{
-				if (comp(val, x->key()) == false) {
-					if (comp(x->key(), val) == false)
+				if (comp(val, _get_key(x)) == false) {
+					if (comp(_get_key(x), val) == false)
 						return (x);
 					x = x->right;
 				}
@@ -816,7 +820,7 @@ namespace ft
 // Swapfiets //
 ///////////////
 
-	template< class Key, class T, class Compare, class Alloc >
+	template< class T, class Key, class Compare, class Alloc >
 		void swap(ft::rnb_tree<Key,T,Compare,Alloc>& lhs, ft::rnb_tree<Key,T,Compare,Alloc>& rhs)
 	{
 		lhs.swap(rhs);
@@ -826,32 +830,32 @@ namespace ft
 // CoMpArIsOn oPeRaToRs //
 //////////////////////////
 
-	template< class Key, class T, class Compare, class Alloc >
+	template< class T, class Key, class Compare, class Alloc >
 		bool operator == (const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
 		return (lhs.size == rhs.size && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	}
 
-	template< class Key, class T, class Compare, class Alloc >
+	template< class T, class Key, class Compare, class Alloc >
 		bool operator != (const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
 		return !(lhs == rhs);
 	}
 
-	template< class Key, class T, class Compare, class Alloc >
+	template< class T, class Key, class Compare, class Alloc >
 		bool operator  < (const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
 		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 	}
 
-	template< class Key, class T, class Compare, class Alloc >
+	template< class T, class Key, class Compare, class Alloc >
 		bool operator <= ( const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
 			return !(rhs < lhs);
 	}
 
-	template< class Key, class T, class Compare, class Alloc >
+	template< class T, class Key, class Compare, class Alloc >
 		bool operator  > (const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
 			return (rhs < lhs);
 	}
 
-	template< class Key, class T, class Compare, class Alloc >
+	template< class T, class Key, class Compare, class Alloc >
 		bool operator >= (const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
 			return !(lhs < rhs);
 	}
