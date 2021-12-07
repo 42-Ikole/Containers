@@ -39,7 +39,7 @@
 namespace ft
 {
 
-	template < class T, class Key, class Compare, class Alloc >
+	template < class T, class Compare, class Alloc >
 		class rnb_tree
 	{
 
@@ -49,7 +49,6 @@ namespace ft
 	public:
 			
 		typedef T											value_type;
-		typedef Key											key_type;
 		typedef Compare										key_compare;
 		typedef Alloc										allocator_type;
 		typedef typename allocator_type::reference			reference;
@@ -173,11 +172,6 @@ namespace ft
 	//////////////////
 	private:
 
-		key_type& _get_key(node* x) const
-		{
-			return (x->value.first);
-		}
-
 		bool	_is_not_null(node* x) const
 		{
 			if (x == NULL || x == begin || x == end)
@@ -243,10 +237,10 @@ namespace ft
 			for (node* x = root; _is_not_null(x);) {
 				parent = x;
 
-				if (comp(val.first, _get_key(x)) == false) {
+				if (comp(val, x->value) == false) {
 					
 					/* if this is true then parent has the same value as new node */
-					if (comp(_get_key(parent), val.first) == false)
+					if (comp(parent->value, val) == false)
 						return (ft::make_pair(parent, false));
 
 					x = x->right;
@@ -264,7 +258,7 @@ namespace ft
 				root = new_node;
 				this->_set_sentinels();
 			}
-			else if (comp(_get_key(new_node), _get_key(parent)) == true) {
+			else if (comp(new_node->value, parent->value) == true) {
 				if (parent->left == begin)
 					this->_set_sentinelbegin(new_node);
 				parent->left = new_node;
@@ -782,29 +776,19 @@ namespace ft
 			ft::value_swap(this->size, x.size);
 		}
 
-	///////////////
-	// Observers //
-	///////////////
-	public:
-
-		key_compare key_comp() const
-		{
-			return (comp);
-		}
-
 	////////////////
 	// Operations //
 	////////////////
 	public:
 
-		node*	find(const key_type& val) const
+		node*	find(const value_type& val) const
 		{
 			node* x = root;
 
 			while (_is_not_null(x))
 			{
-				if (comp(val, _get_key(x)) == false) {
-					if (comp(_get_key(x), val) == false)
+				if (comp(val, x->value) == false) {
+					if (comp(x->value, val) == false)
 						return (x);
 					x = x->right;
 				}
@@ -814,51 +798,77 @@ namespace ft
 			return (end);
 		}
 
+		// node*	lower_bound(const value_type& k) const
+		// {
+		// 	node* ret = this->find(k);
+
+		// 	if (ret != this->end)
+		// 		return (ret);
+		// 	ret = this->begin;
+		// 	while (ret != this->end && this->comp(k, ret->value) == false)
+		// 		++ret;
+		// 	return (ret);
+		// }
+
+		// node*	upper_bound(const value_type& k) const
+		// {
+		// 	node* ret;
+
+		// 	for (ret = this->begin; ret != this->end; ++ret) {
+		// 		if (this->comp(k, ret->value) == true) {
+		// 			if (this->comp(ret->value, k) == true)
+		// 				continue ;
+		// 			break ;
+		// 		}
+		// 	}
+		// 	return (ret);
+		// }
+
 	}; /* end of rnb_tree */
 
 ///////////////
 // Swapfiets //
 ///////////////
 
-	template< class T, class Key, class Compare, class Alloc >
-		void swap(ft::rnb_tree<Key,T,Compare,Alloc>& lhs, ft::rnb_tree<Key,T,Compare,Alloc>& rhs)
-	{
-		lhs.swap(rhs);
-	}
+	// template< class T, class Compare, class Alloc >
+	// 	void swap(ft::rnb_tree<T,Compare,Alloc>& lhs, ft::rnb_tree<T,Compare,Alloc>& rhs)
+	// {
+	// 	lhs.swap(rhs);
+	// }
 
 //////////////////////////
 // CoMpArIsOn oPeRaToRs //
 //////////////////////////
 
-	template< class T, class Key, class Compare, class Alloc >
-		bool operator == (const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
-		return (lhs.size == rhs.size && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
-	}
+	// template< class T, class Compare, class Alloc >
+	// 	bool operator == (const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
+	// 	return (lhs.size == rhs.size && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+	// }
 
-	template< class T, class Key, class Compare, class Alloc >
-		bool operator != (const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
-		return !(lhs == rhs);
-	}
+	// template< class T, class Compare, class Alloc >
+	// 	bool operator != (const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
+	// 	return !(lhs == rhs);
+	// }
 
-	template< class T, class Key, class Compare, class Alloc >
-		bool operator  < (const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
-		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
-	}
+	// template< class T, class Compare, class Alloc >
+	// 	bool operator  < (const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
+	// 	return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	// }
 
-	template< class T, class Key, class Compare, class Alloc >
-		bool operator <= ( const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
-			return !(rhs < lhs);
-	}
+	// template< class T, class Compare, class Alloc >
+	// 	bool operator <= ( const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
+	// 		return !(rhs < lhs);
+	// }
 
-	template< class T, class Key, class Compare, class Alloc >
-		bool operator  > (const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
-			return (rhs < lhs);
-	}
+	// template< class T, class Compare, class Alloc >
+	// 	bool operator  > (const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
+	// 		return (rhs < lhs);
+	// }
 
-	template< class T, class Key, class Compare, class Alloc >
-		bool operator >= (const ft::rnb_tree<Key,T,Compare,Alloc>& lhs, const ft::rnb_tree<Key,T,Compare,Alloc>& rhs) {
-			return !(lhs < rhs);
-	}
+	// template< class T, class Compare, class Alloc >
+	// 	bool operator >= (const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
+	// 		return !(lhs < rhs);
+	// }
 
 } /* end of namespace */
 
