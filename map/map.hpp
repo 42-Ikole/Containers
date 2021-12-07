@@ -124,36 +124,6 @@ namespace ft
 			this->_tree = x._tree;
 			return (*this);
 		}
-	
-	//////////////////////
-	// Helper functions //
-	//////////////////////
-	private:
-
-		node*	_lower_bound(const key_type& k) const
-		{
-			const_iterator ret = this->find(k);
-
-			if (ret != this->end())
-				return (ret.get_ptr());
-			ret = this->begin();
-			while (ret != this->end() && this->key_comp()(k, (*ret).first) == false)
-				++ret;
-			return (ret.get_ptr());
-		}
-
-		node*	_upper_bound(const key_type& k) const
-		{
-			const_iterator ret;
-			for (ret = this->begin(); ret != this->end(); ++ret) {
-				if (this->key_comp()(k, (*ret).first) == true) {
-					if (this->key_comp()((*ret).first, k) == true)
-						continue ;
-					break ;
-				}
-			}
-			return (ret.get_ptr());
-		}
 
 	//////////////////
 	// Iterators 🤮 //
@@ -330,22 +300,22 @@ namespace ft
 
 		iterator lower_bound(const key_type& k)
 		{
-			return (iterator(_lower_bound(k)));
+			return (iterator(_tree.lower_bound(ft::make_pair(k, mapped_type()))));
 		}
 
 		const_iterator lower_bound(const key_type& k) const
 		{
-			return (const_iterator(_lower_bound(k)));
+			return (const_iterator(_tree.lower_bound(ft::make_pair(k, mapped_type()))));
 		}
 
 		iterator upper_bound(const key_type& k)
 		{
-			return (iterator(_upper_bound(k)));
+			return (iterator(_tree.upper_bound(ft::make_pair(k, mapped_type()))));
 		}
 
 		const_iterator upper_bound(const key_type& k) const
 		{
-			return (const_iterator(_upper_bound(k)));
+			return (const_iterator(_tree.upper_bound(ft::make_pair(k, mapped_type()))));
 		}
 
 		ft::pair<iterator, iterator> equal_range(const key_type& k)

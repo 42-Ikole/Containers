@@ -798,31 +798,31 @@ namespace ft
 			return (end);
 		}
 
-		// node*	lower_bound(const value_type& k) const
-		// {
-		// 	node* ret = this->find(k);
+		node*	lower_bound(const value_type& k) const
+		{
+			node* ret = this->find(k);
 
-		// 	if (ret != this->end)
-		// 		return (ret);
-		// 	ret = this->begin;
-		// 	while (ret != this->end && this->comp(k, ret->value) == false)
-		// 		++ret;
-		// 	return (ret);
-		// }
+			if (ret != this->end)
+				return (ret);
+			ret = this->begin;
+			while (ret != this->end && this->comp(k, ret->value) == false)
+				ret = ret->get_successor();
+			return (ret);
+		}
 
-		// node*	upper_bound(const value_type& k) const
-		// {
-		// 	node* ret;
+		node*	upper_bound(const value_type& k) const
+		{
+			node* ret;
 
-		// 	for (ret = this->begin; ret != this->end; ++ret) {
-		// 		if (this->comp(k, ret->value) == true) {
-		// 			if (this->comp(ret->value, k) == true)
-		// 				continue ;
-		// 			break ;
-		// 		}
-		// 	}
-		// 	return (ret);
-		// }
+			for (ret = this->begin; ret != this->end; ret = ret->get_successor()) {
+				if (this->comp(k, ret->value) == true) {
+					if (this->comp(ret->value, k) == true)
+						continue ;
+					break ;
+				}
+			}
+			return (ret);
+		}
 
 	}; /* end of rnb_tree */
 
