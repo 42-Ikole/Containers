@@ -830,45 +830,45 @@ namespace ft
 // Swapfiets //
 ///////////////
 
-	// template< class T, class Compare, class Alloc >
-	// 	void swap(ft::rnb_tree<T,Compare,Alloc>& lhs, ft::rnb_tree<T,Compare,Alloc>& rhs)
-	// {
-	// 	lhs.swap(rhs);
-	// }
+	template< class T, class Compare, class Alloc >
+		void swap(ft::rnb_tree<T,Compare,Alloc>& lhs, ft::rnb_tree<T,Compare,Alloc>& rhs)
+	{
+		lhs.swap(rhs);
+	}
 
 //////////////////////////
 // CoMpArIsOn oPeRaToRs //
 //////////////////////////
 
-	// template< class T, class Compare, class Alloc >
-	// 	bool operator == (const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
-	// 	return (lhs.size == rhs.size && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
-	// }
+	template< class T, class Compare, class Alloc >
+		bool operator == (const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
+		return (lhs.size == rhs.size && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+	}
 
-	// template< class T, class Compare, class Alloc >
-	// 	bool operator != (const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
-	// 	return !(lhs == rhs);
-	// }
+	template< class T, class Compare, class Alloc >
+		bool operator != (const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
+		return !(lhs == rhs);
+	}
 
-	// template< class T, class Compare, class Alloc >
-	// 	bool operator  < (const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
-	// 	return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
-	// }
+	template< class T, class Compare, class Alloc >
+		bool operator  < (const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
 
-	// template< class T, class Compare, class Alloc >
-	// 	bool operator <= ( const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
-	// 		return !(rhs < lhs);
-	// }
+	template< class T, class Compare, class Alloc >
+		bool operator <= ( const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
+			return !(rhs < lhs);
+	}
 
-	// template< class T, class Compare, class Alloc >
-	// 	bool operator  > (const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
-	// 		return (rhs < lhs);
-	// }
+	template< class T, class Compare, class Alloc >
+		bool operator  > (const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
+			return (rhs < lhs);
+	}
 
-	// template< class T, class Compare, class Alloc >
-	// 	bool operator >= (const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
-	// 		return !(lhs < rhs);
-	// }
+	template< class T, class Compare, class Alloc >
+		bool operator >= (const ft::rnb_tree<T,Compare,Alloc>& lhs, const ft::rnb_tree<T,Compare,Alloc>& rhs) {
+			return !(lhs < rhs);
+	}
 
 } /* end of namespace */
 
