@@ -22,6 +22,16 @@
 
 namespace ft
 {
+
+////////////////////////
+// ANTI SFINAE SFINAE //
+////////////////////////
+
+	template < class T >
+		struct make_type {
+			typedef void type;
+	};
+
 ////////////////////////////
 // true type / false type //
 ////////////////////////////
@@ -51,15 +61,15 @@ namespace ft
 
 			template < class U >
 				static char test(
-					typename U::value_type*,
-					typename U::difference_type*,
-					typename U::pointer*,
-					// typename U::reference*,
-					typename U::iterator_category*
+					typename ft::make_type<typename U::value_type>::type*,
+					typename ft::make_type<typename U::difference_type>::type*,
+					typename ft::make_type<typename U::pointer>::type*,
+					typename ft::make_type<typename U::reference>::type*,
+					typename ft::make_type<typename U::iterator_category>::type*
 				);
 
 		public:
-			static const bool value = (sizeof(test<T>(0,0,0,0)) == sizeof(char));
+			static const bool value = (sizeof(test<T>(0,0,0,0,0)) == sizeof(char));
 	};
 
 //////////
