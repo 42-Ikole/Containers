@@ -221,7 +221,8 @@ namespace ft
 	
 		/* range */
 		template <class InputIterator>
-			void insert(InputIterator first, InputIterator last)
+			void insert(InputIterator first, InputIterator last,
+				typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
 		{
 			for (; first != last; ++first)
 				this->insert(first);
