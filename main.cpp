@@ -8,6 +8,9 @@
 #include <deque.hpp>
 #include <deque>
 #include <map.hpp>
+#include <functional>
+#include <hash.hpp>
+#include <type_traits>
 
 struct test {
 	test() {std::cerr << "constructor" << std::endl;}
@@ -140,31 +143,47 @@ int main(void)
 {
 	extremely_cool_vector_tests();
 
-	ft::map<int, std::string>			sick;
+	ft::hash<std::string> hope;
+
+	std::string nbr = "skuurt";
+	std::cout << hope(&nbr, nbr.length()) << std::endl;
+	nbr.append("z");
+	std::cout << hope(&nbr, nbr.length()) << std::endl;
+	nbr = "bruh";
+	std::cout << hope(&nbr, nbr.length()) << std::endl;
+	nbr.append("skrt");
+	std::cout << hope(&nbr, nbr.length()) << std::endl;
+	nbr = "10";
+	std::cout << hope(&nbr, nbr.length()) << std::endl;
+	nbr = "";
+	std::cout << hope(&nbr, nbr.length()) << std::endl;
 
 
-	ft::deque<size_t> 			foek;
-	ft::deque<size_t>::iterator ditr;
+	// ft::map<int, std::string>			sick;
 
-	ditr = foek.begin();
-	foek.push_back(12);
-	foek.push_back(10);
-	foek.push_back(19);
-	for (ditr = foek.begin(); ditr != foek.end(); ditr++)
-		std::cout << *ditr << " ";
 
-	// std::cout << "ft:is_iterator<rando>::value (" << ft::has_iterator_category<ft::vector<int>::iterator>::value << ")\n";
-    // std::cout << "ft:has_iterator_category<int>::value (" << ft::has_iterator_category<int>::value << ")\n";
+	// ft::deque<size_t> 			foek;
+	// ft::deque<size_t>::iterator ditr;
 
-	ft::vector<int> veccie(21, 42);
+	// ditr = foek.begin();
+	// foek.push_back(12);
+	// foek.push_back(10);
+	// foek.push_back(19);
+	// for (ditr = foek.begin(); ditr != foek.end(); ditr++)
+	// 	std::cout << *ditr << " ";
 
-	for (ft::vector<int>::iterator itr = veccie.begin(); itr != veccie.end(); itr++)
-		std::cout << *itr << std::endl;
+	// // std::cout << "ft:is_iterator<rando>::value (" << ft::has_iterator_category<ft::vector<int>::iterator>::value << ")\n";
+    // // std::cout << "ft:has_iterator_category<int>::value (" << ft::has_iterator_category<int>::value << ")\n";
 
-	ft::map<int, std::string>::iterator	nd;
-	ft::map<int, std::string>::const_iterator	cnd;
-	// ft::map<int, std::string>::iterator	nd1;
-	ft::map<int, std::string>::iterator	nd2;
+	// ft::vector<int> veccie(21, 42);
+
+	// for (ft::vector<int>::iterator itr = veccie.begin(); itr != veccie.end(); itr++)
+	// 	std::cout << *itr << std::endl;
+
+	// ft::map<int, std::string>::iterator	nd;
+	// ft::map<int, std::string>::const_iterator	cnd;
+	// // ft::map<int, std::string>::iterator	nd1;
+	// ft::map<int, std::string>::iterator	nd2;
 	// ft::map<int, std::string>::iterator	nd3;
 
 	// sick.insert(ft::make_pair(21, std::string("twenty one")));
@@ -188,20 +207,20 @@ int main(void)
 	// sick.insert(ft::make_pair(17, std::string("seventeen")));
 
 	// nd2 = sick.insert(ft::make_pair(500, std::string("fifty"))).first;
-	sick.insert(ft::make_pair(300, std::string("thirty")));
-	sick.insert(ft::make_pair(300, std::string("thirty")));
-	sick.insert(ft::make_pair(200, std::string("thirty")));
-	sick.insert(ft::make_pair(200, std::string("thirty")));
-	sick.insert(ft::make_pair(400, std::string("fourty")));
-	sick.insert(ft::make_pair(450, std::string("fourty five")));
-	nd2 = sick.insert(ft::make_pair(460, std::string("fourty six"))).first;
-	cnd = sick.insert(ft::make_pair(440, std::string("fourty four"))).first;
+	// sick.insert(ft::make_pair(300, std::string("thirty")));
+	// sick.insert(ft::make_pair(300, std::string("thirty")));
+	// sick.insert(ft::make_pair(200, std::string("thirty")));
+	// sick.insert(ft::make_pair(200, std::string("thirty")));
+	// sick.insert(ft::make_pair(400, std::string("fourty")));
+	// sick.insert(ft::make_pair(450, std::string("fourty five")));
+	// nd2 = sick.insert(ft::make_pair(460, std::string("fourty six"))).first;
+	// cnd = sick.insert(ft::make_pair(440, std::string("fourty four"))).first;
 
 
-	const ft::map<int, std::string> fuck(sick);
-	std::cout << "hier gaat alles naar de getver\n";
-	cnd = fuck.lower_bound(10);
-	std::cout << "fuck" << std::endl;
+	// const ft::map<int, std::string> fuck(sick);
+	// std::cout << "hier gaat alles naar de getver\n";
+	// cnd = fuck.lower_bound(10);
+	// std::cout << "fuck" << std::endl;
 	// nd1 = sick.insert(ft::make_pair(430, std::string("fourty three"))).first;
 	// sick.insert(ft::make_pair(420, std::string("fourty two")));
 	// sick.insert(ft::make_pair(-1, std::string("fourty two")));
@@ -242,8 +261,8 @@ int main(void)
 
 	// sick.erase(sick.begin());
 
-	for (nd = sick.begin(); nd != sick.end(); nd++)
-		std::cout << (*nd).first << ", ";
+	// for (nd = sick.begin(); nd != sick.end(); nd++)
+	// 	std::cout << (*nd).first << ", ";
 	
 	// nd--;
 	// if (nd == nd)

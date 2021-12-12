@@ -32,6 +32,7 @@ TEST_SRC	=	tests/main.cpp					\
 				tests/map_test.cpp
 
 HEADER_LOC	=	-I deque/					\
+				-I hash/					\
 				-I utility/					\
 				-I iterator/				\
 				-I lexicographical_compare	\
@@ -44,6 +45,7 @@ HEADER_LOC	=	-I deque/					\
 				-I set/						\
 				-I sfinae/					\
 				-I stack/					\
+				-I type_traits/				\
 				-I unordered_map/			\
 				-I vector/
 

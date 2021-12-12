@@ -18,6 +18,7 @@
 # include <stdexcept>
 # include <iterator.hpp>
 # include <utility.hpp>
+# include <type_traits.hpp>
 # include <lexicographical_compare.hpp>
 
 # define LENGTH_ERROR "allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size"

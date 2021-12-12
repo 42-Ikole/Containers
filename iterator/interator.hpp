@@ -18,7 +18,7 @@
 #ifndef INTERATOR_HPP
 # define INTERATOR_HPP
 
-# include <traits.hpp>
+# include <iterator_traits.hpp>
 # include <iterator.hpp>
 # include <sfinae.hpp>
 
