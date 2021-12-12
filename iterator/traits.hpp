@@ -51,6 +51,15 @@ namespace ft
 			typedef T type;
 	};
 
+///////////////////////////
+// Remove Const Volatile //
+///////////////////////////
+	
+	template <class T>
+		struct remove_cv {
+			typedef typename remove_volatile<typename remove_const<T>::type>::type type;
+	};
+
 ////////////////////////
 // ANTI SFINAE SFINAE //
 ////////////////////////
