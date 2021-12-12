@@ -153,20 +153,33 @@ int main(void)
 {
 	extremely_cool_vector_tests();
 
-	// ft::hash<std::string> hope;
+	ft::hash<std::string> hope;
 
-	// std::string nbr = "skuurt";
-	// std::cout << hope(&nbr, nbr.length()) << std::endl;
-	// nbr.append("z");
-	// std::cout << hope(&nbr, nbr.length()) << std::endl;
-	// nbr = "bruh";
-	// std::cout << hope(&nbr, nbr.length()) << std::endl;
-	// nbr.append("skrt");
-	// std::cout << hope(&nbr, nbr.length()) << std::endl;
-	// nbr = "10";
-	// std::cout << hope(&nbr, nbr.length()) << std::endl;
-	// nbr = "";
-	// std::cout << hope(&nbr, nbr.length()) << std::endl;
+	std::string nbr = "skuurt";
+	std::cout << hope(nbr) << std::endl;
+	nbr.append("z");
+	std::cout << hope(nbr) << std::endl;
+	nbr = "bruh";
+	std::cout << hope(nbr) << std::endl;
+	nbr.append("skrt");
+	std::cout << hope(nbr) << std::endl;
+	nbr = "10";
+	std::cout << hope(nbr) << std::endl;
+	nbr = "";
+	std::cout << hope(nbr) << std::endl;
+	nbr = "asfkklasdf'lasdkfl;'asd'f";
+	std::cout << hope(nbr) << std::endl;
+	nbr = "asfjkasdkf;laskf;lasdkfl;asdkf;'laskf;'alsdkf;'askf;klasdf;klasdjfl;askdjf;laskdjfl;kasdjfl;kasdfl;kasdjfl;kasdjf;laskdjf;";
+	std::cout << hope(nbr) << std::endl;
+
+
+	ft::hash<int>	plsworkbro;
+	int brrr = 42;
+	std::cout << plsworkbro(brrr) << std::endl;
+	brrr = 69;
+	std::cout << plsworkbro(brrr) << std::endl;
+	brrr = -1337;
+	std::cout << plsworkbro(brrr) << std::endl;
 
 	std::cout << std::boolalpha;
 	std::cout << ft::is_integral<std::string>::value << '\n';
@@ -177,6 +190,8 @@ int main(void)
     std::cout << ft::is_integral<bool>::value << '\n';
     std::cout << ft::is_integral<volatile const unsigned char>::value << '\n';
     std::cout << f(true) << '\n';
+
+
 
 
 	// ft::map<int, std::string>			sick;
