@@ -52,7 +52,7 @@ namespace ft
 	
 	template <class T>
 		struct remove_cv {
-			typedef typename remove_volatile<typename remove_const<T>::type>::type type;
+			typedef typename ft::remove_volatile<typename ft::remove_const<T>::type>::type type;
 	};
 
 ////////////////////////
@@ -74,10 +74,10 @@ namespace ft
 		};
 
 	template <bool B>
-		struct bool_constant : integral_constant<bool, B>{};
+		struct bool_constant : ft::integral_constant<bool, B>{};
 
-		struct true_type	: bool_constant<true>{};
-		struct false_type	: bool_constant<false>{};
+		struct true_type	: ft::bool_constant<true>{};
+		struct false_type	: ft::bool_constant<false>{};
 
 } /* end of namespace */
 

@@ -10,6 +10,8 @@
 #include <map.hpp>
 #include <functional>
 #include <hash.hpp>
+#include <type_traits.hpp>
+#include <is_integral.hpp>
 #include <type_traits>
 
 struct test {
@@ -139,24 +141,42 @@ static void	extremely_cool_vector_tests()
 // 	std::cout << vint.size() << std::endl;
 }
 
+template <class T>
+typename ft::enable_if<
+	ft::is_integral<T>::value,
+T>::type f(T i)
+{
+    return i;
+}
+
 int main(void)
 {
 	extremely_cool_vector_tests();
 
-	ft::hash<std::string> hope;
+	// ft::hash<std::string> hope;
 
-	std::string nbr = "skuurt";
-	std::cout << hope(&nbr, nbr.length()) << std::endl;
-	nbr.append("z");
-	std::cout << hope(&nbr, nbr.length()) << std::endl;
-	nbr = "bruh";
-	std::cout << hope(&nbr, nbr.length()) << std::endl;
-	nbr.append("skrt");
-	std::cout << hope(&nbr, nbr.length()) << std::endl;
-	nbr = "10";
-	std::cout << hope(&nbr, nbr.length()) << std::endl;
-	nbr = "";
-	std::cout << hope(&nbr, nbr.length()) << std::endl;
+	// std::string nbr = "skuurt";
+	// std::cout << hope(&nbr, nbr.length()) << std::endl;
+	// nbr.append("z");
+	// std::cout << hope(&nbr, nbr.length()) << std::endl;
+	// nbr = "bruh";
+	// std::cout << hope(&nbr, nbr.length()) << std::endl;
+	// nbr.append("skrt");
+	// std::cout << hope(&nbr, nbr.length()) << std::endl;
+	// nbr = "10";
+	// std::cout << hope(&nbr, nbr.length()) << std::endl;
+	// nbr = "";
+	// std::cout << hope(&nbr, nbr.length()) << std::endl;
+
+	std::cout << std::boolalpha;
+	std::cout << ft::is_integral<std::string>::value << '\n';
+    std::cout << ft::is_integral<test>::value << '\n';
+    std::cout << ft::is_integral<float>::value << '\n';
+    std::cout << ft::is_integral<int>::value << '\n';
+    std::cout << ft::is_integral<const int>::value << '\n';
+    std::cout << ft::is_integral<bool>::value << '\n';
+    std::cout << ft::is_integral<volatile const unsigned char>::value << '\n';
+    std::cout << f(true) << '\n';
 
 
 	// ft::map<int, std::string>			sick;
