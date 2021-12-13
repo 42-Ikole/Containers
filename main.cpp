@@ -181,6 +181,23 @@ int main(void)
 	brrr = -1337;
 	std::cout << plsworkbro(brrr) << std::endl;
 
+	ft::hash<const char*> pointer;
+	const char* ptr = "broer";
+	std::cout << pointer(ptr) << std::endl;
+	ptr = "aaaahhh";
+	std::cout << pointer(ptr) << std::endl;
+	ptr = "42069";
+	std::cout << pointer(ptr) << std::endl;
+	ptr = "";
+	std::cout << pointer(ptr) << std::endl;
+
+
+	ft::hash<test*> plswork;
+	test* fml = new test[12];
+	std::cout << plswork(fml, sizeof(test) * 12) << std::endl;
+	std::cout << plswork(fml) << std::endl;
+
+
 	std::cout << std::boolalpha;
 	std::cout << ft::is_integral<std::string>::value << '\n';
     std::cout << ft::is_integral<test>::value << '\n';
