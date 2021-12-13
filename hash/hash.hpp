@@ -107,15 +107,18 @@ namespace ft
 // String specialization //
 ///////////////////////////
 
-	template <>
-		struct hash<std::string>
+/*
+** Works for everything that inherits from std::basic_string
+*/
+	template < class T >
+		struct hash< std::basic_string<T> >
 	{
 	//////////////
 	// typedefs //
 	//////////////
 
-		typedef	std::string	argument_type;
-		typedef std::size_t	result_type;
+		typedef	std::basic_string<T>	argument_type;
+		typedef std::size_t				result_type;
 
 		result_type operator () (argument_type& key)
 		{
