@@ -217,19 +217,15 @@ int main(void)
 	std::cout << "nts1 and nts2: " << (ptr_hash(nts1)==ptr_hash(nts2)) << '\n';
 	std::cout << "str1 and str2: " << (str_hash(str1)==str_hash(str2)) << '\n';
 
-
-	std::cout << std::boolalpha;
-	std::cout << ft::is_integral<std::string>::value << '\n';
-    std::cout << ft::is_integral<test>::value << '\n';
-    std::cout << ft::is_integral<float>::value << '\n';
-    std::cout << ft::is_integral<int>::value << '\n';
-    std::cout << ft::is_integral<const int>::value << '\n';
-    std::cout << ft::is_integral<bool>::value << '\n';
-    std::cout << ft::is_integral<volatile const unsigned char>::value << '\n';
-    std::cout << f(true) << '\n';
-
-
-
+	// std::cout << std::boolalpha;
+	// std::cout << ft::is_integral<std::string>::value << '\n';
+    // std::cout << ft::is_integral<test>::value << '\n';
+    // std::cout << ft::is_integral<float>::value << '\n';
+    // std::cout << ft::is_integral<int>::value << '\n';
+    // std::cout << ft::is_integral<const int>::value << '\n';
+    // std::cout << ft::is_integral<bool>::value << '\n';
+    // std::cout << ft::is_integral<volatile const unsigned char>::value << '\n';
+    // std::cout << f(true) << '\n';
 
 	// ft::map<int, std::string>			sick;
 

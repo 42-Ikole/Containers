@@ -37,6 +37,7 @@ namespace ft
 		const unsigned char *data		= (const unsigned char *)key;
 		unsigned int		byte		= *((unsigned int *)data);
 
+		/* hash data per 4 bytes */
 		while (len >= 4)
 		{
 			byte = *((unsigned int *)data);
@@ -52,6 +53,7 @@ namespace ft
 			len -= 4;
 		}
 
+		/* hash remaining bytes */
 		switch (len)
 		{
 			case 3: hash ^= data[2] << 16;
@@ -60,7 +62,8 @@ namespace ft
 					hash *= multiplier;
 		}
 
-		hash ^= len;
+		/* final scramble */
+		hash ^= len * byte;
 
 		hash ^= (hash >> 16);
 		hash *= multiplier;
@@ -75,9 +78,13 @@ namespace ft
 // Default //
 /////////////
 
+	/* non constructable */
 	template < class T, bool >
 		struct hash_impl
-	{};
+	{
+		private:
+			hash_impl();
+	};
 
 //////////////////////////////////
 // integral type specialization //
@@ -113,10 +120,6 @@ namespace ft
 	template < class T >
 		struct hash< std::basic_string<T> >
 	{
-	//////////////
-	// typedefs //
-	//////////////
-
 		typedef	std::basic_string<T>	argument_type;
 		typedef std::size_t				result_type;
 
@@ -134,21 +137,17 @@ namespace ft
 	template< class T >
 		struct hash<T*>
 	{
-	//////////////
-	// typedefs //
-	//////////////
-
-		typedef	T			argument_type;
+		typedef	T*			argument_type;
 		typedef std::size_t	result_type;
 
 		/* will hash the address */
-		result_type operator () (argument_type* key)
+		result_type operator () (argument_type key)
 		{
 			return funky_hash(&key, sizeof(key));
 		}
 
 		/* will hash the underlying data not the address itself */
-		result_type operator () (argument_type* key, int len)
+		result_type operator () (argument_type key, int len)
 		{
 			return funky_hash(key, len);
 		}
