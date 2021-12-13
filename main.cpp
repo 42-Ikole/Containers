@@ -15,11 +15,14 @@
 #include <type_traits>
 
 struct test {
-	test() {std::cerr << "constructor" << std::endl;}
-	~test() {std::cerr << "destructor" << std::endl;}
-	test(const test& x) {(void)x; std::cerr << "copy" << std::endl;}
-	test operator = (const test& x) {(void)x; std::cerr << "assignation" << std::endl; return *this;}
+	static const char* foek;
+	// test() {}
+	// ~test() {}
+	// test(const test& x) {*this = x;}
+	// test operator = (const test& x) {(void)x; return *this;}
 };
+
+const char* test::foek = "Fakka niffo";
 
 static void	extremely_cool_vector_tests()
 {
@@ -194,8 +197,25 @@ int main(void)
 
 	ft::hash<test*> plswork;
 	test* fml = new test[12];
+	test* wtf = new test[12];
+	std::cout << "different\n";
 	std::cout << plswork(fml, sizeof(test) * 12) << std::endl;
+	std::cout << plswork(wtf, sizeof(test) * 12) << std::endl;
+	std::cout << "samesies?\n";
 	std::cout << plswork(fml) << std::endl;
+	std::cout << plswork(wtf) << std::endl;
+
+	char nts1[] = "Test";
+	char nts2[] = "Test";
+	std::string str1 (nts1);
+	std::string str2 (nts2);
+
+	ft::hash<char*>			ptr_hash;
+	ft::hash<std::string>	str_hash;
+
+	std::cout << "same hashes:\n" << std::boolalpha;
+	std::cout << "nts1 and nts2: " << (ptr_hash(nts1)==ptr_hash(nts2)) << '\n';
+	std::cout << "str1 and str2: " << (str_hash(str1)==str_hash(str2)) << '\n';
 
 
 	std::cout << std::boolalpha;

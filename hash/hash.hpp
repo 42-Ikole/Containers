@@ -138,11 +138,13 @@ namespace ft
 		typedef	T			argument_type;
 		typedef std::size_t	result_type;
 
+		/* will hash the address */
 		result_type operator () (argument_type* key)
 		{
-			return funky_hash(key, sizeof(key));
+			return funky_hash(&key, sizeof(key));
 		}
 
+		/* will hash the underlying data not the address itself */
 		result_type operator () (argument_type* key, int len)
 		{
 			return funky_hash(key, len);
