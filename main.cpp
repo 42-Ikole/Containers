@@ -152,6 +152,18 @@ T>::type f(T i)
     return i;
 }
 
+
+struct node;
+
+typedef std::allocator<node> blep;
+
+struct node
+{
+	int*	b;
+	size_t	probe_count;
+};
+
+
 int main(void)
 {
 	extremely_cool_vector_tests();
@@ -161,8 +173,10 @@ int main(void)
 	std::cout << "log2(20) = " << ft::log2pow2(20) << std::endl;
 	std::cout << "log2(-20) = " << ft::log2pow2(-20) << std::endl;
 
-	
+	blep	mlem = blep();
+	mlem.allocate(1);
 
+	
 	// ft::hash<std::string> hope;
 
 	// std::string nbr = "skuurt";
