@@ -77,7 +77,7 @@ namespace ft
 
 	/*
 	** - for integral types only
-	** - no negatives
+	** - negative number will return 1
 	** - only works for powers of 2 ohterwise it will behave like floor(log2())
 	*/
 	template < class T >
