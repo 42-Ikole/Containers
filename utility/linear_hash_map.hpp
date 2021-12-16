@@ -24,6 +24,8 @@ namespace ft
 		class linear_hash_map
 	{
 
+		#define HASH_CAP 1024
+
 		struct hash_node;
 
 		///////////////
@@ -48,18 +50,27 @@ namespace ft
 		//////////////////////
 		protected:
 
-			pointer			_arr;
-			hasher			_hash;
-			key_equal		_equal;
-			size_type		_lpr_limit; // limit for linear probing
-			size_type		_capacity;
-			allocator_type	_alloc;
+			pointer				_arr;
+			hasher				_hash;
+			key_equal			_equal;
+			size_type			_lpr_limit; // limit for linear probing
+			size_type			_capacity;
+			allocator_type		_alloc;
+			node_allocator_type	_node_alloc;
 
 		///////////
 		// Node? //
 		///////////
 		private:
 
+			/*
+			** ToDo:
+			** --------
+			** Make a hash node specialization for string,
+			** where you save the hash in order to make
+			** resizing more efficient with the downside
+			** of having 8 extra bytes overhead per node
+			*/
 			struct hash_node
 			{
 			///////////////
@@ -67,19 +78,29 @@ namespace ft
 			///////////////
 	
 				pointer			element;
-				size_type		probe_count;
+				unsigned int	probe_depth;
 
 			//////////////////
 			// Construction //
 			//////////////////
 	
-				hash_node() :
-					element(NULL), probe_count(0)
+				hash_node()
+					: probe_depth(0)
 				{}
 
 				~hash_node()
+				{}
+
+				hash_node(const hash_node& x)
 				{
-					_aloc.deallocate(&element, 1);
+					*this = x;
+				}
+
+				hash_node& operator = (const hash_node& x)
+				{
+					this->element		= x.element;
+					this->probe_depth	= x.probe_depth;
+					return *this;
 				}
 
 			///////////////
@@ -88,7 +109,7 @@ namespace ft
 
 				void	create(const value_type& val)
 				{
-					element = _alloc.allocate(1);
+					_alloc.construct(&element, val);
 				}
 
 			//////////
@@ -98,7 +119,7 @@ namespace ft
 				void	swap(const hash_node& x)
 				{
 					ft::value_swap(this->element, x.element);
-					ft::value_swap(this->probe_count, x.probe_count);
+					ft::value_swap(this->probe_depth, x.probe_depth);
 				}
 
 			}; /* end of node */
@@ -109,13 +130,13 @@ namespace ft
 		public:
 
 			/* default constructor */
-			explicit unordered_map ( size_type n = 0,
-							const hasher& hf = hasher(),
-							const key_equal& eql = key_equal(),
-							const allocator_type& alloc = allocator_type())
+			explicit unordered_map(	size_type n = 0,
+									const hasher& hf = hasher(),
+									const key_equal& eql = key_equal(),
+									const allocator_type& alloc = allocator_type())
+				: _arr(NULL), _hash(hf), _equal(eql), _lpr_limit(0), _capacity(HASH_CAP), _alloc(alloc), _node_alloc(node_allocator_type())
 			{
-				if (n == 0)
-					_lpr_limit = ft::log2pow2(_capacity)
+				this->_initial_alloc();
 			}
 		
 			/* empty constructor */
@@ -133,8 +154,22 @@ namespace ft
 			unordered_map(const unordered_map& ump);
 			unordered_map(const unordered_map& ump, const allocator_type& alloc);
 
+		//////////////////////////
+		// Construction helpers //
+		//////////////////////////
+		private:
+
+			void	_initial_alloc()
+			{
+				_arr = alloc.allocate(_capacity);
+				if (n == 0)
+					_lpr_limit = ft::log2pow2(_capacity);
+			}
+
 
 	}; /* end of linear_hash_map */
+
+	# undef HASH_CAP
 
 } /* end of namespace */
 
