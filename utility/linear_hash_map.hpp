@@ -17,14 +17,22 @@
 # include <hash.hpp>
 # include <utility.hpp>
 # include <memory>
+# include <hash.hpp>
+# include <iostream>
 
 namespace ft
 {
-	template< class T, class Hash, class Equal, class Alloc >
-		class linear_hash_map
-	{
 
-		#define HASH_CAP 1024
+	struct prime_bs
+	{
+		typedef const std::size_t	prime_type;
+
+		static prime_type primes[];
+	};
+
+	template< class T, class Hash = ft::hash<T>, class Equal = ft::equal_to<T>, class Alloc = std::allocator<T> >
+		class linear_hash_map : prime_bs
+	{
 
 		struct hash_node;
 
@@ -44,19 +52,19 @@ namespace ft
 			typedef	std::ptrdiff_t								difference_type;
 			typedef	std::size_t									size_type;
 			typedef std::allocator<hash_node>					node_allocator_type;
-
+			
 		//////////////////////
 		// Member variables //
 		//////////////////////
 		protected:
 
-			pointer				_arr;
-			hasher				_hash;
-			key_equal			_equal;
-			size_type			_lpr_limit; // limit for linear probing
-			size_type			_capacity;
-			allocator_type		_alloc;
-			node_allocator_type	_node_alloc;
+			pointer						_arr;
+			hasher						_hash;
+			key_equal					_equal;
+			size_type					_lpr_limit; // limit for linear probing
+			size_type					_capacity;
+			allocator_type				_alloc;
+			node_allocator_type			_node_alloc;
 
 		///////////
 		// Node? //
@@ -80,48 +88,6 @@ namespace ft
 				pointer			element;
 				unsigned int	probe_depth;
 
-			//////////////////
-			// Construction //
-			//////////////////
-	
-				hash_node()
-					: probe_depth(0)
-				{}
-
-				~hash_node()
-				{}
-
-				hash_node(const hash_node& x)
-				{
-					*this = x;
-				}
-
-				hash_node& operator = (const hash_node& x)
-				{
-					this->element		= x.element;
-					this->probe_depth	= x.probe_depth;
-					return *this;
-				}
-
-			///////////////
-			// modifiers //
-			///////////////
-
-				void	create(const value_type& val)
-				{
-					_alloc.construct(&element, val);
-				}
-
-			//////////
-			// swap //
-			//////////
-
-				void	swap(const hash_node& x)
-				{
-					ft::value_swap(this->element, x.element);
-					ft::value_swap(this->probe_depth, x.probe_depth);
-				}
-
 			}; /* end of node */
 
 		/////////////
@@ -130,46 +96,66 @@ namespace ft
 		public:
 
 			/* default constructor */
-			explicit unordered_map(	size_type n = 0,
+			explicit linear_hash_map( size_type n = 0,
 									const hasher& hf = hasher(),
 									const key_equal& eql = key_equal(),
 									const allocator_type& alloc = allocator_type())
-				: _arr(NULL), _hash(hf), _equal(eql), _lpr_limit(0), _capacity(HASH_CAP), _alloc(alloc), _node_alloc(node_allocator_type())
+				: _arr(NULL), _hash(hf), _equal(eql), _lpr_limit(0), _capacity(0), _alloc(alloc), _node_alloc(node_allocator_type())
 			{
 				this->_initial_alloc();
+				for (size_t i = 0; i < 180; i++)
+					std::cout << "prime: " << this->_get_next_prime() << std::endl;
 			}
 		
 			/* empty constructor */
-			explicit unordered_map (const allocator_type& alloc);
+			explicit linear_hash_map (const allocator_type& alloc);
 			
 			/* range constructor */
 			template <class InputIterator>
-				unordered_map(InputIterator first, InputIterator last,
+				linear_hash_map(InputIterator first, InputIterator last,
 							size_type n = 0,
 							const hasher& hf = hasher(),
 							const key_equal& eql = key_equal(),
 							const allocator_type& alloc = allocator_type());
 
 			/* copy constructor */
-			unordered_map(const unordered_map& ump);
-			unordered_map(const unordered_map& ump, const allocator_type& alloc);
+			linear_hash_map(const linear_hash_map& ump);
+			linear_hash_map(const linear_hash_map& ump, const allocator_type& alloc);
 
 		//////////////////////////
 		// Construction helpers //
 		//////////////////////////
 		private:
 
+			std::size_t _get_next_prime(void)
+			{
+				static unsigned int idx = 0;
+
+				if (primes[idx + 1] == 0)
+					return (primes[idx]);
+				return (primes[idx++]);
+			}
+
 			void	_initial_alloc()
 			{
-				_arr = alloc.allocate(_capacity);
-				if (n == 0)
-					_lpr_limit = ft::log2pow2(_capacity);
+				// _arr = alloc.allocate(_capacity);
+				// if (n == 0)
+				// 	_lpr_limit = ft::log2pow2(_capacity);
+			}
+
+
+		///////////////////
+		// Get allocator //
+		///////////////////
+		public:
+
+			allocator_type& get_allocator()
+			{
+				return _alloc;
 			}
 
 
 	}; /* end of linear_hash_map */
-
-	# undef HASH_CAP
 
 } /* end of namespace */
 
