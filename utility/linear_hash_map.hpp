@@ -103,8 +103,6 @@ namespace ft
 				: _arr(NULL), _hash(hf), _equal(eql), _lpr_limit(0), _capacity(0), _alloc(alloc), _node_alloc(node_allocator_type())
 			{
 				this->_initial_alloc();
-				for (size_t i = 0; i < 180; i++)
-					std::cout << "prime: " << this->_get_next_prime() << std::endl;
 			}
 		
 			/* empty constructor */
