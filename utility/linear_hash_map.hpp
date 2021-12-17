@@ -23,6 +23,10 @@
 namespace ft
 {
 
+//////////////////////////////////
+// Primbe bs for static reasons //
+//////////////////////////////////
+
 	struct prime_bs
 	{
 		typedef const std::size_t	prime_type;
@@ -30,7 +34,11 @@ namespace ft
 		static prime_type primes[];
 	};
 
-	template< class T, class Hash = ft::hash<T>, class Equal = ft::equal_to<T>, class Alloc = std::allocator<T> >
+/////////////////////
+// Linear hash map //
+/////////////////////
+
+	template< class T, class Hash, class Equal, class Alloc >
 		class linear_hash_map : prime_bs
 	{
 

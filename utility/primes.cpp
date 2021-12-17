@@ -11,8 +11,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cstddef>
-#include <iostream>
 #include <linear_hash_map.hpp>
 
 ft::prime_bs::prime_type	ft::prime_bs::primes[] = {
