@@ -19,6 +19,7 @@
 # include <memory>
 # include <hash.hpp>
 # include <iostream>
+# include <utility.hpp>
 
 namespace ft
 {
@@ -41,8 +42,13 @@ namespace ft
 	template< class T, class Hash, class Equal, class Alloc >
 		class linear_hash_map : prime_bs
 	{
+	
+		//////////////////////////
+		// Forward declarations //
+		//////////////////////////
+		private:
 
-		struct hash_node;
+			struct hash_node;
 
 		///////////////
 		// type defs //
@@ -66,7 +72,7 @@ namespace ft
 		//////////////////////
 		protected:
 
-			pointer						_arr;
+			hash_node*					_arr;
 			hasher						_hash;
 			key_equal					_equal;
 			size_type					_lpr_limit; // limit for linear probing
@@ -89,12 +95,14 @@ namespace ft
 			*/
 			struct hash_node
 			{
-			///////////////
-			// Variables //
-			///////////////
-	
-				pointer			element;
-				unsigned int	probe_depth;
+
+				///////////////
+				// Variables //
+				///////////////
+				public:
+		
+					value_type		element;
+					unsigned int	probe_depth;
 
 			}; /* end of node */
 
@@ -144,11 +152,15 @@ namespace ft
 
 			void	_initial_alloc()
 			{
-				// _arr = alloc.allocate(_capacity);
-				// if (n == 0)
-				// 	_lpr_limit = ft::log2pow2(_capacity);
+				_increase_limits();
+				_arr = _node_alloc(_capacity + _lpr_limit);
 			}
 
+			void	_increase_limits()
+			{
+				_capacity	= _get_next_prime();
+				_lpr_limit	= ft::log2pow2(_capacity);
+			}
 
 		///////////////////
 		// Get allocator //
@@ -159,7 +171,6 @@ namespace ft
 			{
 				return _alloc;
 			}
-
 
 	}; /* end of linear_hash_map */
 
