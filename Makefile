@@ -45,7 +45,7 @@ HEADER_LOC	=	-I deque/					\
 				-I set/						\
 				-I sfinae/					\
 				-I stack/					\
-				-I type_traits/				\
+				-I traits/					\
 				-I unordered_map/			\
 				-I vector/
 
