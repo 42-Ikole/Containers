@@ -24,10 +24,19 @@
 namespace ft
 {
 
-///////////////////////////////////
-// Hash function based on murmur //
-///////////////////////////////////
+////////////////////////////////////
+// Hash function based on murmur2 //
+////////////////////////////////////
 
+	/*
+	** This hash function is not incremental
+	**
+	** It won't work on every machine:
+	** -------------------------------
+	** assumes sizeof(int) == 4
+	** assumes it can read 4byte values,
+	** from any address without crashing :p
+	*/
 	template < class T >
 		std::size_t funky_hash(T* key, int len, unsigned int seed = 1337)
 	{
@@ -37,6 +46,7 @@ namespace ft
 		const unsigned char *data		= (const unsigned char *)key;
 		unsigned int		byte		= *((unsigned int *)data);
 
+		/* hash 4 bytes at a time */
 		while (len >= 4)
 		{
 			byte = *((unsigned int *)data);
@@ -52,6 +62,7 @@ namespace ft
 			len -= 4;
 		}
 
+		/* mix in the last few left over bytes */
 		switch (len)
 		{
 			case 3: hash ^= data[2] << 16;
@@ -60,6 +71,7 @@ namespace ft
 					hash *= multiplier;
 		}
 
+		/* final scramble */
 		hash ^= len;
 
 		hash ^= (hash >> 16);
