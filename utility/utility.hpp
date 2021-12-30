@@ -1,22 +1,23 @@
-
 /* ************************************************************************** */
 /*                                                                            */
-/*     ▄▀▀▄ ▄▄   ▄▀▀█▄▄▄▄  ▄▀▀▀▀▄     ▄▀▀▄▀▀▀▄  ▄▀▀█▄▄▄▄  ▄▀▀▄▀▀▀▄  ▄▀▀▀▀▄    */ 
-/*    █  █   ▄▀ ▐  ▄▀   ▐ █    █     █   █   █ ▐  ▄▀   ▐ █   █   █ █ █   ▐    */ 
-/*    ▐  █▄▄▄█    █▄▄▄▄▄  ▐    █     ▐  █▀▀▀▀    █▄▄▄▄▄  ▐  █▀▀█▀     ▀▄      */ 
-/*       █   █    █    ▌      █         █        █    ▌   ▄▀    █  ▀▄   █     */ 
-/*      ▄▀  ▄▀   ▄▀▄▄▄▄     ▄▀▄▄▄▄▄▄▀ ▄▀        ▄▀▄▄▄▄   █     █    █▀▀▀      */ 
-/*     █   █     █    ▐     █        █          █    ▐   ▐     ▐    ▐         */ 
-/*     ▐   ▐     ▐          ▐        ▐          ▐                             */ 
-/*																			  */
+/*    ▄▀▀▄ ▄▀▀▄  ▄▀▀▀█▀▀▄  ▄▀▀█▀▄   ▄▀▀▀▀▄     ▄▀▀█▀▄    ▄▀▀▀█▀▀▄  ▄▀▀▄ ▀▀▄   */
+/*   █   █    █ █    █  ▐ █   █  █ █    █     █   █  █  █    █  ▐ █   ▀▄ ▄▀   */
+/*   ▐  █    █  ▐   █     ▐   █  ▐ ▐    █     ▐   █  ▐  ▐   █     ▐     █     */
+/*     █    █      █          █        █          █        █            █     */
+/*      ▀▄▄▄▄▀   ▄▀        ▄▀▀▀▀▀▄   ▄▀▄▄▄▄▄▄▀ ▄▀▀▀▀▀▄   ▄▀           ▄▀      */
+/*              █         █       █  █        █       █ █             █       */
+/*              ▐         ▐       ▐  ▐        ▐       ▐ ▐             ▐       */
+/*                                                                            */
 /*                   Kingmar  |  https://github.com/K1ngmar                   */
-/*																			  */
+/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VERY_USEFUL_UTILITY_HPP
 # define VERY_USEFUL_UTILITY_HPP
 
 # include <pair.hpp>
+# include <is_integral.hpp>
+# include <sfinae.hpp>
 
 namespace ft
 {
@@ -55,6 +56,42 @@ namespace ft
 			++first2;
 		}
 		return (true);
+	}
+
+////////////////
+// Equal to?? //
+////////////////
+
+	template< class T >
+		struct equal_to
+	{
+		bool operator () (const T &lhs, const T &rhs) const {
+			return (lhs == rhs);
+		}
+
+	}; /* end of equal to */
+
+//////////////////
+// log2 power 2 //
+//////////////////
+
+	/*
+	** - for integral types only
+	** - negative number will return 1
+	** - only works for powers of 2 ohterwise it will behave like floor(log2())
+	*/
+	template < class T >
+		typename ft::enable_if<ft::is_integral<T>::value,
+			std::size_t>::type	log2pow2(T n)
+	{
+		std::size_t pow = 1;
+
+		while (n > 2)
+		{
+			n >>= 1;
+			++pow;
+		}
+		return (pow);
 	}
 
 } /* end of namespace */

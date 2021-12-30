@@ -15,11 +15,14 @@
 #include <type_traits>
 
 struct test {
-	test() {std::cerr << "constructor" << std::endl;}
-	~test() {std::cerr << "destructor" << std::endl;}
-	test(const test& x) {(void)x; std::cerr << "copy" << std::endl;}
-	test operator = (const test& x) {(void)x; std::cerr << "assignation" << std::endl; return *this;}
+	static const char* foek;
+	// test() {}
+	// ~test() {}
+	// test(const test& x) {*this = x;}
+	// test operator = (const test& x) {(void)x; return *this;}
 };
+
+const char* test::foek = "Fakka niffo";
 
 static void	extremely_cool_vector_tests()
 {
@@ -149,50 +152,101 @@ T>::type f(T i)
     return i;
 }
 
+
+struct node;
+
+typedef std::allocator<node> blep;
+
+struct node
+{
+	int*	b;
+	size_t	probe_count;
+};
+
+
 int main(void)
 {
 	extremely_cool_vector_tests();
 
-	ft::hash<std::string> hope;
+	std::cout << "log2(1024) = " << ft::log2pow2(1024) << std::endl;
+	std::cout << "log2(64) = " << ft::log2pow2(64) << std::endl;
+	std::cout << "log2(20) = " << ft::log2pow2(20) << std::endl;
+	std::cout << "log2(-20) = " << ft::log2pow2(-20) << std::endl;
 
-	std::string nbr = "skuurt";
-	std::cout << hope(nbr) << std::endl;
-	nbr.append("z");
-	std::cout << hope(nbr) << std::endl;
-	nbr = "bruh";
-	std::cout << hope(nbr) << std::endl;
-	nbr.append("skrt");
-	std::cout << hope(nbr) << std::endl;
-	nbr = "10";
-	std::cout << hope(nbr) << std::endl;
-	nbr = "";
-	std::cout << hope(nbr) << std::endl;
-	nbr = "asfkklasdf'lasdkfl;'asd'f";
-	std::cout << hope(nbr) << std::endl;
-	nbr = "asfjkasdkf;laskf;lasdkfl;asdkf;'laskf;'alsdkf;'askf;klasdf;klasdjfl;askdjf;laskdjfl;kasdjfl;kasdfl;kasdjfl;kasdjf;laskdjf;";
-	std::cout << hope(nbr) << std::endl;
+	blep	mlem = blep();
+	mlem.allocate(1);
 
+	
+	// ft::hash<std::string> hope;
 
-	ft::hash<int>	plsworkbro;
-	int brrr = 42;
-	std::cout << plsworkbro(brrr) << std::endl;
-	brrr = 69;
-	std::cout << plsworkbro(brrr) << std::endl;
-	brrr = -1337;
-	std::cout << plsworkbro(brrr) << std::endl;
-
-	std::cout << std::boolalpha;
-	std::cout << ft::is_integral<std::string>::value << '\n';
-    std::cout << ft::is_integral<test>::value << '\n';
-    std::cout << ft::is_integral<float>::value << '\n';
-    std::cout << ft::is_integral<int>::value << '\n';
-    std::cout << ft::is_integral<const int>::value << '\n';
-    std::cout << ft::is_integral<bool>::value << '\n';
-    std::cout << ft::is_integral<volatile const unsigned char>::value << '\n';
-    std::cout << f(true) << '\n';
+	// std::string nbr = "skuurt";
+	// std::cout << hope(nbr) << std::endl;
+	// nbr.append("z");
+	// std::cout << hope(nbr) << std::endl;
+	// nbr = "bruh";
+	// std::cout << hope(nbr) << std::endl;
+	// nbr.append("skrt");
+	// std::cout << hope(nbr) << std::endl;
+	// nbr = "10";
+	// std::cout << hope(nbr) << std::endl;
+	// nbr = "";
+	// std::cout << hope(nbr) << std::endl;
+	// nbr = "asfkklasdf'lasdkfl;'asd'f";
+	// std::cout << hope(nbr) << std::endl;
+	// nbr = "asfjkasdkf;laskf;lasdkfl;asdkf;'laskf;'alsdkf;'askf;klasdf;klasdjfl;askdjf;laskdjfl;kasdjfl;kasdfl;kasdjfl;kasdjf;laskdjf;";
+	// std::cout << hope(nbr) << std::endl;
 
 
+	// ft::hash<int>	plsworkbro;
+	// int brrr = 42;
+	// std::cout << plsworkbro(brrr) << std::endl;
+	// brrr = 69;
+	// std::cout << plsworkbro(brrr) << std::endl;
+	// brrr = -1337;
+	// std::cout << plsworkbro(brrr) << std::endl;
 
+	// ft::hash<const char*> pointer;
+	// const char* ptr = "broer";
+	// std::cout << pointer(ptr) << std::endl;
+	// ptr = "aaaahhh";
+	// std::cout << pointer(ptr) << std::endl;
+	// ptr = "42069";
+	// std::cout << pointer(ptr) << std::endl;
+	// ptr = "";
+	// std::cout << pointer(ptr) << std::endl;
+
+
+	// ft::hash<test*> plswork;
+	// test* fml = new test[12];
+	// test* wtf = new test[12];
+	// std::cout << "different\n";
+	// std::cout << plswork(fml, sizeof(test) * 12) << std::endl;
+	// std::cout << plswork(wtf, sizeof(test) * 12) << std::endl;
+	// std::cout << "samesies?\n";
+	// std::cout << plswork(fml) << std::endl;
+	// std::cout << plswork(wtf) << std::endl;
+
+	// char nts1[] = "Test";
+	// char nts2[] = "Test";
+	// std::string str1 (nts1);
+	// std::string str2 (nts2);
+
+	// ft::hash<char*>			ptr_hash;
+	// ft::hash<std::string>	str_hash;
+
+	// std::cout << "same hashes:\n" << std::boolalpha;
+	// std::cout << "nts1 and nts2: " << (ptr_hash(nts1)==ptr_hash(nts2)) << '\n';
+	// std::cout << "str1 and str2: " << (str_hash(str1)==str_hash(str2)) << '\n';
+
+	// std::cout << std::boolalpha;
+	// std::cout << ft::is_integral<std::string>::value << '\n';
+    // std::cout << ft::is_integral<test>::value << '\n';
+    // std::cout << ft::is_integral<float>::value << '\n';
+    // std::cout << ft::is_integral<int>::value << '\n';
+    // std::cout << ft::is_integral<const int>::value << '\n';
+    // std::cout << ft::is_integral<bool>::value << '\n';
+    // std::cout << ft::is_integral<volatile const unsigned char>::value << '\n';
+    // std::cout << f(true) << '\n';
 
 	// ft::map<int, std::string>			sick;
 

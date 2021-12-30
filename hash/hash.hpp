@@ -42,11 +42,11 @@ namespace ft
 	{
 		const std::size_t	multiplier	= 420 * 69 * (unsigned int)80085;
 		const std::size_t	rotate		= 21;
-		std::size_t			hash		= seed;
+		std::size_t			hash		= seed ^ len;
 		const unsigned char *data		= (const unsigned char *)key;
 		unsigned int		byte		= *((unsigned int *)data);
 
-		/* hash 4 bytes at a time */
+		/* hash data per 4 bytes */
 		while (len >= 4)
 		{
 			byte = *((unsigned int *)data);
@@ -72,7 +72,7 @@ namespace ft
 		}
 
 		/* final scramble */
-		hash ^= len;
+		hash ^= len * byte;
 
 		hash ^= (hash >> 16);
 		hash *= multiplier;
@@ -87,9 +87,13 @@ namespace ft
 // Default //
 /////////////
 
+	/* non constructable */
 	template < class T, bool >
 		struct hash_impl
-	{};
+	{
+		private:
+			hash_impl();
+	};
 
 //////////////////////////////////
 // integral type specialization //
@@ -119,15 +123,14 @@ namespace ft
 // String specialization //
 ///////////////////////////
 
-	template <>
-		struct hash<std::string>
+/*
+** Works for everything that inherits from std::basic_string
+*/
+	template < class T >
+		struct hash< std::basic_string<T> >
 	{
-	//////////////
-	// typedefs //
-	//////////////
-
-		typedef	std::string	argument_type;
-		typedef std::size_t	result_type;
+		typedef	std::basic_string<T>	argument_type;
+		typedef std::size_t				result_type;
 
 		result_type operator () (argument_type& key)
 		{
@@ -143,17 +146,19 @@ namespace ft
 	template< class T >
 		struct hash<T*>
 	{
-	//////////////
-	// typedefs //
-	//////////////
-
-		typedef	T			argument_type;
+		typedef	T*			argument_type;
 		typedef std::size_t	result_type;
 
-		result_type operator () (argument_type* key)
+		/* will hash the address */
+		result_type operator () (argument_type key)
 		{
-			// fix the length
-			return funky_hash(key, sizeof(key));
+			return funky_hash(&key, sizeof(key));
+		}
+
+		/* will hash the underlying data not the address itself */
+		result_type operator () (argument_type key, int len)
+		{
+			return funky_hash(key, len);
 		}
 
 	}; /* end of pointer specialization */
