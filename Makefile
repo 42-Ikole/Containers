@@ -23,7 +23,8 @@ FLAGS		=	-std=c++98 -pedantic -Wall -Werror -Wextra $(HEADER_LOC)
 
 DEBUG_FLAGS	=	-g -fsanitize=address
 
-SRC			=	main.cpp
+SRC			=	main.cpp \
+				utility/primes.cpp
 
 TEST_SRC	=	tests/main.cpp					\
 				tests/vector_test.cpp			\

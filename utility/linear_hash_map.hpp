@@ -30,9 +30,11 @@ namespace ft
 
 	struct prime_bs
 	{
-		typedef const std::size_t	prime_type;
+		typedef const std::size_t					prime_type;
+		typedef prime_type (*mod_type)(prime_type);
 
-		static prime_type primes[];
+		static prime_type	primes[];
+		static mod_type		spec_mod[];
 	};
 
 /////////////////////
@@ -79,6 +81,7 @@ namespace ft
 			size_type					_capacity;
 			allocator_type				_alloc;
 			node_allocator_type			_node_alloc;
+			mod_type					_spec_mod;
 
 		///////////
 		// Node? //
@@ -116,7 +119,8 @@ namespace ft
 									const hasher& hf = hasher(),
 									const key_equal& eql = key_equal(),
 									const allocator_type& alloc = allocator_type())
-				: _arr(NULL), _hash(hf), _equal(eql), _lpr_limit(0), _capacity(0), _alloc(alloc), _node_alloc(node_allocator_type())
+				: _arr(NULL), _hash(hf), _equal(eql), _lpr_limit(0), _capacity(0),
+					_alloc(alloc), _node_alloc(node_allocator_type(), _spec_mod(NULL))
 			{
 				this->_initial_alloc();
 			}
