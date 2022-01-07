@@ -151,6 +151,7 @@ namespace ft
 
 				if (primes[idx + 1] == 0)
 					return (primes[idx]);
+				_spec_mod = spec_mod[idx];
 				return (primes[idx++]);
 			}
 

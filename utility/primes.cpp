@@ -58,6 +58,7 @@ ft::prime_bs::prime_type	ft::prime_bs::primes[] = {
 
 /*
 ** most compilers will generate specialized assembly for each rvalue modulo
+** note that these are not inline since that will prevent the compiler from doing further optimizations
 */
 static ft::prime_bs::prime_type mod37(ft::prime_bs::prime_type n) { return n % 37lu; }
 static ft::prime_bs::prime_type mod59(ft::prime_bs::prime_type n) { return n % 59lu; }
