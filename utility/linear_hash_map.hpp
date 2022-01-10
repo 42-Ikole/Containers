@@ -206,6 +206,23 @@ namespace ft
 				_capacity	= _get_next_prime();
 			}
 
+			ft::pair<iterator, bool>	_get_prev_element(node* cur)
+			{
+				unsigned int depth = 0;
+
+				while (cur != NULL) {
+
+					if (_equal(cur.element, value) == True)
+						return (ft::make_pair(iterator(cur), false));
+					cur = cur->next;
+					++depth;
+					if (depth >= _maximum_load_factor)
+						this->realloc();
+						return (ft::make_pair(this->end(), false));
+				}
+				return (ft::make_pair(cur, true));
+			}
+
 		///////////////
 		// ITERATORS //
 		///////////////
@@ -286,24 +303,28 @@ namespace ft
 			/* single element insert */
 			ft::pair<iterator, bool> insert(const value_type& value)
 			{
+				/* not enough space */
 				if (_size + 1 == _capacity)
 					this->_realloc();
 
-				size_type hash_code	= _hash(value); /* for potential optimization purposes */
-				size_type idx		= hash_code % _capacity;
-				hash_node* cur		= _indices[idx];
-				size_type depth		= 0;
+				size_type					hash_code = _hash(value); /* for potential optimization purposes */
+				size_type					idx;
+				hash_node*					cur;
+				ft::pair<iterator, bool>	prev;
 
-				while (cur != NULL) {
+				while (true)
+				{
+					idx		= hash_code % _capacity;
+					prev	= _get_prev_element(_indices[idx]);
+					
+					/* a reallocation happened try again */
+					if (prev.first == this->end())
+						continue ;
 
-					if (_equal(cur.element, value) == True)
-						return (ft::make_pair(iterator(cur), false));
-					cur = cur->next;
-					++depth;
-					if (depth >= _maximum_load_factor)
-						// klop nog niet helemaal
-						this->realloc();
-						break ;
+					/* value already exists */
+					if (prev.second == false)
+						return (prev);
+					break ;
 				}
 
 				_alloc.construct(&_arr[_size].element, value);
@@ -312,17 +333,28 @@ namespace ft
 				if (_indices[idx] == NULL)
 					_indices[idx] = _arr[_size];
 				else
-					cur->next = _arr[_size]
+					prev->next = _arr[_size]
 				++_size;
 				return (ft::make_pair(iterator(&_arr[_size - 1], true)));
 			}
 
 			/* you already know this hint is going to be voided */
-			iterator insert( const_iterator hint, const value_type& value );
+			iterator insert(const_iterator hint, const value_type& value)
+			{
+				(void)hint;
+				return (this->insert(value).first);
+			}
 
 			/* range insert */
 			template< class InputIt >
-				void insert(InputIt first, InputIt last);
+				void insert(InputIt first, InputIt last)
+			{
+				while (first != last)
+				{
+					this->insert(*first);
+					++first;
+				}
+			}
 
 		///////////////////
 		// Get allocator //
