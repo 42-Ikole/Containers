@@ -21,6 +21,7 @@
 # include <iostream>
 # include <utility.hpp>
 # include <pair.hpp>
+# include <stack.hpp>
 
 namespace ft
 {
@@ -57,11 +58,12 @@ namespace ft
 		// type defs //
 		///////////////
 		public:
-				
+			
 			typedef T											value_type;
 			typedef Hash										hasher;
 			typedef Equal										key_equal;
 			typedef Alloc										allocator_type;
+			typedef ft::stack<T*>								stack_type;
 			typedef typename allocator_type::reference			reference;
 			typedef typename allocator_type::const_reference	const_reference;
 			typedef typename allocator_type::pointer			pointer;
@@ -76,13 +78,19 @@ namespace ft
 		//////////////////////
 		protected:
 
+		/*
+			maak een stack met free pointers
+		*/
+
 			hash_node**			_indices;
 			hash_node*			_arr;
+			hash_node*			_last_empty;
 			hasher				_hash;
 			key_equal			_equal;
 			size_type			_capacity;
 			size_type			_size;
 			size_type			_maximum_load_factor;
+			stack_type			_mem_stack;
 			allocator_type		_alloc;
 			node_allocator_type	_node_alloc;
 			idx_allocator_type	_idx_alloc;
@@ -124,7 +132,7 @@ namespace ft
 									const hasher& hf = hasher(),
 									const key_equal& eql = key_equal(),
 									const allocator_type& alloc = allocator_type())
-				: _indices(NULL), _arr(NULL), _hash(hf), _equal(eql), _capacity(0), _size(0),
+				: _indices(NULL), _arr(NULL), _last_empty(NULL), _hash(hf), _equal(eql), _capacity(0), _size(0), _mem_stack(stack_type())
 					_alloc(alloc), _node_alloc(node_allocator_type(), _idx_alloc(idx_allocator_type()), _spec_mod(NULL))
 			{
 				(void)n;
@@ -182,7 +190,7 @@ namespace ft
 			}
 
 			/* sets spec_mod and maximum_load_factor */
-			std::size_t _get_next_prime()
+			size_type _get_next_prime()
 			{
 				static unsigned int idx = 0;
 
@@ -196,6 +204,7 @@ namespace ft
 			void	_allocate_array()
 			{
 				_arr		= _node_alloc(_capacity);
+				_last_empty = _arr;
 				_indices	= _idx_alloc(_capacity);
 				for (size_type i = 0; i < _capacity; ++i)
 					_indices[i] = NULL;
@@ -206,7 +215,7 @@ namespace ft
 				_capacity	= _get_next_prime();
 			}
 
-			ft::pair<iterator, bool>	_get_prev_element(node* cur)
+			ft::pair<iterator, bool>	_check_insert(node* cur)
 			{
 				unsigned int depth = 0;
 
@@ -216,11 +225,44 @@ namespace ft
 						return (ft::make_pair(iterator(cur), false));
 					cur = cur->next;
 					++depth;
-					if (depth >= _maximum_load_factor)
+					if (depth >= _maximum_load_factor) {
 						this->realloc();
 						return (ft::make_pair(this->end(), false));
+					}
 				}
 				return (ft::make_pair(cur, true));
+			}
+
+			hash_node*	get_prev(const hash_node* x,
+								 const size_type& hash_code	= _hash(x),
+								 const size_type& idx		= _spec_mod(hash_code)) const
+			{
+				hash_node* cur		= _indices[idx];
+				hash_node* prev		= NULL;
+
+				while(cur != NULL)
+				{
+					if (_equal(cur, x) == true)
+						return (prev);
+					prev	= cur;
+					cur		= cur->next;
+				}
+				return (NULL);
+			}
+
+			hash_node*	_get_mem_loc()
+			{
+				hash_node* loc = NULL;
+
+				if (_mem_stack.empty() == false) {
+					loc = _mem_stack.top();
+					_mem_stack.pop();
+				}
+				else {
+					loc = _last_empty();
+					++_last_empty;
+				}
+				return (loc);
 			}
 
 		///////////////
@@ -244,21 +286,21 @@ namespace ft
 				return (const_iterator(&this->_arr[this->_size]));
 			}
 
-			reverse_iterator		rbegin() {
-				return (reverse_iterator(&this->_arr[this->_size]));
-			}
+			// reverse_iterator		rbegin() {
+			// 	return (reverse_iterator(&this->_arr[this->_size]));
+			// }
 
-			const_reverse_iterator	rbegin() const {
-				return (const_reverse_iterator(&this->_arr[this->_size]));
-			}
+			// const_reverse_iterator	rbegin() const {
+			// 	return (const_reverse_iterator(&this->_arr[this->_size]));
+			// }
 
-			reverse_iterator		rend() {
-				return (reverse_iterator(this->_arr));
-			}
+			// reverse_iterator		rend() {
+			// 	return (reverse_iterator(this->_arr));
+			// }
 
-			const_reverse_iterator	rend() const {
-				return (const_reverse_iterator(this->_arr));
-			}
+			// const_reverse_iterator	rend() const {
+			// 	return (const_reverse_iterator(this->_arr));
+			// }
 	
 		//////////////
 		// CAPACITY //
@@ -292,9 +334,10 @@ namespace ft
 					_alloc.destroy(&arr[i].element);
 
 				_node_alloc.deallocate(_arr, _capacity);
-				_arr = NULL;
+				_arr		= NULL;
+				_last_empty	= NULL;
 				_idx_alloc.deallcoate(_indices, _capacity);
-				_indices = NULL;
+				_indices				= NULL;
 				_size					= 0;
 				_capacity				= 0;
 				_maximum_load_factor	= 0;
@@ -304,38 +347,42 @@ namespace ft
 			ft::pair<iterator, bool> insert(const value_type& value)
 			{
 				/* not enough space */
-				if (_size + 1 == _capacity)
+				if (_size + 1 >= _capacity)
 					this->_realloc();
 
-				size_type					hash_code = _hash(value); /* for potential optimization purposes */
+				size_type					hash_code = _hash(value);
 				size_type					idx;
 				hash_node*					cur;
 				ft::pair<iterator, bool>	prev;
 
 				while (true)
 				{
-					idx		= hash_code % _capacity;
-					prev	= _get_prev_element(_indices[idx]);
+					idx		= _spec_mod(hash_code);
+					prev	= _check_insert(_indices[idx]);
 					
-					/* a reallocation happened try again */
+					/* a reallocation happened, try again */
 					if (prev.first == this->end())
 						continue ;
 
 					/* value already exists */
 					if (prev.second == false)
 						return (prev);
+
+					/* insert new element after prev */
 					break ;
 				}
 
-				_alloc.construct(&_arr[_size].element, value);
-				_arr[_size].next = NULL;
+				hash_node* loc = _get_mem_loc();
+
+				_alloc.construct(&loc->element, value);
+				loc->next = NULL;
 
 				if (_indices[idx] == NULL)
-					_indices[idx] = _arr[_size];
+					_indices[idx] = loc;
 				else
-					prev->next = _arr[_size]
+					prev->next = loc;
 				++_size;
-				return (ft::make_pair(iterator(&_arr[_size - 1], true)));
+				return (ft::make_pair(iterator(loc, true)));
 			}
 
 			/* you already know this hint is going to be voided */
@@ -355,6 +402,44 @@ namespace ft
 					++first;
 				}
 			}
+
+		/* pretty sure i dont need this one */
+			// iterator erase(iterator pos)
+			// {
+			// }
+
+			/* element erase */
+			iterator erase(const_iterator pos)
+			{
+				hash_node* cur		= pos.get_ptr();
+				size_type hash_code = _hash(cur);
+				size_type idx		= _spec_mod(hash_code);
+				hash_node* prev		= _get_prev(cur, hash_code, idx);
+
+				_alloc.destroy(cur->element);
+				if (prev != NULL)
+					prev->next = cur->next;
+				else
+					_indices[idx] = NULL;
+
+				_mem_stack.push(cur);
+				--_size;
+
+				return (pos);
+			}
+
+			/* range erase */
+			iterator erase(const_iterator first, const_iterator last)
+			{
+				/* further optimization */
+				while (first != last)
+				{
+					this->erase(last);
+					--last;
+				}
+			}
+
+			size_type erase(const Key& key);
 
 		///////////////////
 		// Get allocator //
