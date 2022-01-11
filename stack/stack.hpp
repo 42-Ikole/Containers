@@ -59,7 +59,6 @@ namespace ft
 
 		container_type	c;
 
-	
 	////////////////////////
 	// Under Construction //
 	////////////////////////
@@ -76,6 +75,7 @@ namespace ft
 		{
 			this->c = x.c;
 		}
+
 	////////////////////
 	// Element access //
 	////////////////////
