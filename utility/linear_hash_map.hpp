@@ -436,7 +436,15 @@ namespace ft
 				return (++first);
 			}
 
-			size_type erase(const Key& key);
+			size_type erase(const Key& key)
+			{
+				const_iterator pos = this->find(key);
+				
+				if (pos == this->end())
+					return (0);
+				this->erase(pos);
+				return (1);
+			}
 
 		///////////////////
 		// Get allocator //
