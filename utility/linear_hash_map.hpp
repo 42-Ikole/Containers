@@ -425,18 +425,15 @@ namespace ft
 				_mem_stack.push(cur);
 				--_size;
 
-				return (pos);
+				return (++pos);
 			}
 
 			/* range erase */
 			iterator erase(const_iterator first, const_iterator last)
 			{
-				/* further optimization */
 				while (first != last)
-				{
-					this->erase(last);
-					--last;
-				}
+					first = this->erase(first);
+				return (++first);
 			}
 
 			size_type erase(const Key& key);
