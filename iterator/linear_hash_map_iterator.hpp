@@ -61,9 +61,18 @@ namespace ft {
 	/////////////////
 	// constructor //
 	/////////////////
+	private:
+
+		void is_forward_iterator(typename ft::forward_iterator_tag const &) {}
+
 	public:
 
-		linear_hash_map_iterator(head* head = NULL) : _arr(head), _cur(*head) {}
+		linear_hash_map_iterator(head* head) : _arr(head), _cur(*head) {}
+
+		linear_hash_map_iterator() : _arr(NULL), _cur(NULL)
+		{
+			this->is_forward_iterator(typename ft::iterator_traits<linear_hash_map_iterator>::iterator_category());
+		}
 
 		linear_hash_map_iterator(const linear_hash_map_iterator& x) {
 			*this = x;

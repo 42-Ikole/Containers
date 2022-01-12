@@ -61,10 +61,19 @@ namespace ft {
 	/////////////////
 	// constructor //
 	/////////////////
+	private:
+
+		void is_forward_iterator(typename ft::forward_iterator_tag const &) {}
+
 	public:
 
-		interator(difference_type idx = 0, container_type* con = NULL)
+		interator(difference_type idx, container_type* con)
 			: _idx(idx), _con(con) {}
+
+		interator() : idx(0), _con(NULL)
+		{
+			this->is_forward_iterator(typename ft::iterator_traits<linear_hash_map_iterator>::iterator_category());
+		}
 
 		interator(const interator& x) {
 			*this = x;
@@ -203,7 +212,7 @@ namespace ft {
 			return (const_iter(_idx, _con));
 		}
 
-	}; /* end of uniform iterator */
+	}; /* end of interator */
 
 } /* end of namespace */
 

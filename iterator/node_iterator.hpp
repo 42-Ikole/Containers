@@ -24,9 +24,9 @@
 
 namespace ft {
 
-/////////////////////////////
-// Uniform iterator  class //
-/////////////////////////////
+/////////////////////////
+// node iterator class //
+/////////////////////////
 
 	template < class Category, class T, class Base = T,
 		class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T& >
@@ -58,9 +58,18 @@ namespace ft {
 	/////////////////
 	// constructor //
 	/////////////////
+	private:
+
+		void is_forward_iterator(typename ft::forward_iterator_tag const &) {}
+
 	public:
 
-		node_iterator(base_ptr ptr = NULL) : _ptr(ptr) {}
+		node_iterator(base_ptr ptr) : _ptr(ptr) {}
+
+		node_iterator() : _ptr(NULL)
+		{
+			this->is_forward_iterator(typename ft::iterator_traits<linear_hash_map_iterator>::iterator_category());
+		}
 
 		node_iterator(const node_iterator& x) {
 			*this = x;
@@ -166,7 +175,7 @@ namespace ft {
 			return (const_iter(_ptr));
 		}
 
-	}; /* end of uniform iterator */
+	}; /* end of node iterator */
 
 } /* end of namespace */
 
