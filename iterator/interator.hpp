@@ -24,10 +24,11 @@
 
 namespace ft {
 
-/////////////////////////////
-// Uniform iterator  class //
-/////////////////////////////
+//////////////////////
+// interator  class //
+//////////////////////
 
+	/* wont get invalidated on reallocation! */
 	template < class T, class Container, class Category = ft::random_access_iterator_tag, 
 		class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T& >
 			struct interator : ft::iterator<Category, T, Distance, Pointer, Reference>
