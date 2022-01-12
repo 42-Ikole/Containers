@@ -22,6 +22,8 @@
 # include <utility.hpp>
 # include <pair.hpp>
 # include <stack.hpp>
+# include <linear_hash_map_iterator.hpp>
+# include <rotareti.hpp>
 
 namespace ft
 {
@@ -72,6 +74,14 @@ namespace ft
 			typedef	std::size_t									size_type;
 			typedef std::allocator<hash_node>					node_allocator_type;
 			typedef std::allocator<size_type>					idx_allocator_type;
+
+
+			/* iterators */
+
+			typedef ft::linear_hash_map_iterator<value_type, hash_node>	iterator;
+			typedef iterator::const_iter								const_iterator;
+			typedef ft::reverse_iterator<iterator>						reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 			
 		//////////////////////
 		// Member variables //
@@ -299,36 +309,20 @@ namespace ft
 		public:
 
 			iterator				begin() {
-				return (iterator(this->_arr));
+				return (iterator(_indices));
 			}
 
 			const_iterator			begin() const {
-				return (const_iterator(this->_arr));
+				return (const_iterator(_indices));
 			}
 
 			iterator				end() {
-				return (iterator(&this->_arr[this->_size]));
+				return (iterator(&_indices[_capacity]));
 			}
 
 			const_iterator			end() const {
-				return (const_iterator(&this->_arr[this->_size]));
+				return (const_iterator(&_indices[_capacity]));
 			}
-
-			// reverse_iterator		rbegin() {
-			// 	return (reverse_iterator(&this->_arr[this->_size]));
-			// }
-
-			// const_reverse_iterator	rbegin() const {
-			// 	return (const_reverse_iterator(&this->_arr[this->_size]));
-			// }
-
-			// reverse_iterator		rend() {
-			// 	return (reverse_iterator(this->_arr));
-			// }
-
-			// const_reverse_iterator	rend() const {
-			// 	return (const_reverse_iterator(this->_arr));
-			// }
 	
 		//////////////
 		// CAPACITY //
