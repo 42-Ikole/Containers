@@ -28,7 +28,7 @@ namespace ft {
 // linear hashmap iterator class //
 ///////////////////////////////////
 
-	template < class T, class Indices, class Buckets, class Category = ft::forward_iterator_tag,
+	template < class T, class Link, class Category = ft::forward_iterator_tag,
 		class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T& >
 			struct linear_hash_map_iterator : ft::iterator<Category, T, Distance, Pointer, Reference>
 	{
@@ -38,14 +38,13 @@ namespace ft {
 	//////////////
 	private:
 
-		typedef ft::linear_hash_map_iterator<T, Indices, Buckets, Category, Distance, const T*, const T& >	const_iter;
+		typedef ft::linear_hash_map_iterator<T, Link, Category, Distance, const T*, const T& >	const_iter;
 
 	public:
 
 		typedef Category	iterator_category;
 		typedef T			value_type;
-		typedef Indices		head;
-		typedef Buckets		bucket;
+		typedef Link		link;
 		typedef Distance	difference_type;
 		typedef Pointer		pointer;
 		typedef Reference	reference;
@@ -55,8 +54,8 @@ namespace ft {
 	//////////////////////
 	protected:
 
-		head*	_arr;
-		bucket*	_cur;
+		link**	_arr;
+		link*	_cur;
 
 	/////////////////
 	// constructor //
@@ -67,7 +66,7 @@ namespace ft {
 
 	public:
 
-		linear_hash_map_iterator(head* head) : _arr(head), _cur(*head) {}
+		linear_hash_map_iterator(link** head) : _arr(head), _cur(*head) {}
 
 		linear_hash_map_iterator() : _arr(NULL), _cur(NULL)
 		{
@@ -85,7 +84,7 @@ namespace ft {
 	/////////////////
 	public:
 
-		bucket*	get_ptr(void)
+		link*	get_ptr(void)
 		{
 			return (_cur);
 		}
