@@ -132,11 +132,10 @@ namespace ft
 									const hasher& hf = hasher(),
 									const key_equal& eql = key_equal(),
 									const allocator_type& alloc = allocator_type())
-				: _indices(NULL), _arr(NULL), _last_empty(NULL), _hash(hf), _equal(eql), _capacity(0), _size(0), _mem_stack(stack_type())
+				: _indices(NULL), _arr(NULL), _last_empty(NULL), _hash(hf), _equal(eql), _capacity(0), _size(0), _maximum_load_factor(0), _mem_stack(stack_type())
 					_alloc(alloc), _node_alloc(node_allocator_type(), _idx_alloc(idx_allocator_type()), _spec_mod(NULL))
 			{
 				(void)n;
-				this->_initial_alloc();
 			}
 		
 			/* empty constructor */
@@ -186,33 +185,41 @@ namespace ft
 
 				while (n < primes[i] && primes[i + 1] != 0)
 					++i;
-				return (primes[i]);
+				return (i);
 			}
 
 			/* sets spec_mod and maximum_load_factor */
-			size_type _get_next_prime()
+			void _increase_limits(const unsigned int idx)
 			{
-				static unsigned int idx = 0;
 
 				if (primes[idx + 1] == 0)
-					return (primes[idx]);
+					return ;
 				_spec_mod				= spec_mod[idx];
 				_maximum_load_factor	= ft::log2pow2(primes[idx]);
-				return (primes[idx++]);
+				_capacity = primes[idx];
+			}
+
+			void	_set_limit(size_type n = 0)
+			{
+				static unsigned int idx = 0;
+	
+				if (n == (size_type)-1)
+					idx = 0;
+				else if (n != 0)
+					idx = _get_closest_prime(n);
+				else {
+					_increase_limits(idx);
+					++idx;
+				}
 			}
 
 			void	_allocate_array()
 			{
-				_arr		= _node_alloc(_capacity);
+				_arr		= _node_alloc.allocate(_capacity);
 				_last_empty = _arr;
-				_indices	= _idx_alloc(_capacity);
+				_indices	= _idx_alloc.allocate(_capacity);
 				for (size_type i = 0; i < _capacity; ++i)
 					_indices[i] = NULL;
-			}
-
-			void	_increase_limits()
-			{
-				_capacity	= _get_next_prime();
 			}
 
 			ft::pair<iterator, bool>	_check_insert(node* cur)
@@ -233,7 +240,7 @@ namespace ft
 				return (ft::make_pair(cur, true));
 			}
 
-			hash_node*	get_prev(const hash_node* x,
+			hash_node*	_get_prev(const hash_node* x,
 								 const size_type& hash_code	= _hash(x),
 								 const size_type& idx		= _spec_mod(hash_code)) const
 			{
@@ -263,6 +270,24 @@ namespace ft
 					++_last_empty;
 				}
 				return (loc);
+			}
+
+			void	_realloc()
+			{
+				hash_node** old_indices	= _indices;
+				hash_node*	old_arr		= _arr;
+				const_iterator i		= this->begin();
+				const_iterator old_end	= this->end();
+
+				_set_limits();
+				_allocate_array();
+
+				while (i != old_end) {
+					this->insert(i);
+					_node_alloc.destroy(&(*i));
+				}
+				_node_alloc.deallocate(old_arr);
+				_idx_alloc.deallcoate(old_indices);
 			}
 
 		///////////////
@@ -341,6 +366,8 @@ namespace ft
 				_size					= 0;
 				_capacity				= 0;
 				_maximum_load_factor	= 0;
+				_set_limit((size_type)-1);
+				_mem_stack.clear();
 			}
 
 			/* single element insert */
@@ -417,10 +444,10 @@ namespace ft
 				hash_node* prev		= _get_prev(cur, hash_code, idx);
 
 				_alloc.destroy(cur->element);
-				if (prev != NULL)
+				if (cur == _indices[idx])
+					_indices[idx] = cur->next;
+				else if (prev != NULL)
 					prev->next = cur->next;
-				else
-					_indices[idx] = NULL;
 
 				_mem_stack.push(cur);
 				--_size;
@@ -436,6 +463,7 @@ namespace ft
 				return (++first);
 			}
 
+			/* key erase */
 			size_type erase(const Key& key)
 			{
 				const_iterator pos = this->find(key);
