@@ -282,6 +282,9 @@ namespace ft
 				_set_limits();
 				_allocate_array();
 
+				if (old_indices == NULL)
+					return ;
+
 				while (i != old_end) {
 					this->insert(i);
 					_node_alloc.destroy(&(*i));
