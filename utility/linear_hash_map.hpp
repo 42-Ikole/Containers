@@ -25,6 +25,8 @@
 # include <linear_hash_map_iterator.hpp>
 # include <rotareti.hpp>
 
+# include <iostream> //
+
 namespace ft
 {
 
@@ -316,11 +318,11 @@ namespace ft
 			}
 
 			iterator				end() {
-				return (iterator(&_indices[_capacity]));
+				return (iterator(&_indices[_size]));
 			}
 
 			const_iterator			end() const {
-				return (const_iterator(&_indices[_capacity]));
+				return (const_iterator(&_indices[_size]));
 			}
 	
 		//////////////
@@ -351,8 +353,11 @@ namespace ft
 
 			void clear() throw()
 			{
-				for (size_type i = _size - 1; i > 0; --i)
-					_alloc.destroy(&(_arr[i].element));
+				if (_arr == NULL)
+					return ;
+
+				for (iterator i = this->begin(); i != this->end(); ++i)
+					_alloc.destroy(&(*i));
 
 				_node_alloc.deallocate(_arr, _capacity);
 				_arr		= NULL;
