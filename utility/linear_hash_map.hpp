@@ -21,7 +21,7 @@
 # include <iostream>
 # include <utility.hpp>
 # include <pair.hpp>
-# include <stack.hpp>
+# include <deque.hpp>
 # include <linear_hash_map_iterator.hpp>
 # include <rotareti.hpp>
 
@@ -65,7 +65,7 @@ namespace ft
 			typedef Hash										hasher;
 			typedef Equal										key_equal;
 			typedef Alloc										allocator_type;
-			typedef ft::stack<T*>								stack_type;
+			typedef ft::deque<T*>								stack_type;
 			typedef typename allocator_type::reference			reference;
 			typedef typename allocator_type::const_reference	const_reference;
 			typedef typename allocator_type::pointer			pointer;
@@ -271,8 +271,8 @@ namespace ft
 				hash_node* loc = NULL;
 
 				if (_mem_stack.empty() == false) {
-					loc = _mem_stack.top();
-					_mem_stack.pop();
+					loc = _mem_stack.back();
+					_mem_stack.pop_back();
 				}
 				else {
 					loc = _last_empty();
@@ -445,7 +445,7 @@ namespace ft
 				else if (prev != NULL)
 					prev->next = cur->next;
 
-				_mem_stack.push(cur);
+				_mem_stack.push_back(cur);
 				--_size;
 
 				return (++pos);
