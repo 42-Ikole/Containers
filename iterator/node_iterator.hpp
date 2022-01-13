@@ -68,7 +68,7 @@ namespace ft {
 
 		node_iterator() : _ptr(NULL)
 		{
-			this->is_forward_iterator(typename ft::iterator_traits<linear_hash_map_iterator>::iterator_category());
+			this->is_forward_iterator(typename ft::iterator_traits<node_iterator>::iterator_category());
 		}
 
 		node_iterator(const node_iterator& x) {

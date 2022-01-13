@@ -70,9 +70,9 @@ namespace ft {
 		interator(difference_type idx, container_type* con)
 			: _idx(idx), _con(con) {}
 
-		interator() : idx(0), _con(NULL)
+		interator() : _idx(0), _con(NULL)
 		{
-			this->is_forward_iterator(typename ft::iterator_traits<linear_hash_map_iterator>::iterator_category());
+			this->is_forward_iterator(typename ft::iterator_traits<interator>::iterator_category());
 		}
 
 		interator(const interator& x) {
