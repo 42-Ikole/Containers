@@ -36,7 +36,7 @@ namespace ft {
 	//////////////
 	// Typedefs //
 	//////////////
-	private:
+	public:
 
 		typedef ft::linear_hash_map_iterator<T, Link, Category, Distance, const T*, const T& >	const_iter;
 
@@ -67,6 +67,8 @@ namespace ft {
 	public:
 
 		linear_hash_map_iterator(link** head) : _arr(head), _cur(*head) {}
+
+		linear_hash_map_iterator(link** head, link* cur) : _arr(head), _cur(cur) {}
 
 		linear_hash_map_iterator() : _arr(NULL), _cur(NULL)
 		{
@@ -158,7 +160,7 @@ namespace ft {
 	
 		operator const_iter () const
 		{
-			return (const_iter(_ptr));
+			return (const_iter(_arr, _cur));
 		}
 
 	}; /* end of linear hash map iterator */
