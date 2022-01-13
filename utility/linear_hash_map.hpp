@@ -73,13 +73,13 @@ namespace ft
 			typedef	std::ptrdiff_t								difference_type;
 			typedef	std::size_t									size_type;
 			typedef std::allocator<hash_node>					node_allocator_type;
-			typedef std::allocator<size_type>					idx_allocator_type;
+			typedef std::allocator<hash_node*>					idx_allocator_type;
 
 
 			/* iterators */
 
 			typedef ft::linear_hash_map_iterator<value_type, hash_node>	iterator;
-			typedef iterator::const_iter								const_iterator;
+			typedef typename iterator::const_iter						const_iterator;
 			typedef ft::reverse_iterator<iterator>						reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 			
@@ -142,8 +142,8 @@ namespace ft
 									const hasher& hf = hasher(),
 									const key_equal& eql = key_equal(),
 									const allocator_type& alloc = allocator_type())
-				: _indices(NULL), _arr(NULL), _last_empty(NULL), _hash(hf), _equal(eql), _capacity(0), _size(0), _maximum_load_factor(0), _mem_stack(stack_type())
-					_alloc(alloc), _node_alloc(node_allocator_type(), _idx_alloc(idx_allocator_type()), _spec_mod(NULL))
+				: _indices(NULL), _arr(NULL), _last_empty(NULL), _hash(hf), _equal(eql), _capacity(0), _size(0), _maximum_load_factor(0), _mem_stack(stack_type()),
+					_alloc(alloc), _node_alloc(node_allocator_type()), _idx_alloc(idx_allocator_type()), _spec_mod(NULL)
 			{
 				(void)n;
 			}
@@ -232,13 +232,13 @@ namespace ft
 					_indices[i] = NULL;
 			}
 
-			ft::pair<iterator, bool>	_check_insert(node* cur)
+			ft::pair<iterator, bool>	_check_insert(hash_node* cur, const value_type& val)
 			{
 				unsigned int depth = 0;
 
 				while (cur != NULL) {
 
-					if (_equal(cur.element, value) == True)
+					if (_equal(cur->element, val) == true)
 						return (ft::make_pair(iterator(cur), false));
 					cur = cur->next;
 					++depth;
@@ -251,8 +251,7 @@ namespace ft
 			}
 
 			hash_node*	_get_prev(const hash_node* x,
-								 const size_type& hash_code	= _hash(x),
-								 const size_type& idx		= _spec_mod(hash_code)) const
+								 const size_type& idx) const
 			{
 				hash_node* cur		= _indices[idx];
 				hash_node* prev		= NULL;
@@ -289,7 +288,7 @@ namespace ft
 				const_iterator i		= this->begin();
 				const_iterator old_end	= this->end();
 
-				_set_limits();
+				_set_limit();
 				_allocate_array();
 
 				if (old_indices == NULL)
@@ -300,7 +299,7 @@ namespace ft
 					_node_alloc.destroy(&(*i));
 				}
 				_node_alloc.deallocate(old_arr);
-				_idx_alloc.deallcoate(old_indices);
+				_idx_alloc.deallocate(old_indices);
 			}
 
 		///////////////
@@ -353,12 +352,12 @@ namespace ft
 			void clear() throw()
 			{
 				for (size_type i = _size - 1; i > 0; --i)
-					_alloc.destroy(&arr[i].element);
+					_alloc.destroy(&(_arr[i].element));
 
 				_node_alloc.deallocate(_arr, _capacity);
 				_arr		= NULL;
 				_last_empty	= NULL;
-				_idx_alloc.deallcoate(_indices, _capacity);
+				_idx_alloc.deallocate(_indices, _capacity);
 				_indices				= NULL;
 				_size					= 0;
 				_capacity				= 0;
@@ -368,13 +367,13 @@ namespace ft
 			}
 
 			/* single element insert */
-			ft::pair<iterator, bool> insert(const value_type& value)
+			ft::pair<iterator, bool> insert(const value_type& val)
 			{
 				/* not enough space */
 				if (_size + 1 >= _capacity)
 					this->_realloc();
 
-				size_type					hash_code = _hash(value);
+				size_type					hash_code = _hash(val);
 				size_type					idx;
 				hash_node*					cur;
 				ft::pair<iterator, bool>	prev;
@@ -382,7 +381,7 @@ namespace ft
 				while (true)
 				{
 					idx		= _spec_mod(hash_code);
-					prev	= _check_insert(_indices[idx]);
+					prev	= _check_insert(_indices[idx], val);
 					
 					/* a reallocation happened, try again */
 					if (prev.first == this->end())
@@ -398,7 +397,7 @@ namespace ft
 
 				hash_node* loc = _get_mem_loc();
 
-				_alloc.construct(&loc->element, value);
+				_alloc.construct(&loc->element, val);
 				loc->next = NULL;
 
 				if (_indices[idx] == NULL)
@@ -410,10 +409,10 @@ namespace ft
 			}
 
 			/* you already know this hint is going to be voided */
-			iterator insert(const_iterator hint, const value_type& value)
+			iterator insert(const_iterator hint, const value_type& val)
 			{
 				(void)hint;
-				return (this->insert(value).first);
+				return (this->insert(val).first);
 			}
 
 			/* range insert */
@@ -438,7 +437,7 @@ namespace ft
 				hash_node* cur		= pos.get_ptr();
 				size_type hash_code = _hash(cur);
 				size_type idx		= _spec_mod(hash_code);
-				hash_node* prev		= _get_prev(cur, hash_code, idx);
+				hash_node* prev		= _get_prev(cur, idx);
 
 				_alloc.destroy(cur->element);
 				if (cur == _indices[idx])
@@ -460,16 +459,16 @@ namespace ft
 				return (++first);
 			}
 
-			/* key erase */
-			size_type erase(const Key& key)
-			{
-				const_iterator pos = this->find(key);
+			// /* key erase */
+			// size_type erase(const Key& key)
+			// {
+			// 	const_iterator pos = this->find(key);
 				
-				if (pos == this->end())
-					return (0);
-				this->erase(pos);
-				return (1);
-			}
+			// 	if (pos == this->end())
+			// 		return (0);
+			// 	this->erase(pos);
+			// 	return (1);
+			// }
 
 		///////////////////
 		// Get allocator //
