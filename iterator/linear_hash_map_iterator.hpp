@@ -97,7 +97,7 @@ namespace ft {
 	public:
 
 		linear_hash_map_iterator&	operator ++ (/* prefix */) {
-			if (_cur->next != NULL)
+			if (_cur != NULL && _cur->next != NULL)
 				_cur = _cur->next;
 			else {
 				++_arr;
