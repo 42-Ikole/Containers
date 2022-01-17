@@ -25,6 +25,8 @@
 # include <linear_hash_map_iterator.hpp>
 # include <rotareti.hpp>
 
+# include <iostream> //
+
 
 namespace ft
 {
@@ -66,7 +68,7 @@ namespace ft
 			typedef Hash										hasher;
 			typedef Equal										key_equal;
 			typedef Alloc										allocator_type;
-			typedef ft::deque<T*>								stack_type;
+			typedef ft::deque<hash_node*>						stack_type;
 			typedef typename allocator_type::reference			reference;
 			typedef typename allocator_type::const_reference	const_reference;
 			typedef typename allocator_type::pointer			pointer;
@@ -229,22 +231,23 @@ namespace ft
 					_indices[i] = NULL;
 			}
 
-			ft::pair<iterator, bool>	_check_insert(hash_node* cur, const value_type& val)
+			ft::pair<iterator, bool>	_check_insert(hash_node** idx, const value_type& val)
 			{
 				unsigned int depth = 0;
+				hash_node* cur = *idx;
 
 				while (cur != NULL) {
 
 					if (_equal(cur->element, val) == true)
-						return (ft::make_pair(iterator(cur), false));
+						return (ft::make_pair(iterator(idx, cur), false));
 					cur = cur->next;
 					++depth;
 					if (depth >= _maximum_load_factor) {
-						this->realloc();
+						this->_realloc();
 						return (ft::make_pair(this->end(), false));
 					}
 				}
-				return (ft::make_pair(cur, true));
+				return (ft::make_pair(iterator(idx, cur), true));
 			}
 
 			hash_node*	_get_prev(const hash_node* x,
@@ -272,7 +275,7 @@ namespace ft
 					_mem_stack.pop_back();
 				}
 				else {
-					loc = _last_empty();
+					loc = _last_empty;
 					++_last_empty;
 				}
 				return (loc);
@@ -293,10 +296,10 @@ namespace ft
 
 				while (i != old_end) {
 					this->insert(i);
-					_node_alloc.destroy(&(*i));
+					_alloc.destroy(&(i.get_ptr()->element));
 				}
-				_node_alloc.deallocate(old_arr);
-				_idx_alloc.deallocate(old_indices);
+				_node_alloc.deallocate(old_arr, _capacity);
+				_idx_alloc.deallocate(old_indices, _capacity);
 			}
 
 		///////////////
@@ -305,18 +308,26 @@ namespace ft
 		public:
 
 			iterator				begin() {
+				if (_indices == NULL)
+					return (iterator());
 				return (iterator(_indices));
 			}
 
 			const_iterator			begin() const {
+				if (_indices == NULL)
+					return (iterator());
 				return (const_iterator(_indices));
 			}
 
 			iterator				end() {
+				if (_indices == NULL)
+					return (iterator());
 				return (iterator(&_indices[_size]));
 			}
 
 			const_iterator			end() const {
+				if (_indices == NULL)
+					return (iterator());
 				return (const_iterator(&_indices[_size]));
 			}
 	
@@ -375,13 +386,12 @@ namespace ft
 
 				size_type					hash_code = _hash(val);
 				size_type					idx;
-				hash_node*					cur;
 				ft::pair<iterator, bool>	prev;
 
 				while (true)
 				{
 					idx		= _spec_mod(hash_code);
-					prev	= _check_insert(_indices[idx], val);
+					prev	= _check_insert(&(_indices[idx]), val);
 					
 					/* a reallocation happened, try again */
 					if (prev.first == this->end())
@@ -403,9 +413,9 @@ namespace ft
 				if (_indices[idx] == NULL)
 					_indices[idx] = loc;
 				else
-					prev->next = loc;
+					prev.first.get_ptr()->next = loc;
 				++_size;
-				return (ft::make_pair(iterator(loc, true)));
+				return (ft::make_pair(iterator(&_indices[idx], loc), true));
 			}
 
 			/* you already know this hint is going to be voided */
@@ -415,9 +425,15 @@ namespace ft
 				return (this->insert(val).first);
 			}
 
+			template< class InputIt >
+				void insert(InputIt val, typename ft::iterator_traits<InputIt>::iterator_category* = 0)
+			{
+				this->insert(*val);
+			}
+
 			/* range insert */
 			template< class InputIt >
-				void insert(InputIt first, InputIt last)
+				void insert(InputIt first, InputIt last, typename ft::iterator_traits<InputIt>::iterator_category* = 0)
 			{
 				while (first != last)
 				{
