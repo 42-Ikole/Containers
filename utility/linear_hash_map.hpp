@@ -25,7 +25,6 @@
 # include <linear_hash_map_iterator.hpp>
 # include <rotareti.hpp>
 
-# include <iostream> //
 
 namespace ft
 {
@@ -47,7 +46,7 @@ namespace ft
 // Linear hash map //
 /////////////////////
 
-	template< class T, class Hash, class Equal, class Alloc >
+	template< class T, class Hash, class Equal, class Alloc = std::allocator<T> >
 		class linear_hash_map : prime_bs
 	{
 	
@@ -89,10 +88,6 @@ namespace ft
 		// Member variables //
 		//////////////////////
 		protected:
-
-		/*
-			maak een stack met free pointers
-		*/
 
 			hash_node**			_indices;
 			hash_node*			_arr;
@@ -140,7 +135,7 @@ namespace ft
 		public:
 
 			/* default constructor */
-			explicit linear_hash_map( size_type n = 0,
+			explicit linear_hash_map(size_type n = 0,
 									const hasher& hf = hasher(),
 									const key_equal& eql = key_equal(),
 									const allocator_type& alloc = allocator_type())
