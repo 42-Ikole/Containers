@@ -226,7 +226,8 @@ namespace ft
 			{
 				_arr		= _node_alloc.allocate(_capacity);
 				_last_empty = _arr;
-				_indices	= _idx_alloc.allocate(_capacity);
+				_indices	= _idx_alloc.allocate(_capacity + 1);
+				_indices[_capacity] = (hash_node*) 0x1a4;
 				for (size_type i = 0; i < _capacity; ++i)
 					_indices[i] = NULL;
 			}
@@ -322,13 +323,13 @@ namespace ft
 			iterator				end() {
 				if (_indices == NULL)
 					return (iterator());
-				return (iterator(&_indices[_size]));
+				return (iterator(&_indices[_capacity]));
 			}
 
 			const_iterator			end() const {
 				if (_indices == NULL)
 					return (iterator());
-				return (const_iterator(&_indices[_size]));
+				return (const_iterator(&_indices[_capacity]));
 			}
 	
 		//////////////
