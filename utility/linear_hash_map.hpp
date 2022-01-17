@@ -260,7 +260,7 @@ namespace ft
 
 				while(cur != NULL)
 				{
-					if (_equal(cur, x) == true)
+					if (_equal(cur->element, x->element) == true)
 						return (prev);
 					prev	= cur;
 					cur		= cur->next;
@@ -460,11 +460,11 @@ namespace ft
 			iterator erase(const_iterator pos)
 			{
 				hash_node* cur		= pos.get_ptr();
-				size_type hash_code = _hash(cur);
+				size_type hash_code = _hash(cur->element);
 				size_type idx		= _spec_mod(hash_code);
 				hash_node* prev		= _get_prev(cur, idx);
 
-				_alloc.destroy(cur->element);
+				_alloc.destroy(&(cur->element));
 				if (cur == _indices[idx])
 					_indices[idx] = cur->next;
 				else if (prev != NULL)
@@ -473,7 +473,7 @@ namespace ft
 				_mem_stack.push_back(cur);
 				--_size;
 
-				return (++pos);
+				return (iterator(_indices + idx, cur->next));
 			}
 
 			/* range erase */
