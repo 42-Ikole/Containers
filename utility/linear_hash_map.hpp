@@ -236,11 +236,12 @@ namespace ft
 			{
 				unsigned int depth = 0;
 				hash_node* cur = *idx;
+				hash_node* prev = NULL;
 
-				while (cur != NULL && cur->next != NULL) {
-
+				while (cur != NULL) {
 					if (_equal(cur->element, val) == true)
 						return (ft::make_pair(iterator(idx, cur), false));
+					prev = cur;
 					cur = cur->next;
 					++depth;
 					if (depth >= _maximum_load_factor) {
@@ -248,7 +249,7 @@ namespace ft
 						return (ft::make_pair(this->end(), false));
 					}
 				}
-				return (ft::make_pair(iterator(idx, cur), true));
+				return (ft::make_pair(iterator(idx, prev), true));
 			}
 
 			hash_node*	_get_prev(const hash_node* x,
