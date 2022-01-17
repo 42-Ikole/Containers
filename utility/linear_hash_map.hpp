@@ -237,7 +237,7 @@ namespace ft
 				unsigned int depth = 0;
 				hash_node* cur = *idx;
 
-				while (cur != NULL) {
+				while (cur != NULL && cur->next != NULL) {
 
 					if (_equal(cur->element, val) == true)
 						return (ft::make_pair(iterator(idx, cur), false));
@@ -265,6 +265,17 @@ namespace ft
 					cur		= cur->next;
 				}
 				return (NULL);
+			}
+
+			iterator	_find_begin() const
+			{
+				if (_size == 0)
+					return (iterator());
+
+				hash_node** idx = _indices;
+				while (*idx == NULL)
+					++idx;
+				return (iterator(idx));
 			}
 
 			hash_node*	_get_mem_loc()
@@ -309,15 +320,11 @@ namespace ft
 		public:
 
 			iterator				begin() {
-				if (_indices == NULL)
-					return (iterator());
-				return (iterator(_indices));
+				return (_find_begin());
 			}
 
 			const_iterator			begin() const {
-				if (_indices == NULL)
-					return (iterator());
-				return (const_iterator(_indices));
+				return (_find_begin());
 			}
 
 			iterator				end() {
