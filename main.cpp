@@ -13,7 +13,6 @@
 #include <type_traits.hpp>
 #include <is_integral.hpp>
 #include <type_traits>
-#include <linear_hash_map.hpp>
 
 struct test {
 	static const char* foek;
@@ -25,23 +24,6 @@ struct test {
 
 int main(void)
 {
-
-	typedef ft::linear_hash_map<int, ft::hash<int>, ft::equal_to<int> > hm_type;
-
-	hm_type				lhm;
-	hm_type::iterator	itr;
-
-	lhm.insert(42);
-	itr = lhm.insert(42).first;
-	lhm.insert(69);
-	lhm.insert(420);
-	lhm.insert(1337);
-
-	lhm.erase(itr);
-	for (hm_type::iterator i = lhm.begin(); i != lhm.end(); ++i)
-		std::cout << *i << std::endl;
-
-	
 
 	
 	// system("leaks containers | grep -o 'leaks for'");

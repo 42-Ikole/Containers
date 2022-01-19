@@ -23,8 +23,7 @@ FLAGS		=	-std=c++98 -pedantic -Wall -Werror -Wextra $(HEADER_LOC)
 
 DEBUG_FLAGS	=	-g -fsanitize=address
 
-SRC			=	main.cpp \
-				utility/primes.cpp
+SRC			=	main.cpp
 
 TEST_SRC	=	tests/main.cpp					\
 				tests/vector_test.cpp			\
@@ -47,7 +46,6 @@ HEADER_LOC	=	-I deque/					\
 				-I sfinae/					\
 				-I stack/					\
 				-I traits/					\
-				-I unordered_map/			\
 				-I vector/
 
 TEST_HEADER =	-I tests/
