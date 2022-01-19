@@ -37,7 +37,7 @@ namespace ft
 
 	struct prime_bs
 	{
-		typedef const std::size_t					prime_type;
+		typedef const std::size_t	prime_type;
 		typedef prime_type (*mod_type)(prime_type);
 
 		static prime_type	primes[];
@@ -296,6 +296,7 @@ namespace ft
 
 			void	_realloc()
 			{
+				// std::cout << "[raelloc]; Size: " << _size << ", Capacity: " << _capacity << std::endl;
 				hash_node** old_indices	= _indices;
 				hash_node*	old_arr		= _arr;
 				const_iterator i		= this->begin();
@@ -310,6 +311,7 @@ namespace ft
 				while (i != old_end) {
 					this->insert(i);
 					_alloc.destroy(&(i.get_ptr()->element));
+					++i;
 				}
 				_node_alloc.deallocate(old_arr, _capacity);
 				_idx_alloc.deallocate(old_indices, _capacity);
@@ -400,7 +402,7 @@ namespace ft
 				while (true)
 				{
 					idx		= _spec_mod(hash_code);
-					prev	= _check_insert(&(_indices[idx]), val);
+					prev	= _check_insert(_indices + idx, val);
 					
 					/* a reallocation happened, try again */
 					if (prev.first == this->end())
