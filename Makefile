@@ -19,7 +19,7 @@ STD			=	tests/std_containers
 
 CC			=	clang++
 
-FLAGS		=	-std=c++11 -03 -pedantic -Wall -Werror -Wextra $(HEADER_LOC)
+FLAGS		=	-std=c++11 -pedantic -Wall -Werror -Wextra $(HEADER_LOC)
 
 DEBUG_FLAGS	=	-g -fsanitize=address
 
