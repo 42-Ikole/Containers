@@ -9,7 +9,6 @@
 #include <deque>
 #include <map.hpp>
 #include <functional>
-#include <hash.hpp>
 #include <type_traits.hpp>
 #include <is_integral.hpp>
 #include <type_traits>
