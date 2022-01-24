@@ -24,6 +24,11 @@ struct test {
 int main(void)
 {
 
+	ft::vector<int>						veccie;
+	ft::vector<int>::reverse_iterator	recv;
+
+	for (int i = 0; i < 420; ++i)
+		veccie.push_back(i);
 	
 	// system("leaks containers | grep -o 'leaks for'");
 }
