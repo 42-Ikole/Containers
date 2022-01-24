@@ -63,11 +63,12 @@ namespace ft
 	template < class Iter >
 		struct iterator_traits_impl < Iter, true >
 	{
-		typedef typename  Iter::value_type			value_type;
-		typedef typename  Iter::difference_type		difference_type;
-		typedef typename  Iter::pointer				pointer;
-		typedef typename  Iter::reference			reference;
-		typedef typename  Iter::iterator_category	iterator_category;
+		typedef typename Iter::value_type			value_type;
+		typedef typename Iter::difference_type		difference_type;
+		typedef typename Iter::pointer				pointer;
+		typedef typename Iter::reference			reference;
+		typedef typename Iter::iterator_category	iterator_category;
+		typedef typename Iter::const_iter			const_iterator;
 	};
 
 	template <class Iter>
@@ -84,6 +85,7 @@ namespace ft
 		typedef T*								pointer;
 		typedef T&								reference;
 		typedef ft::random_access_iterator_tag	iterator_category;
+		typedef const T*						const_iterator;
 	};
 
 	/* const pointer specialisation */
@@ -95,6 +97,7 @@ namespace ft
 		typedef const T*						pointer;
 		typedef const T&						reference;
 		typedef ft::random_access_iterator_tag	iterator_category;
+		typedef const T*						const_iterator;
 	};
 
 ///////////////////////////
