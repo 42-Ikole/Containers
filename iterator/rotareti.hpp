@@ -31,13 +31,13 @@ namespace ft
 	//////////////////////
 	public:
 
-		typedef Iter													iterator_type;
-		typedef typename ft::iterator_traits<Iter>::iterator_category	iterator_category;
-		typedef typename ft::iterator_traits<Iter>::value_type			value_type;
-		typedef typename ft::iterator_traits<Iter>::difference_type		difference_type;
-		typedef typename ft::iterator_traits<Iter>::pointer				pointer;
-		typedef typename ft::iterator_traits<Iter>::reference			reference;
-		typedef reverse_iterator<typename Iter::const_iter>				const_riter;
+		typedef Iter																	iterator_type;
+		typedef typename ft::iterator_traits<Iter>::iterator_category					iterator_category;
+		typedef typename ft::iterator_traits<Iter>::value_type							value_type;
+		typedef typename ft::iterator_traits<Iter>::difference_type						difference_type;
+		typedef typename ft::iterator_traits<Iter>::pointer								pointer;
+		typedef typename ft::iterator_traits<Iter>::reference							reference;
+		typedef reverse_iterator<typename ft::iterator_traits<Iter>::const_iterator>	const_riter;
 
 	//////////////////////
 	// Member variables //
@@ -84,10 +84,10 @@ namespace ft
 			return (*this);
 		}
 
-		reverse_iterator&		operator ++ (int /* postfix */) {
+		reverse_iterator		operator ++ (int /* postfix */) {
 			reverse_iterator tmp = *this;
 			++(*this);
-			return (*tmp);
+			return (tmp);
 		}
 
 	//////////////////////////////
@@ -104,11 +104,11 @@ namespace ft
 		}
 	
 		reference	operator * () {
-			return *(this->_ptr);
+			return *(_base);
 		}
 
 		pointer		operator -> () {
-			return (this->_ptr);
+			return &(*(_base));
 		}
 
 	//////////////////////////////////////
@@ -121,7 +121,7 @@ namespace ft
 			return (*this);
 		}
 
-		reverse_iterator&		operator -- (int /* postfix */) {
+		reverse_iterator		operator -- (int /* postfix */) {
 			reverse_iterator tmp = *this;
 			--(*this);
 			return (*tmp);
