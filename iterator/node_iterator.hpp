@@ -36,10 +36,6 @@ namespace ft {
 	//////////////
 	// Typedefs //
 	//////////////
-	private:
-
-		typedef ft::node_iterator< Category, T, Base, Distance, const T*, const T& >	const_iter;
-
 	public:
 
 		typedef Category	iterator_category;
@@ -48,6 +44,7 @@ namespace ft {
 		typedef Distance	difference_type;
 		typedef Pointer		pointer;
 		typedef Reference	reference;
+		typedef ft::node_iterator< Category, T, Base, Distance, const T*, const T& >	const_iter;
 
 	//////////////////////
 	// Member variables //
