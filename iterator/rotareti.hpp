@@ -31,13 +31,14 @@ namespace ft
 	//////////////////////
 	public:
 
-		typedef Iter																	iterator_type;
-		typedef typename ft::iterator_traits<Iter>::iterator_category					iterator_category;
-		typedef typename ft::iterator_traits<Iter>::value_type							value_type;
-		typedef typename ft::iterator_traits<Iter>::difference_type						difference_type;
-		typedef typename ft::iterator_traits<Iter>::pointer								pointer;
-		typedef typename ft::iterator_traits<Iter>::reference							reference;
-		typedef reverse_iterator<typename ft::iterator_traits<Iter>::const_iterator>	const_riter;
+		typedef Iter													iterator_type;
+		typedef typename ft::iterator_traits<Iter>::iterator_category	iterator_category;
+		typedef typename ft::iterator_traits<Iter>::value_type			value_type;
+		typedef typename ft::iterator_traits<Iter>::difference_type		difference_type;
+		typedef typename ft::iterator_traits<Iter>::pointer				pointer;
+		typedef typename ft::iterator_traits<Iter>::reference			reference;
+		typedef typename ft::iterator_traits<Iter>::const_iterator		const_iter;
+		typedef reverse_iterator<const_iter>							const_riter;
 
 	//////////////////////
 	// Member variables //
@@ -56,7 +57,7 @@ namespace ft
 		reverse_iterator(Iter base) : _base(base) {}
 
 		template< class U >
-			reverse_iterator( const reverse_iterator<U>& x ) {
+			reverse_iterator(const reverse_iterator<U>& x) {
 			*this = x;
 		}
 	
@@ -74,9 +75,9 @@ namespace ft
 	//////////////////////
 	public:
 
-		template< class U >
-			reverse_iterator&	operator = ( const reverse_iterator<U>& x ) {
+		reverse_iterator&	operator = (const reverse_iterator& x) {
 			this->_base = x._base;
+			return *(this);
 		}
 
 		reverse_iterator&		operator ++ (/* prefix */) {
