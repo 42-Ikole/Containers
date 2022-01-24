@@ -124,7 +124,7 @@ namespace ft
 		reverse_iterator		operator -- (int /* postfix */) {
 			reverse_iterator tmp = *this;
 			--(*this);
-			return (*tmp);
+			return (tmp);
 		}
 
 	///////////////////////////////////
