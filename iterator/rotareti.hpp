@@ -127,6 +127,58 @@ namespace ft
 			return (tmp);
 		}
 
+	//////////////////////////////////////
+	// Random access iterator operators //
+	//////////////////////////////////////
+	public:
+
+		reverse_iterator			operator  + (difference_type val) {
+			return (reverse_iterator(_base - val));
+		}
+
+		reverse_iterator			operator  + (const reverse_iterator& x) {
+			return (reverse_iterator(_base - x));
+		}
+
+		reverse_iterator			operator  - (difference_type val) {
+			return (reverse_iterator(_base + val));
+		}
+
+		difference_type		operator  - (const reverse_iterator& x) {
+			return (_base - x);
+		}
+
+		bool				operator  < (const reverse_iterator& x) {
+			return (this->_base < x._base);
+		}
+
+		bool				operator  > (const reverse_iterator& x) {
+			return (this->_base > x->base);
+		}
+
+		bool				operator <= (const reverse_iterator& x) {
+			return (this->_base <= x.base);
+		}
+
+		bool				operator >= (const reverse_iterator& x) {
+			return (this->_base >= x.base);
+		}
+
+		reverse_iterator&			operator += (difference_type val) {
+			_base -= val;
+			return (*this);
+		}
+
+		reverse_iterator&			operator -= (difference_type val) {
+			_base += val;
+			return (*this);
+		}
+
+		reference			operator [] (difference_type n) {
+			return (_base[n]);
+		}
+	
+
 	///////////////////////////////////
 	// implicit conversion operators //
 	///////////////////////////////////
