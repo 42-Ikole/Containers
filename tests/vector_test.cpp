@@ -60,28 +60,6 @@ static void constructor_test()
 }
 
 //////////////
-// ITERATOR //
-//////////////
-static void iterator_test()
-{
-	print_header("VECTOR ITERATOR");
-
-/* begin && end */
-	ft::vector<int>	int_vector(42, 69);
-	for (ft::vector<int>::iterator itr = int_vector.begin(); itr != int_vector.end(); itr++)
-		std::cout << *itr << std::endl;
-
-/* const begin && end */
-	const ft::vector<std::string> string_vector(16, "lmfao");
-	for(ft::vector<std::string>::const_iterator itr = string_vector.begin(); itr != string_vector.end(); itr++)
-		std::cout << *itr << std::endl;
-
-	/* 
-	**	ga die reverse dingen testen dan als je die rotareti hebt geschreven
-	*/
-}
-
-//////////////
 // CAPACITY //
 //////////////
 static void capacity_test()
@@ -266,7 +244,6 @@ static void	vector_stress()
 void	vector_test()
 {
 	constructor_test();
-	iterator_test();
 	capacity_test();
 	element_access_test();
 	modifier_test();

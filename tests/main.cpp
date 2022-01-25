@@ -66,7 +66,6 @@ void	time_function(void(*func)(), std::string container)
 int	main(int argc, char **argv)
 {
 	(void)argc;
-	(void)argv;
 
 	print_type_header("vector");
 	time_function(vector_test, "vector");
@@ -77,6 +76,13 @@ int	main(int argc, char **argv)
 
 	print_type_header("map");
 	time_function(map_test, "map");
-	// vector_iterator_test();
-	system("leaks containers | grep -o 'leaks for 0'");
+	vector_iterator_test();
+
+	#ifndef DEBUG
+		std::cout << std::endl;
+		std::string name(argv[0]);
+		name.erase(0, name.rfind("/") + 1);
+		std::string leaks(std::string("leaks ") + name + " | grep -o 'leaks for 0'");
+		system(leaks.c_str());
+	#endif
 }

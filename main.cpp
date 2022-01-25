@@ -29,6 +29,12 @@ int main(void)
 
 	for (int i = 0; i < 420; ++i)
 		veccie.push_back(i);
+
+	// for (recv = veccie.rbegin(); recv != veccie.rend(); recv++)
+	// 	std::cout << *recv << "\n";
+
+	for (recv = veccie.rend() - 1; recv != veccie.rbegin(); recv--)
+		std::cout << *recv << "\n";
 	
 	// system("leaks containers | grep -o 'leaks for'");
 }
