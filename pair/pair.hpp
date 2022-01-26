@@ -69,9 +69,6 @@ namespace ft
 		template <class U, class V>
 			pair& operator = (const pair<U, V>& pr)
 		{
-			if (this == &pr)
-				return (*this);
-
 			this->first		= pr.first;
 			this->second	= pr.second;
 			return (*this);
