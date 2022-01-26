@@ -114,17 +114,11 @@ namespace ft {
 
 	public:
 
-		bool operator == (const node_iterator& x)
-		{
-			this->is_input_iterator(typename ft::iterator_traits<node_iterator>::iterator_category());
-			return (this->_ptr == x._ptr);			
-		}
+		template< class C, class U, class B >
+			friend bool operator == (const node_iterator<C, U, B>& lhs, const node_iterator<C, U, B>& rhs);
 
-		bool operator != (const node_iterator& x)
-		{
-			this->is_input_iterator(typename ft::iterator_traits<node_iterator>::iterator_category());
-			return (this->_ptr != x._ptr);
-		}
+		template< class C, class U, class B >
+			friend bool operator != (const node_iterator<C, U, B>& lhs, const node_iterator<C, U, B>& rhs);
 	
 		reference operator * ()
 		{
@@ -173,6 +167,22 @@ namespace ft {
 		}
 
 	}; /* end of node iterator */
+
+///////////////////////
+// Comrade operators //
+///////////////////////
+
+	template< class C, class U, class B >
+		bool operator == (const ft::node_iterator<C, U, B>& lhs, const ft::node_iterator<C, U, B>& rhs)
+	{
+		return (lhs._ptr == rhs._ptr);
+	}
+
+	template< class C, class U, class B >
+		bool operator != (const ft::node_iterator<C, U, B>& lhs, const ft::node_iterator<C, U, B>& rhs)
+	{
+		return !(lhs == rhs);
+	}
 
 } /* end of namespace */
 
