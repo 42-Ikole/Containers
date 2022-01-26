@@ -108,6 +108,9 @@ namespace ft {
 		}
 
 		interator&	operator  = (const interator& x) {
+			if (this == &x)
+				return (*this);
+
 			this->_idx = x._idx;
 			this->_con = x._con;
 			return (*this);

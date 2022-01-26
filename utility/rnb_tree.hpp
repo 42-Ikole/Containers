@@ -99,7 +99,7 @@ namespace ft
 
 		rnb_tree& operator = (const rnb_tree &x)
 		{
-			if (*this == x)
+			if (this == &x)
 				return (*this);
 
 			this->clear();

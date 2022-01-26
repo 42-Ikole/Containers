@@ -85,7 +85,7 @@ namespace ft
 
 		rnb_node&	operator = (const rnb_node &x)
 		{
-			if (*this == x)
+			if (this == &x)
 				return (*this);
 
 			this->value		= x.value;

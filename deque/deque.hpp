@@ -111,7 +111,7 @@ namespace ft
 
 		deque&	operator = (const deque &x)
 		{
-			if (*this == x)
+			if (this == &x)
 				return (*this);
 
 			this->_destroy_elements();

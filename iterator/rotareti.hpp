@@ -76,6 +76,9 @@ namespace ft
 	public:
 
 		reverse_iterator&	operator = (const reverse_iterator& x) {
+			if (this == &x)
+				return (*this);
+
 			this->_base = x._base;
 			return *(this);
 		}

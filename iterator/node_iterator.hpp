@@ -101,6 +101,9 @@ namespace ft {
 		}
 
 		node_iterator&	operator  = (const node_iterator& x) {
+			if (this == &x)
+				return (*this);
+
 			this->_ptr = x._ptr;
 			return (*this);
 		}

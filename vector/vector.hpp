@@ -99,7 +99,7 @@ namespace ft {
 
 			vector&	operator = (const vector &x)
 			{
-				if (*this == x)
+				if (this == &x)
 					return (*this);
 
 				if (this->_arr)

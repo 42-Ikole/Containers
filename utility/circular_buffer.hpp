@@ -83,7 +83,7 @@ namespace ft {
 
 		circular_buffer&	operator = (const circular_buffer &x)
 		{
-			if (*this == x)
+			if (this == &x)
 				return (*this);
 
 			this->clear();
