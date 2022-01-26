@@ -116,6 +116,10 @@ namespace ft {
 	//////////////////////////////
 	// Input iterator operators //
 	//////////////////////////////
+	private:
+
+		void is_input_iterator(typename ft::input_iterator_tag const &) {}
+
 	public:
 
 		template< class U, class Con >
@@ -125,19 +129,26 @@ namespace ft {
 			friend bool operator != (const interator<U, Con>& lhs, const interator<U, Con>& rhs);
 	
 		reference	operator * () {
+			this->is_input_iterator(typename ft::iterator_traits<interator>::iterator_category());
 			return ((*_con)[_idx]);
 		}
 
 		pointer		operator -> () {
+			this->is_input_iterator(typename ft::iterator_traits<interator>::iterator_category());
 			return (this->get_ptr());
 		}
 
 	//////////////////////////////////////
 	// Bidirectional iterator operators //
 	//////////////////////////////////////
+	private:
+
+		void is_bidirectional_iterator(ft::bidirectional_iterator_tag const &) {}
+
 	public:
 
 		interator& operator -- (/* prefix */)  {
+			this->is_bidirectional_iterator(typename ft::iterator_traits<interator>::iterator_category());
 			_idx--;
 			return (*this);
 		}
@@ -151,24 +162,49 @@ namespace ft {
 	//////////////////////////////////////
 	// Random access iterator operators //
 	//////////////////////////////////////
+	private:
+
+		void is_random_access_iterator(ft::random_access_iterator_tag const &) {}
+
 	public:
 
 		interator			operator  + (difference_type val) {
+			this->is_random_access_iterator(typename ft::iterator_traits<interator>::iterator_category());
 			return (interator(_idx + val, _con));
 		}
 
 		interator			operator  + (const interator& x) {
+			this->is_random_access_iterator(typename ft::iterator_traits<interator>::iterator_category());
 			return (interator(this->_idx + x->_idx, _con));
 		}
 
 		interator			operator  - (difference_type val) {
+			this->is_random_access_iterator(typename ft::iterator_traits<interator>::iterator_category());
 			return (interator(_idx - val, _con));
 		}
 
 		difference_type		operator  - (const interator& x) {
+			this->is_random_access_iterator(typename ft::iterator_traits<interator>::iterator_category());
 			return (this->_idx - x._idx);
 		}
 
+		interator&			operator += (difference_type val) {
+			this->is_random_access_iterator(typename ft::iterator_traits<interator>::iterator_category());
+			_idx += val;
+			return (*this);
+		}
+
+		interator&			operator -= (difference_type val) {
+			this->is_random_access_iterator(typename ft::iterator_traits<interator>::iterator_category());
+			_idx -= val;
+			return (*this);
+		}
+
+		reference			operator [] (difference_type n) {
+			this->is_random_access_iterator(typename ft::iterator_traits<interator>::iterator_category());
+			return ((*_con)[_idx + n]);
+		}
+		
 		template< class U, class Con >
 			friend bool operator  < (const interator<U, Con>& lhs, const interator<U, Con>& rhs);
 
@@ -180,20 +216,6 @@ namespace ft {
 
 		template< class U, class Con >
 			friend bool operator >= (const interator<U, Con>& lhs, const interator<U, Con>& rhs);
-
-		interator&			operator += (difference_type val) {
-			_idx += val;
-			return (*this);
-		}
-
-		interator&			operator -= (difference_type val) {
-			_idx -= val;
-			return (*this);
-		}
-
-		reference			operator [] (difference_type n) {
-			return ((*_con)[_idx + n]);
-		}
 
 	///////////////////////////////////
 	// implicit conversion operators //
@@ -212,37 +234,37 @@ namespace ft {
 ///////////////////////
 
 	template< class U, class Con >
-		bool operator == (const interator<U, Con>& lhs, const interator<U, Con>& rhs)
+		bool operator == (const ft::interator<U, Con>& lhs, const ft::interator<U, Con>& rhs)
 	{
 		return (lhs._idx == rhs._idx && lhs._con == rhs._con);			
 	}
 
 	template< class U, class Con >
-		bool operator != (const interator<U, Con>& lhs, const interator<U, Con>& rhs) 
+		bool operator != (const ft::interator<U, Con>& lhs, const ft::interator<U, Con>& rhs) 
 	{
 		return (!(lhs == rhs));
 	}
 
 	template< class U, class Con >
-		bool operator  < (const interator<U, Con>& lhs, const interator<U, Con>& rhs)
+		bool operator  < (const ft::interator<U, Con>& lhs, const ft::interator<U, Con>& rhs)
 	{
 		return (lhs._idx < rhs._idx && lhs._con == rhs._con);			
 	}
 
 	template< class U, class Con >
-		bool operator <= (const interator<U, Con>& lhs, const interator<U, Con>& rhs)
+		bool operator <= (const ft::interator<U, Con>& lhs, const ft::interator<U, Con>& rhs)
 	{
 		return (lhs._idx <= rhs._idx && lhs._con == rhs._con);			
 	}
 
 	template< class U, class Con >
-		bool operator  > (const interator<U, Con>& lhs, const interator<U, Con>& rhs)
+		bool operator  > (const ft::interator<U, Con>& lhs, const ft::interator<U, Con>& rhs)
 	{
 		return !(lhs <= rhs);
 	}
 
 	template< class U, class Con >
-		bool operator >= (const interator<U, Con>& lhs, const interator<U, Con>& rhs)
+		bool operator >= (const ft::interator<U, Con>& lhs, const ft::interator<U, Con>& rhs)
 	{
 		return !(lhs < rhs);
 	}
