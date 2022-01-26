@@ -74,6 +74,7 @@ namespace ft
 		stack& operator = (const stack& x)
 		{
 			this->c = x.c;
+			return *(this);
 		}
 
 	////////////////////
