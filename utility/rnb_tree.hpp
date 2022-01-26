@@ -122,25 +122,25 @@ namespace ft
 
 		void	_print_tree(const std::string& prefix, node* x, bool isLeft)
 		{
-			if(x != NULL)
-			{
-				std::cout << prefix;
-				std::cout << (isLeft ? "\033[33m├──\033[0m" : "└──" );
-				// print the value of the node
-				if (x == x->left || x == x->right) {
-					std::cout << ((x->color == red) ? "\033[31;01m" : "") << ((x == x->left) ? "[beg]" : "[end]") << "\033[0m" << std::endl;
-					return ;
-				}
-				std::cout << ((x->color == red) ? "\033[31;01m" : "") << "[" << x->value.first << "]\033[0m" << std::endl;
-				if ((x->left && x->left->parent != x) || (x->right && x->right->parent != x)) {
-					std::cout << x->value.first << "->left = " << x->left->value.first << "->parent = " << x->left->parent->value.first << std::endl;
-					std::cout << x->value.first << "->right = " << x->right->value.first << "->parent = " << x->right->parent->value.first << std::endl;
-					exit(69);
-				}
-				// enter the next tree level - left and right branch
-				this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->left, true);
-				this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->right, false);
+			if(x == NULL)
+				return ;
+
+			std::cout << prefix;
+			std::cout << (isLeft ? "\033[33m├──\033[0m" : "└──" );
+			// print the value of the node
+			if (x == x->left || x == x->right) {
+				std::cout << ((x->color == red) ? "\033[31;01m" : "") << ((x == x->left) ? "[beg]" : "[end]") << "\033[0m" << std::endl;
+				return ;
 			}
+			std::cout << ((x->color == red) ? "\033[31;01m" : "") << "[" << x->value.first << "]\033[0m" << std::endl;
+			if ((x->left && x->left->parent != x) || (x->right && x->right->parent != x)) {
+				std::cout << x->value.first << "->left = " << x->left->value.first << "->parent = " << x->left->parent->value.first << std::endl;
+				std::cout << x->value.first << "->right = " << x->right->value.first << "->parent = " << x->right->parent->value.first << std::endl;
+				exit(69);
+			}
+			// enter the next tree level - left and right branch
+			this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->left, true);
+			this->_print_tree( prefix + (isLeft ? "│   " : "    "), x->right, false);
 		}
 
 	////////////////////
