@@ -116,16 +116,13 @@ namespace ft {
 	//////////////////////////////
 	// Input iterator operators //
 	//////////////////////////////
-
 	public:
 
-		bool 		operator == (const interator& x) {
-			return (this->_idx == x._idx && this->_con == x._con);			
-		}
+		template< class U, class Con >
+			friend bool operator == (const interator<U, Con>& lhs, const interator<U, Con>& rhs);
 
-		bool		operator != (const interator& x) {
-			return (!(*this == x));
-		}
+		template< class U, class Con >
+			friend bool operator != (const interator<U, Con>& lhs, const interator<U, Con>& rhs);
 	
 		reference	operator * () {
 			return ((*_con)[_idx]);
@@ -172,21 +169,17 @@ namespace ft {
 			return (this->_idx - x._idx);
 		}
 
-		bool				operator  < (const interator& x) {
-			return (this->_idx < x._idx);
-		}
+		template< class U, class Con >
+			friend bool operator  < (const interator<U, Con>& lhs, const interator<U, Con>& rhs);
 
-		bool				operator  > (const interator& x) {
-			return (this->_idx > x->_idx);
-		}
+		template< class U, class Con >
+			friend bool operator <= (const interator<U, Con>& lhs, const interator<U, Con>& rhs);
 
-		bool				operator <= (const interator& x) {
-			return (this->_idx <= x._idx);
-		}
+		template< class U, class Con >
+			friend bool operator  > (const interator<U, Con>& lhs, const interator<U, Con>& rhs);
 
-		bool				operator >= (const interator& x) {
-			return (this->_idx >= x._idx);
-		}
+		template< class U, class Con >
+			friend bool operator >= (const interator<U, Con>& lhs, const interator<U, Con>& rhs);
 
 		interator&			operator += (difference_type val) {
 			_idx += val;
@@ -213,6 +206,46 @@ namespace ft {
 		}
 
 	}; /* end of interator */
+
+///////////////////////
+// Allied opperators //
+///////////////////////
+
+	template< class U, class Con >
+		bool operator == (const interator<U, Con>& lhs, const interator<U, Con>& rhs)
+	{
+		return (lhs._idx == rhs._idx && lhs._con == rhs._con);			
+	}
+
+	template< class U, class Con >
+		bool operator != (const interator<U, Con>& lhs, const interator<U, Con>& rhs) 
+	{
+		return (!(lhs == rhs));
+	}
+
+	template< class U, class Con >
+		bool operator  < (const interator<U, Con>& lhs, const interator<U, Con>& rhs)
+	{
+		return (lhs._idx < rhs._idx && lhs._con == rhs._con);			
+	}
+
+	template< class U, class Con >
+		bool operator <= (const interator<U, Con>& lhs, const interator<U, Con>& rhs)
+	{
+		return (lhs._idx <= rhs._idx && lhs._con == rhs._con);			
+	}
+
+	template< class U, class Con >
+		bool operator  > (const interator<U, Con>& lhs, const interator<U, Con>& rhs)
+	{
+		return !(lhs <= rhs);
+	}
+
+	template< class U, class Con >
+		bool operator >= (const interator<U, Con>& lhs, const interator<U, Con>& rhs)
+	{
+		return !(lhs < rhs);
+	}
 
 } /* end of namespace */
 
