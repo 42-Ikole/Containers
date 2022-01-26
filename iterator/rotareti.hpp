@@ -166,20 +166,20 @@ namespace ft
 		}
 
 		template< class Iterator1, class Iterator2 >
-			friend bool operator  < (const ft::reverse_iterator<Iterator1>& lhs,
-							const ft::reverse_iterator<Iterator2>& rhs);
+			friend bool operator  < (const reverse_iterator<Iterator1>& lhs,
+							const reverse_iterator<Iterator2>& rhs);
 
 		template< class Iterator1, class Iterator2 >
-			friend bool operator  <= (const ft::reverse_iterator<Iterator1>& lhs,
-							const ft::reverse_iterator<Iterator2>& rhs);
+			friend bool operator  <= (const reverse_iterator<Iterator1>& lhs,
+							const reverse_iterator<Iterator2>& rhs);
 
 		template< class Iterator1, class Iterator2 >
-			friend bool operator  > (const ft::reverse_iterator<Iterator1>& lhs,
-							const ft::reverse_iterator<Iterator2>& rhs);
+			friend bool operator  > (const reverse_iterator<Iterator1>& lhs,
+							const reverse_iterator<Iterator2>& rhs);
 		
 		template< class Iterator1, class Iterator2 >
-			friend bool operator >= (const ft::reverse_iterator<Iterator1>& lhs,
-							const ft::reverse_iterator<Iterator2>& rhs);
+			friend bool operator >= (const reverse_iterator<Iterator1>& lhs,
+							const reverse_iterator<Iterator2>& rhs);
 	
 
 	///////////////////////////////////
