@@ -85,6 +85,9 @@ namespace ft
 
 		rnb_node&	operator = (const rnb_node &x)
 		{
+			if (*this == x)
+				return (*this);
+
 			this->value		= x.value;
 			this->parent	= x.parent;
 			this->left		= x.left;

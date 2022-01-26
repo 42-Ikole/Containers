@@ -111,6 +111,9 @@ namespace ft
 
 		deque&	operator = (const deque &x)
 		{
+			if (*this == x)
+				return (*this);
+
 			this->_destroy_elements();
 			_palloc.deallocate(_arr, _capacity);
 			this->_head		= x._head;

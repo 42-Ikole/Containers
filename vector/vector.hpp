@@ -99,6 +99,9 @@ namespace ft {
 
 			vector&	operator = (const vector &x)
 			{
+				if (*this == x)
+					return (*this);
+
 				if (this->_arr)
 					this->clear();
 				this->_size = x._size;
