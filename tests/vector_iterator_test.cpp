@@ -68,19 +68,27 @@ static void	loopy_bois()
 	iterator_type			itr;
 	reverse_iterator_type	ritr;
 
+/* iterator */
 	for (std::size_t i = 0; i < 42069; ++i)
 		vec.push_back(i);
 	for (itr = vec.begin(); itr != vec.end(); ++itr)
 		std::cout << *itr;
 	copy.assign(vec.begin() + 69, vec.end() - 420);
+	*(vec.begin() + 69) = -42;
 	for (itr = copy.begin(); itr != copy.end(); ++itr)
 		std::cout << *itr;
 
+/* reverse iterator */
 	for (ritr = vec.rbegin(); ritr != vec.rend(); ++ritr)
 		std::cout << *ritr;
+	*(vec.rbegin() + 69) = -69;
 	for (ritr = copy.rbegin() + 42; ritr != copy.rend() - 69; ++ritr)
 		std::cout << *ritr;
 
+/* begin == end */
+	std::cout << ((vec.begin() == vec.end()) && (vec.rbegin() == vec.rend())) << "\n";
+	vec.clear();
+	std::cout << ((vec.begin() == vec.end()) && (vec.rbegin() == vec.rend())) << "\n";
 }
 
 void	vector_iterator_test()
