@@ -57,6 +57,17 @@ static void constructor_test()
 	ft::vector<int> assignation = copy_constructor;
 	whats_in_this_container_yo(assignation, "assignation operator");
 	std::cout << "capacity = " << assignation.capacity() << std::endl;
+
+/* deep copy */
+	assignation.push_back(1337);
+	copy_constructor.push_back(42);
+	copy_constructor.push_back(69);
+
+	assignation = copy_constructor;
+	assignation.pop_back();
+	whats_in_this_container_yo(assignation, "deep copy");
+	whats_in_this_container_yo(copy_constructor, "deep copy");
+
 }
 
 //////////////
@@ -82,6 +93,10 @@ static void capacity_test()
 
 	vec.resize(21, 69);
 	whats_in_this_container_yo(vec, "after resize tot 21 with 69");
+	std::cout << "is empty = " << vec.empty() << std::endl;
+
+	vec.reserve(420);
+	whats_in_this_container_yo(vec, "reserve 420");
 	std::cout << "is empty = " << vec.empty() << std::endl;
 
 	try {
@@ -125,6 +140,12 @@ static void element_access_test()
 	}
 
 /* front && back */
+	std::cout << vec.front() << std::endl;
+	std::cout << vec.back() << std::endl;
+
+/* front == back */
+	vec.clear();
+	vec.push_back(80085);
 	std::cout << vec.front() << std::endl;
 	std::cout << vec.back() << std::endl;
 }
