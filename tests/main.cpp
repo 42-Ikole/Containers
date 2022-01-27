@@ -67,6 +67,8 @@ int	main(int argc, char **argv)
 {
 	(void)argc;
 
+	srand(420);
+
 	print_type_header("vector");
 	time_function(vector_test, "vector");
 	time_function(vector_iterator_test, "vector iterators");
@@ -76,7 +78,6 @@ int	main(int argc, char **argv)
 
 	print_type_header("map");
 	time_function(map_test, "map");
-	vector_iterator_test();
 
 	#ifndef DEBUG
 		std::cout << std::endl;

@@ -93,6 +93,7 @@ static void	loopy_bois()
 
 void	vector_iterator_test()
 {
+	print_header("Vector Iterators");
 	vector_iterator_functions();
 	loopy_bois();
 }

@@ -24,17 +24,23 @@ struct test {
 int main(void)
 {
 
-	ft::vector<int>						veccie;
-	ft::vector<int>::reverse_iterator	recv;
+	// ft::vector<int>						veccie;
+	// ft::vector<int>::reverse_iterator	recv;
 
-	for (int i = 0; i < 420; ++i)
-		veccie.push_back(i);
+	// for (int i = 0; i < 420; ++i)
+	// 	veccie.push_back(i);
 
-	// for (recv = veccie.rbegin(); recv != veccie.rend(); recv++)
+	// // for (recv = veccie.rbegin(); recv != veccie.rend(); recv++)
+	// // 	std::cout << *recv << "\n";
+
+	// for (recv = veccie.rend() - 1; recv != veccie.rbegin(); recv--)
 	// 	std::cout << *recv << "\n";
-
-	for (recv = veccie.rend() - 1; recv != veccie.rbegin(); recv--)
-		std::cout << *recv << "\n";
 	
-	// system("leaks containers | grep -o 'leaks for'");
+	// // system("leaks containers | grep -o 'leaks for'");
+
+	// int foek = 69;
+	// int& fak = foek;
+
+	std::cout << std::boolalpha << std::is_integral<int&>::value << std::endl;
+
 }

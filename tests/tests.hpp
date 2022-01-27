@@ -54,6 +54,7 @@ template < class Con >
 	std::cout << "\nsize = " << con.size() << std::endl;
 	for (size_t i = 0; i < con.size(); i++)
 		std::cout << con[i] << " ";
+	std::cout << "\n";
 }
 
 template < class Con, class Itr >
@@ -90,5 +91,24 @@ class conception : public std::exception
 
 		~conception() throw() {};
 };
+
+
+/////////////////
+// test struct //
+/////////////////
+
+struct test {
+	private: 
+		int			_val;
+		std::string	_name;
+	public:
+		test(int val = 0, std::string name = "unknown") : _val(val), _name(name) {}
+		~test() {}
+
+	void	print_test() const {
+		std::cout << "val = " << _val << " name = " << _name << std::endl;
+	}
+};
+
 
 #endif
