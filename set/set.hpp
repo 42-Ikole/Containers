@@ -198,7 +198,7 @@ namespace ft
 				typename ft::iterator_traits<InputIterator>::iterator_category* = 0)
 		{
 			for (; first != last; ++first)
-				this->insert(first);
+				this->insert(*first);
 		}
 
 		/* itr erase */
