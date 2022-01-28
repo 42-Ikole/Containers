@@ -79,7 +79,7 @@ static void constructor_test()
 /* test for deep copy */
 	cc.erase(++(dc.begin()));
 	whats_in_this_map_yo(cc);
-	whats_in_this_map_yo(cc);
+	whats_in_this_map_yo(dc);
 }
 
 ///////////////
