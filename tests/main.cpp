@@ -78,6 +78,7 @@ int	main(int argc, char **argv)
 
 	print_type_header("map");
 	time_function(map_test, "map");
+	time_function(map_iterator_test, "map iterators");
 
 	#ifndef DEBUG
 		std::cout << std::endl;

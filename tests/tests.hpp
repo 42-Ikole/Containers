@@ -41,6 +41,7 @@ void	vector_iterator_test();
 void	deque_test();
 
 void	map_test();
+void	map_iterator_test();
 
 /////////////
 // HELPERS //
