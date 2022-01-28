@@ -15,6 +15,8 @@ NAME		=	containers
 
 FT			=	tests/ft_containers
 
+DIFF		=	diff.txt
+
 STD			=	tests/std_containers
 
 CC			=	clang++
@@ -64,7 +66,8 @@ clean:
 fclean: clean
 	$(RM) $(NAME)
 	$(RM) $(FT)  $(FT).txt
-	$(RM) $(STD) $(STD).txt 
+	$(RM) $(STD) $(STD).txt
+	$(RM) $(DIFF)
 
 re: fclean all
 
@@ -79,7 +82,7 @@ test: re
 	@ printf "\n\033[33mcompiling std::containers\n\n\033[0m"
 	@ $(CC) $(FLAGS) $(TEST_HEADER) $(TEST_SRC) -D STD -o $(STD)
 	@ ./$(STD) > $(STD).txt
-	@ diff $(FT).txt $(STD).txt > diff.txt
+	@ diff $(FT).txt $(STD).txt > $(DIFF)
 
 debug: fclean
 	$(CC) $(FLAGS) $(DEBUG_FLAGS) $(SRC) -D DEBUG -o $(NAME)
