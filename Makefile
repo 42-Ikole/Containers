@@ -30,7 +30,8 @@ TEST_SRC	=	tests/main.cpp					\
 				tests/vector_iterator_test.cpp	\
 				tests/deque_test.cpp			\
 				tests/map_test.cpp				\
-				tests/map_iterator_test.cpp
+				tests/map_iterator_test.cpp		\
+				tests/set_test.cpp				
 
 HEADER_LOC	=	-I deque/					\
 				-I utility/					\

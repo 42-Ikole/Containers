@@ -80,6 +80,10 @@ int	main(int argc, char **argv)
 	time_function(map_test, "map");
 	time_function(map_iterator_test, "map iterators");
 
+	print_type_header("set");
+	time_function(set_test, "set");
+	// time_function(set_iterator_test, "set iterators");
+
 	#ifndef DEBUG
 		std::cout << std::endl;
 		std::string name(argv[0]);

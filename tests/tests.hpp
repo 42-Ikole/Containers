@@ -43,6 +43,9 @@ void	deque_test();
 void	map_test();
 void	map_iterator_test();
 
+void	set_test();
+void	set_iterator_test();
+
 /////////////
 // HELPERS //
 /////////////
@@ -108,6 +111,30 @@ struct test {
 
 	void	print_test() const {
 		std::cout << "val = " << _val << " name = " << _name << std::endl;
+	}
+
+	bool	operator == (const test& x) const {
+		return (this->_val == x._val);
+	}
+
+	bool	operator != (const test& x) const {
+		return (this->_val != x._val);
+	}
+
+	bool	operator < (const test& x) const {
+		return (this->_val < x._val);
+	}
+
+	bool	operator <= (const test& x) const {
+		return (this->_val <= x._val);
+	}
+
+	bool	operator > (const test& x) const {
+		return (this->_val > x._val);
+	}
+	
+	bool	operator >= (const test& x) const {
+		return (this->_val >= x._val);
 	}
 };
 
