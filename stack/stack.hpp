@@ -17,7 +17,7 @@
 #ifndef VERY_NICE_STACK_CLASS_BRO_HPP
 # define VERY_NICE_STACK_CLASS_BRO_HPP
 
-# include <deque.hpp>
+# include <vector.hpp>
 
 namespace ft
 {
@@ -26,7 +26,7 @@ namespace ft
 // Stack class //
 /////////////////
 
-	template <class T, class Container = ft::deque<T> >
+	template <class T, class Container = ft::vector<T> >
 		class stack
 	{
 
@@ -37,20 +37,11 @@ namespace ft
 
 		typedef T											value_type;
 		typedef Container									container_type;
-		typedef typename container_type::allocator_type		allocator_type;
 		typedef typename container_type::size_type			size_type;
-		typedef typename container_type::difference_type	difference_type;
 		typedef typename container_type::reference			reference;
 		typedef typename container_type::const_reference	const_reference;
 		typedef typename container_type::pointer			pointer;
 		typedef typename container_type::const_pointer		const_pointer;
-
-		/* Hippity hopptiy these iterators are now my property */
-		typedef typename container_type::iterator				iterator;
-		typedef typename container_type::const_iterator			const_iterator;
-		typedef typename container_type::reverse_iterator		reverse_iterator;
-		typedef typename container_type::const_reverse_iterator	const_reverse_iterator;
-
 
 	//////////////////////
 	// Member variables //
