@@ -63,26 +63,29 @@ void	time_function(void(*func)(), std::string container)
 				<< COLOR_RESET	<< std::endl;
 }
 
+static void exec_container(void (*con)(void), void (*itr)(void), std::string name)
+{
+	print_type_header(name);
+	time_function(con, name);
+	time_function(itr, name + " iterators");
+}
+
+static void exec_container(void (*con)(void), std::string name)
+{
+	print_type_header(name);
+	time_function(con, name);
+}
+
 int	main(int argc, char **argv)
 {
 	(void)argc;
 
 	srand(420);
 
-	print_type_header("vector");
-	time_function(vector_test, "vector");
-	time_function(vector_iterator_test, "vector iterators");
-
-	print_type_header("deque");
-	time_function(deque_test, "deque");
-
-	print_type_header("map");
-	time_function(map_test, "map");
-	time_function(map_iterator_test, "map iterators");
-
-	print_type_header("set");
-	time_function(set_test, "set");
-	time_function(set_iterator_test, "set iterators");
+	exec_container(vector_test, vector_iterator_test, "vector");
+	exec_container(map_test, map_iterator_test, "map");
+	exec_container(set_test, set_iterator_test, "set");
+	exec_container(stack_test, "stack");
 
 	#ifndef DEBUG
 		std::cout << std::endl;
