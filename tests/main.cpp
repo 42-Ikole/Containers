@@ -82,7 +82,7 @@ int	main(int argc, char **argv)
 
 	print_type_header("set");
 	time_function(set_test, "set");
-	// time_function(set_iterator_test, "set iterators");
+	time_function(set_iterator_test, "set iterators");
 
 	#ifndef DEBUG
 		std::cout << std::endl;
