@@ -25,8 +25,6 @@ FLAGS		=	-std=c++98 -pedantic -Wall -Werror -Wextra $(HEADER_LOC)
 
 DEBUG_FLAGS	=	-g -fsanitize=address
 
-SRC			=	main.cpp
-
 TEST_SRC	=	tests/main.cpp					\
 				tests/vector_test.cpp			\
 				tests/vector_iterator_test.cpp	\
@@ -59,8 +57,7 @@ RM 			=	rm -f
 
 all: $(NAME)
 
-$(NAME): $(SRC)
-	$(CC) $(FLAGS) $(SRC) -o $(NAME)
+$(NAME): test
 
 clean:
 	$(RM) $(OBJ)
@@ -76,15 +73,26 @@ re: fclean all
 run: re
 	./$(NAME)
 
-test: re
+test:
 	@ clear
-	@ printf "\n\033[33mcompiling ft::containters\n\n\033[0m"
-	@ $(CC) $(FLAGS) $(TEST_HEADER) $(TEST_SRC) -o $(FT)
+	@ printf "\n\033[34mRunning test:\n\033[0m"
+	@ $(MAKE) compile_ft
 	@ ./$(FT) > $(FT).txt
-	@ printf "\n\033[33mcompiling std::containers\n\n\033[0m"
-	@ $(CC) $(FLAGS) $(TEST_HEADER) $(TEST_SRC) -D STD -o $(STD)
+	@ $(MAKE) compile_std
 	@ ./$(STD) > $(STD).txt
 	@ diff $(FT).txt $(STD).txt > $(DIFF)
+
+compile_ft: $(FT)
+
+$(FT): $(TEST_SRC)
+	@ printf "\n\033[33mcompiling ft::containters\n\n\033[0m"
+	@ $(CC) $(FLAGS) $(TEST_HEADER) $(TEST_SRC) -o $(FT)
+
+compile_std: $(STD)
+
+$(STD): $(TEST_SRC)
+	@ printf "\n\033[33mcompiling std::containers\n\n\033[0m"
+	@ $(CC) $(FLAGS) $(TEST_HEADER) $(TEST_SRC) -D STD -o $(STD)
 
 debug: fclean
 	$(CC) $(FLAGS) $(DEBUG_FLAGS) $(SRC) -D DEBUG -o $(NAME)
