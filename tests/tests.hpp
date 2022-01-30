@@ -46,6 +46,8 @@ void	map_iterator_test();
 void	set_test();
 void	set_iterator_test();
 
+void	stack_test();
+
 /////////////
 // HELPERS //
 /////////////
