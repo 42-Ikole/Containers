@@ -273,7 +273,6 @@ namespace ft
 			}
 		}
 
-
 	//////////////////////
 	// Sentinel helpers //
 	//////////////////////
@@ -767,6 +766,7 @@ namespace ft
 			this->_remove_all_nodes(root);
 			root = NULL;
 			begin->parent = end;
+			end->parent = begin;
 			size = 0;
 		}
 
