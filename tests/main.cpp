@@ -32,9 +32,9 @@ void	print_header(std::string header)
 void	print_type_header(std::string type)
 {
 	#ifdef STD
-		std::cerr << "---------------- std::" << type << " -----------------" << std::endl;
+		std::cerr << "\n---------------- std::" << type << " -----------------" << std::endl;
 	#else
-		std::cerr << "----------------  ft::" << type << " -----------------" << std::endl;
+		std::cerr << "\n----------------  ft::" << type << " -----------------" << std::endl;
 	#endif
 }
 
