@@ -13,6 +13,12 @@
 
 NAME		=	containers
 
+FT_SCHOOL	=	ft_school
+
+STD_SCHOOL	=	std_school
+
+SCHOOL_MAIN	=	main.cpp
+
 FT			=	tests/ft_containers
 
 DIFF		=	diff.txt
@@ -57,7 +63,24 @@ RM 			=	rm -f
 
 all: $(NAME)
 
-$(NAME): test
+$(NAME): compile_school_ft compile_school_std
+
+school_test: $(NAME)
+	$(eval rand := $(shell bash -c 'echo $$RANDOM'))
+	@ echo seed = $(rand)
+	@ ./$(FT_SCHOOL) $(rand) > $(FT_SCHOOL).txt
+	@ ./$(STD_SCHOOL) $(rand) > $(STD_SCHOOL).txt
+	diff $(FT_SCHOOL).txt $(STD_SCHOOL).txt
+
+compile_school_ft: $(FT_SCHOOL)
+
+$(FT_SCHOOL): $(SCHOOL_MAIN)
+	$(CC) $(FLAGS) $(SCHOOL_MAIN) $(HEADER_LOC) -o $(FT_SCHOOL)
+
+compile_school_std: $(STD_SCHOOL)
+
+$(STD_SCHOOL): $(SCHOOL_MAIN)
+	$(CC) $(FLAGS) -D STD $(SCHOOL_MAIN) $(HEADER_LOC) -o $(STD_SCHOOL)
 
 clean:
 	$(RM) $(OBJ)
@@ -67,6 +90,8 @@ fclean: clean
 	$(RM) $(FT)  $(FT).txt
 	$(RM) $(STD) $(STD).txt
 	$(RM) $(DIFF)
+	$(RM) $(FT_SCHOOL) $(FT_SCHOOL).txt
+	$(RM) $(STD_SCHOOL) $(STD_SCHOOL).txt
 
 re: fclean all
 
