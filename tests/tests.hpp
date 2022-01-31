@@ -48,6 +48,8 @@ void	set_iterator_test();
 
 void	stack_test();
 
+void	utility_test();
+
 /////////////
 // HELPERS //
 /////////////

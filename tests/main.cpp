@@ -86,6 +86,7 @@ int	main(int argc, char **argv)
 	exec_container(map_test, map_iterator_test, "map");
 	exec_container(set_test, set_iterator_test, "set");
 	exec_container(stack_test, "stack");
+	exec_container(utility_test, "utility");
 
 	#ifndef DEBUG
 		std::cout << std::endl;
