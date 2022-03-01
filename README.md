@@ -24,13 +24,13 @@ Reimplementing some stl containers
 I ran benchmarks on all my containers with my own tester which can be found [here](https://github.com/K1ngmar/Container-Tester)
 
 ### Vector:
-![img](./vector/vector_benchmark.png)
+![vector benchmark](./vector/vector_benchmark.png)
 
 ### Deque:
-![img](./deque/deque_benchmark.png)
+![deque benchmark](./deque/deque_benchmark.png)
 
 ### Map:
-![img](./map/map_benchmark.png)
+![map benchmark](./map/map_benchmark.png)
 
 ### Set:
-![img](./set/set_benchmark.png)
+![set benchmark](./set/set_benchmark.png)
