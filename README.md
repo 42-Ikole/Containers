@@ -23,6 +23,8 @@ Reimplementing some stl containers
 ## 📊 Bench mark results:
 I ran benchmarks on all my containers with my own tester which can be found [here](https://github.com/K1ngmar/Container-Tester)
 
+> These benchmarks were run on macOS Monterey
+
 ### Vector:
 ![vector benchmark](./vector/vector_benchmark.png)
 
