@@ -33,4 +33,4 @@ I ran benchmarks on all my containers with my own tester which can be found [her
 ![img](./map/map_benchmark.png)
 
 ### Set:
-![img](./Set/Set_benchmark.png)
+![img](./set/set_benchmark.png)
