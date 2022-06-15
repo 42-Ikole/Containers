@@ -111,9 +111,25 @@ static void	stack_stress()
 	}
 }
 
+static void	stack_operators()
+{
+	ft::stack<int> a;
+	ft::stack<int> b;
+
+	a.push(69);
+	b.push(420);
+	std::cout << std::boolalpha << (a == b) << std::endl;
+	std::cout << std::boolalpha << (a < b) << std::endl;
+	std::cout << std::boolalpha << (a > b) << std::endl;
+	std::cout << std::boolalpha << (a != b) << std::endl;
+	std::cout << std::boolalpha << (a >= b) << std::endl;
+	std::cout << std::boolalpha << (a <= b) << std::endl;
+}
+
 void	stack_test()
 {
 	constructor_test();
 	modifier_test();
 	stack_stress();
+	stack_operators();
 }
