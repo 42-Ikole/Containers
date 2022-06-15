@@ -132,7 +132,7 @@ namespace ft {
 		pointer operator -> () 
 		{
 			this->is_input_iterator(typename ft::iterator_traits<node_iterator>::iterator_category());
-			return (_ptr);
+			return &(_ptr->value);
 		}
 
 	//////////////////////////////////////
