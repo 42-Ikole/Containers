@@ -22,6 +22,43 @@
 namespace ft
 {
 
+//////////////
+// FRENS!!! //
+//////////////
+
+	template <class T, class Container >
+		class stack;
+
+	template< class T, class Container >
+		bool operator == (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) {
+			return (lhs.c == rhs.c);
+	}
+
+	template< class T, class Container >
+		bool operator != (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) {
+			return (lhs.c != rhs.c);
+	}
+
+	template< class T, class Container >
+		bool operator  < (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) {
+			return (lhs.c < rhs.c);
+	}
+
+	template< class T, class Container >
+		bool operator <= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) {
+			return (lhs.c <= rhs.c);
+	}
+
+	template< class T, class Container >
+		bool operator  > (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) {
+			return (lhs.c > rhs.c);
+	}
+
+	template< class T, class Container >
+		bool operator >= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) {
+			return (lhs.c >= rhs.c);
+	}
+
 /////////////////
 // Stack class //
 /////////////////
@@ -118,48 +155,14 @@ namespace ft
 	////////////////////////
 	public:
 
-		friend bool operator == (const stack& lhs, const stack& rhs);
-		friend bool operator != (const stack& lhs, const stack& rhs);
-		friend bool operator  < (const stack& lhs, const stack& rhs);
-		friend bool operator <= (const stack& lhs, const stack& rhs);
-		friend bool operator  > (const stack& lhs, const stack& rhs);
-		friend bool operator >= (const stack& lhs, const stack& rhs);
+		friend bool operator == <> (const stack& lhs, const stack& rhs);
+		friend bool operator != <> (const stack& lhs, const stack& rhs);
+		friend bool operator  < <> (const stack& lhs, const stack& rhs);
+		friend bool operator <= <> (const stack& lhs, const stack& rhs);
+		friend bool operator  > <> (const stack& lhs, const stack& rhs);
+		friend bool operator >= <> (const stack& lhs, const stack& rhs);
 
 	}; /* end of stack class */
-
-//////////////
-// FRENS!!! //
-//////////////
-
-	template< class T, class Container >
-		bool operator == (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) {
-			return (lhs.c == rhs.c);
-	}
-
-	template< class T, class Container >
-		bool operator != (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) {
-			return (lhs.c != rhs.c);
-	}
-
-	template< class T, class Container >
-		bool operator  < (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) {
-			return (lhs.c < rhs.c);
-	}
-
-	template< class T, class Container >
-		bool operator <= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) {
-			return (lhs.c <= rhs.c);
-	}
-
-	template< class T, class Container >
-		bool operator  > (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) {
-			return (lhs.c > rhs.c);
-	}
-
-	template< class T, class Container >
-		bool operator >= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) {
-			return (lhs.c >= rhs.c);
-	}
 
 }/* end of namespace */
 
